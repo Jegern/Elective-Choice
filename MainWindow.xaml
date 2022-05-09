@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
         mc:Ignorable="d"
-        
+
         ResizeMode="CanMinimize"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
-        <vms:MainWindowViewModel />
+        <vms:MainViewModel />
     </Window.DataContext>
 
     <Grid>
-        <Frame Content="{Binding FrameContent}"></Frame>
+        <Frame Content="{Binding FrameContent}"
+               NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

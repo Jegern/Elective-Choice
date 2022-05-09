@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.ViewModels.Base;
 
@@ -16,5 +17,17 @@ public abstract class ViewModel : INotifyPropertyChanged
         field = value;
         OnPropertyChanged(propertyName);
         return true;
+    }
+    
+    protected ViewModelStore? Store { get; }
+
+    protected ViewModel()
+    {
+        
+    }
+
+    protected ViewModel(ViewModelStore store)
+    {
+        Store = store;
     }
 }

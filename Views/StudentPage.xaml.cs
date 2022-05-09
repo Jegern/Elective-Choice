@@ -1,8 +1,8 @@
 ﻿namespace Elective_Choice.Views;
 
-public partial class LoginForm
+public partial class StudentPage
 {
-    public LoginForm()
+    public StudentPage()
     {
         InitializeComponent();
     }

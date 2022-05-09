@@ -2,11 +2,12 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Elective_Choice.ViewModels.Base;
+using Elective_Choice.ViewModels.Store;
 using Laboratory_work_1.Commands.Base;
 
 namespace Elective_Choice.ViewModels;
 
-public class LoginFormViewModel : ViewModel
+public class LoginViewModel : ViewModel
 {
     #region Fields
 
@@ -17,7 +18,7 @@ public class LoginFormViewModel : ViewModel
         new BitmapImage(
             new Uri(@"C:\Users\sever\Documents\Programming\Elective Choice\Views\Styles\Icons\Lock (Locked).png"));
 
-    private bool AdminRights { get; set; }
+    private bool Rights { get; set; }
 
     public string Username
     {
@@ -39,7 +40,12 @@ public class LoginFormViewModel : ViewModel
 
     #endregion
 
-    public LoginFormViewModel()
+    public LoginViewModel()
+    {
+        
+    }
+
+    public LoginViewModel(ViewModelStore store) : base(store)
     {
         SignInCommand = new Command(
             SignInCommand_OnExecute,
@@ -55,10 +61,13 @@ public class LoginFormViewModel : ViewModel
 
     public Command? SignInCommand { get; }
 
-    private bool SignInCommand_CanExecute(object? parameter) => Username.Length > 0 && Password.Length > 0;
+    private bool SignInCommand_CanExecute(object? parameter) => 
+        Username.Length > 0 &&
+        Password.Length > 0;
 
     private void SignInCommand_OnExecute(object? parameter)
     {
+        Store?.TriggerSuccessfullyLoginEvent(Username, Rights);
     }
 
     #endregion
@@ -71,8 +80,8 @@ public class LoginFormViewModel : ViewModel
 
     private void PasswordForgottenCommand_OnExecute(object? parameter)
     {
-        AdminRights = !AdminRights;
-        LockSource = AdminRights
+        Rights = !Rights;
+        LockSource = Rights
             ? new BitmapImage(
                 new Uri("pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Unlocked).png"))
             : new BitmapImage(
