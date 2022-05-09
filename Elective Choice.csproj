@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <RootNamespace>Elective_Choice</RootNamespace>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Views\Styles\Icons\User (White).png" />
+      <Resource Include="Views\Styles\Icons\User (White).png" />
+      <None Remove="Views\Styles\Icons\Lock (Locked).png" />
+      <Resource Include="Views\Styles\Icons\Lock (Locked).png" />
+      <None Remove="Views\Styles\Icons\Lock (Unlocked).png" />
+      <Resource Include="Views\Styles\Icons\Lock (Unlocked).png" />
+      <None Remove="Views\Styles\Icons\User (Gray).png" />
+      <Resource Include="Views\Styles\Icons\User (Gray).png" />
+    </ItemGroup>
+
+</Project>
