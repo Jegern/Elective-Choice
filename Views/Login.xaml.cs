@@ -3,9 +3,9 @@ using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.Views;
 
-public partial class LoginPage
+public partial class Login
 {
-    public LoginPage(ViewModelStore store)
+    public Login(ViewModelStore store)
     {
         InitializeComponent();
         DataContext = new LoginViewModel(store);

@@ -67,7 +67,14 @@ public class LoginViewModel : ViewModel
 
     private void SignInCommand_OnExecute(object? parameter)
     {
-        Store?.TriggerSuccessfulLoginEvent(Email, Rights);
+        if (CheckUserData())
+            Store?.TriggerSuccessfulLoginEvent(Email, Rights);
+    }
+
+    private bool CheckUserData()
+    {
+        // TODO: Реализовать обращение к БД и проверку электронной почты и пароля
+        return true;
     }
 
     #endregion

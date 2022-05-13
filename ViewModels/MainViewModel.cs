@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using Elective_Choice.Views;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
+using Npgsql;
 
 namespace Elective_Choice.ViewModels;
 
@@ -11,7 +12,7 @@ public class MainViewModel : ViewModel
     #region Fields
 
     private new static ViewModelStore Store { get; } = new();
-    private Page _frameContent = new LoginPage(Store);
+    private Page _frameContent = new Login(Store);
     private ResizeMode _resizeMode = ResizeMode.CanMinimize;
 
     public Page FrameContent
@@ -30,19 +31,12 @@ public class MainViewModel : ViewModel
 
     public MainViewModel()
     {
-        if (CheckUserData())
-            Store.SuccessfulLogin += SuccessfulLogin_OnChanged;
-    }
-
-    private bool CheckUserData()
-    {
-        // TODO: Реализовать обращение к БД и проверку электронной почты и пароля
-        return true;
+        Store.SuccessfulLogin += SuccessfulLogin_OnChanged;
     }
 
     private void SuccessfulLogin_OnChanged(string email, bool rights)
     {
-        FrameContent = rights ? new AdminPage(Store) : new StudentPage(Store);
+        FrameContent = rights ? new Admin(Store) : new Student(Store);
         ResizeMode = ResizeMode.CanResize;
         Store.TriggerLoginCompleteEvent(email);
     }

@@ -4,9 +4,9 @@ using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.Views;
 
-public partial class AdminPage
+public partial class Admin
 {
-    public AdminPage(ViewModelStore store)
+    public Admin(ViewModelStore store)
     {
         InitializeComponent();
         DataContext = new AdminViewModel(store);

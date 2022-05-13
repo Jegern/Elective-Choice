@@ -4,9 +4,9 @@ using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.Views;
 
-public partial class StudentPage
+public partial class Student
 {
-    public StudentPage(ViewModelStore store)
+    public Student(ViewModelStore store)
     {
         InitializeComponent();
         DataContext = new StudentViewModel(store);

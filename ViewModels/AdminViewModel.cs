@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
+using Elective_Choice.Views;
 using Laboratory_work_1.Commands.Base;
 
 namespace Elective_Choice.ViewModels;
@@ -163,6 +164,8 @@ public class AdminViewModel : ViewModel
     private void StatisticsCommand_OnExecute(object? parameter)
     {
         StatisticsEnabled = false;
+
+        FrameContent = new ElectiveEditing();
     }
 
     #endregion

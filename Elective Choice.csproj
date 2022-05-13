@@ -29,4 +29,8 @@
       <Resource Include="Views\Styles\Icons\Statistics.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
+    </ItemGroup>
+
 </Project>
