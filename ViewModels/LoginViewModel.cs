@@ -16,7 +16,7 @@ public class LoginViewModel : ViewModel
 
     private ImageSource _lockSource =
         new BitmapImage(
-            new Uri(@"C:\Users\sever\Documents\Programming\Elective Choice\Views\Styles\Icons\Lock (Locked).png"));
+            new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
 
     private bool Rights { get; set; }
 
