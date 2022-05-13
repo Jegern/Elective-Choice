@@ -38,7 +38,7 @@
                            FontSize="30"
                            Foreground="#A0A0A0" />
                 <Grid>
-                    <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
                     <Image Source="Styles/Icons/User (Gray).png"
                            Width="25" Height="25"
                            HorizontalAlignment="Left"

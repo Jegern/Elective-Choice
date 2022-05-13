@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Elective_Choice.Views;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
@@ -9,24 +10,40 @@ public class MainViewModel : ViewModel
 {
     #region Fields
 
-    private Page? _frameContent;
+    private new static ViewModelStore Store { get; } = new();
+    private Page _frameContent = new LoginPage(Store);
+    private ResizeMode _resizeMode = ResizeMode.CanMinimize;
 
-    public Page? FrameContent
+    public Page FrameContent
     {
         get => _frameContent;
         set => Set(ref _frameContent, value);
+    }
+
+    public ResizeMode ResizeMode
+    {
+        get => _resizeMode;
+        set => Set(ref _resizeMode, value);
     }
 
     #endregion
 
     public MainViewModel()
     {
+        if (CheckUserData())
+            Store.SuccessfulLogin += SuccessfulLogin_OnChanged;
     }
 
-    public MainViewModel(ViewModelStore store) : base(store)
+    private bool CheckUserData()
     {
-        store.SuccessfulLogin += (_, rights) => FrameContent = rights ? new AdminPage() : new StudentPage();
+        // TODO: Реализовать обращение к БД и проверку электронной почты и пароля
+        return true;
+    }
 
-        FrameContent = new LoginPage(store);
+    private void SuccessfulLogin_OnChanged(string email, bool rights)
+    {
+        FrameContent = rights ? new AdminPage(Store) : new StudentPage(Store);
+        ResizeMode = ResizeMode.CanResize;
+        Store.TriggerLoginCompleteEvent(email);
     }
 }

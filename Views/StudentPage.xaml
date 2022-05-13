@@ -6,7 +6,8 @@
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       mc:Ignorable="d"
 
-      Width="1280" Height="720">
+      Width="1280" Height="720"
+      Loaded="StudentPage_OnLoaded">
 
     <Page.DataContext>
         <vms:StudentViewModel />

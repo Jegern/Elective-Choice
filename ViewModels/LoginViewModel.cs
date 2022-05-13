@@ -11,7 +11,7 @@ public class LoginViewModel : ViewModel
 {
     #region Fields
 
-    private string _username = string.Empty;
+    private string _email = string.Empty;
     private string _password = string.Empty;
 
     private ImageSource _lockSource =
@@ -20,10 +20,10 @@ public class LoginViewModel : ViewModel
 
     private bool Rights { get; set; }
 
-    public string Username
+    public string Email
     {
-        get => _username;
-        set => Set(ref _username, value);
+        get => _email;
+        set => Set(ref _email, value);
     }
 
     public string Password
@@ -62,12 +62,12 @@ public class LoginViewModel : ViewModel
     public Command? SignInCommand { get; }
 
     private bool SignInCommand_CanExecute(object? parameter) => 
-        Username.Length > 0 &&
+        Email.Length > 0 &&
         Password.Length > 0;
 
     private void SignInCommand_OnExecute(object? parameter)
     {
-        Store?.TriggerSuccessfullyLoginEvent(Username, Rights);
+        Store?.TriggerSuccessfulLoginEvent(Email, Rights);
     }
 
     #endregion

@@ -5,7 +5,7 @@ namespace Elective_Choice.ViewModels;
 
 public class StudentViewModel : ViewModel
 {
-    private string Username { get; set; } = string.Empty;
+    private string Email { get; set; } = string.Empty;
 
     public StudentViewModel()
     {
@@ -14,6 +14,6 @@ public class StudentViewModel : ViewModel
 
     public StudentViewModel(ViewModelStore store) : base(store)
     {
-        store.SuccessfulLogin += (username, _) => Username = username;
+        store.LoginComplete += email => Email = email;
     }
 }
