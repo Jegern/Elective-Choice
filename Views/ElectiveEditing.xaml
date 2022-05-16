@@ -4,38 +4,52 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:models="clr-namespace:Elective_Choice.Models"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vms:ElectiveEditingViewModel />
     </Page.DataContext>
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/ElectiveEditing/CapacityDataGridCell.xaml" />
+                <ResourceDictionary Source="Styles/ElectiveEditing/DataGridColumnHeader.xaml" />
+                <ResourceDictionary Source="Styles/ElectiveEditing/NameDataGridCell.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
-    <StackPanel>
-        <ListView ItemsSource="{Binding Electives}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Название электива">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Name}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Вместимость">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Path=Capacity}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-    </StackPanel>
+    <Grid>
+        <DataGrid ItemsSource="{Binding Path=Electives}"
+                  RowBackground="#F2F2F2"
+                  FontSize="15"
+                  FontWeight="Bold"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False"
+                  AutoGenerateColumns="False"
+                  CanUserResizeColumns="False"
+                  GridLinesVisibility="None"
+                  VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название электива"
+                                    Binding="{Binding (models:Elective.Name)}"
+                                    CellStyle="{StaticResource NameCell}"
+                                    Width="*"
+                                    FontSize="15"
+                                    FontWeight="Normal"
+                                    IsReadOnly="True">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Вместимость"
+                                    Binding="{Binding (models:Elective.Capacity)}"
+                                    CellStyle="{StaticResource CapacityCell}"
+                                    Width="125"
+                                    FontSize="15"
+                                    FontWeight="Normal">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Page>

@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using Elective_Choice.Views;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
-using Npgsql;
 
 namespace Elective_Choice.ViewModels;
 

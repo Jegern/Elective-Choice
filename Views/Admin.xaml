@@ -105,7 +105,6 @@
                 <TextBlock Text="{Binding BeforeDistribution}" />
             </StackPanel>
         </Grid>
-        <Frame Content="{Binding FrameContent}"
-               NavigationUIVisibility="Hidden" />
+        <Frame Content="{Binding FrameContent}" />
     </DockPanel>
 </Page>

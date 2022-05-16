@@ -165,7 +165,7 @@ public class AdminViewModel : ViewModel
     {
         StatisticsEnabled = false;
 
-        FrameContent = new ElectiveEditing();
+        FrameContent = new ElectiveEditing(Store);
     }
 
     #endregion

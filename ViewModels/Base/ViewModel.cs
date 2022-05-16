@@ -26,7 +26,7 @@ public abstract class ViewModel : INotifyPropertyChanged
         
     }
 
-    protected ViewModel(ViewModelStore store)
+    protected ViewModel(ViewModelStore? store)
     {
         Store = store;
     }

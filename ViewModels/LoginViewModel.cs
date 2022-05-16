@@ -11,14 +11,14 @@ public class LoginViewModel : ViewModel
 {
     #region Fields
 
-    private string _email = string.Empty;
-    private string _password = string.Empty;
+    private string _email = "stud0000123456@study.utmn.ru";
+    private string _password = "string.Empty";
 
     private ImageSource _lockSource =
         new BitmapImage(
             new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
 
-    private bool Rights { get; set; }
+    private bool Rights { get; set; } = true;
 
     public string Email
     {

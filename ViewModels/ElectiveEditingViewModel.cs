@@ -1,24 +1,40 @@
-﻿using Elective_Choice.ViewModels.Base;
+﻿using System.Collections.ObjectModel;
+using Elective_Choice.Models;
+using Elective_Choice.ViewModels.Base;
+using Elective_Choice.ViewModels.Store;
+using Npgsql;
 
 namespace Elective_Choice.ViewModels;
 
 public class ElectiveEditingViewModel : ViewModel
 {
-    public class Elective
+    public ObservableCollection<Elective>? Electives { get; } = new()
     {
-        public Elective(string name, int capacity)
-        {
-            Name = name;
-            Capacity = capacity;
-        }
+        new Elective("kek", 20)
+    };
 
-        public string Name { get; set; }
-        public int Capacity { get; set; }
+    public ElectiveEditingViewModel(ViewModelStore? store) : base(store)
+    {
+        Electives = GetCurrentElectives();
     }
 
-    public Elective[] Electives { get; set; } = 
+    public ElectiveEditingViewModel()
     {
-        new("kek", 20),
-        new("lol", 40)
-    };
+    }
+
+    private ObservableCollection<Elective> GetCurrentElectives()
+    {
+        var electives = new ObservableCollection<Elective>();
+
+        Store?.SqlConnection.Open();
+        var reader = new NpgsqlCommand(
+            "SELECT electiveName, capacity " +
+            "FROM electives " +
+            "ORDER BY electiveName", Store?.SqlConnection).ExecuteReader();
+        while (reader.Read())
+            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+        Store?.SqlConnection.Close();
+
+        return electives;
+    }
 }
