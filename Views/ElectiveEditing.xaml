@@ -14,10 +14,10 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/ElectiveEditing/CapacityDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/DataGrid.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/DataGridColumnHeader.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/NameDataGridCell.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/DataGrid.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/DataGridColumnHeader.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/LeftDataGridCell.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/RightDataGridCell.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -27,7 +27,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название электива"
                                     Binding="{Binding (models:Elective.Name)}"
-                                    CellStyle="{StaticResource NameCell}"
+                                    CellStyle="{StaticResource LeftCell}"
                                     Width="1*"
                                     FontSize="15"
                                     FontWeight="Normal"
@@ -36,7 +36,7 @@
 
                 <DataGridTextColumn Header="Вместимость"
                                     Binding="{Binding (models:Elective.Capacity)}"
-                                    CellStyle="{StaticResource CapacityCell}"
+                                    CellStyle="{StaticResource RightCell}"
                                     Width="125"
                                     FontSize="15"
                                     FontWeight="Normal">

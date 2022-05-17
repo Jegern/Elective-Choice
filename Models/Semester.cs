@@ -4,11 +4,11 @@ public class Semester
 {
     public int Year { get; set; }
     
-    public bool IsFirst { get; set; }
+    public string Season { get; set; }
 
-    public Semester(int year, bool isFirst)
+    public Semester(int year, string season)
     {
         Year = year;
-        IsFirst = isFirst;
+        Season = season;
     }
 }

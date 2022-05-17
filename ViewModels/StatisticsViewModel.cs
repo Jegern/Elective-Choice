@@ -28,9 +28,11 @@ public class StatisticsViewModel : ViewModel
             "SELECT yearofpassage, semester " + 
             "FROM selected_electives " + 
             "GROUP BY yearofpassage, semester", Store?.SqlConnection).ExecuteReader();
-        while (reader.Read()) 
-            // TODO: Переделать базу данных, возвращать bool вместо строки для определения семестра
-            semesters.Add(new Semester(reader.GetInt32(0), reader.GetBoolean(1)));
+        while (reader.Read())
+        {
+            // TODO: Переделать базу данных (?), возвращать bool вместо строки для определения семестра
+            semesters.Add(new Semester(reader.GetInt32(0), reader.GetString(1)));
+        }
         Store?.SqlConnection.Close();
         
         return semesters;

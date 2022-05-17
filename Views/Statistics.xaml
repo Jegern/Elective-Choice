@@ -11,22 +11,36 @@
         <vms:StatisticsViewModel />
     </Page.DataContext>
     
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/DataGrid/DataGrid.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/DataGridColumnHeader.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/LeftDataGridCell.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/RightDataGridCell.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid>
         <DataGrid ItemsSource="{Binding Path=Semesters}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название электива"
+                <DataGridTextColumn Header="Год"
                                     Binding="{Binding (models:Semester.Year)}"
-                                    Width="1*"
+                                    CellStyle="{StaticResource LeftCell}"
+                                    Width="100"
                                     FontSize="15"
                                     FontWeight="Normal"
                                     IsReadOnly="True">
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Вместимость"
-                                    Binding="{Binding (models:Semester.IsFirst)}"
-                                    Width="125"
+                <DataGridTextColumn Header="Время года"
+                                    Binding="{Binding (models:Semester.Season)}"
+                                    CellStyle="{StaticResource RightCell}"
+                                    Width="100"
                                     FontSize="15"
-                                    FontWeight="Normal">
+                                    FontWeight="Normal"
+                                    IsReadOnly="True">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
