@@ -8,18 +8,15 @@ namespace Elective_Choice.ViewModels;
 
 public class ElectiveEditingViewModel : ViewModel
 {
-    public ObservableCollection<Elective>? Electives { get; } = new()
+    public ObservableCollection<Elective>? Electives { get; }
+    
+    public ElectiveEditingViewModel()
     {
-        new Elective("kek", 20)
-    };
+    }
 
     public ElectiveEditingViewModel(ViewModelStore? store) : base(store)
     {
         Electives = GetCurrentElectives();
-    }
-
-    public ElectiveEditingViewModel()
-    {
     }
 
     private ObservableCollection<Elective> GetCurrentElectives()

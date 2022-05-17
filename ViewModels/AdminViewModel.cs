@@ -86,6 +86,8 @@ public class AdminViewModel : ViewModel
     public AdminViewModel(ViewModelStore store) : base(store)
     {
         store.LoginComplete += LoginComplete_OnChanged;
+
+        FrameContent = new ElectiveEditing(Store);
         
         MenuCommand = new Command(
             MenuCommand_OnExecute,
@@ -151,6 +153,7 @@ public class AdminViewModel : ViewModel
     private void EditCommand_OnExecute(object? parameter)
     {
         EditEnabled = false;
+        FrameContent = new ElectiveEditing(Store);
     }
 
     #endregion
@@ -164,8 +167,7 @@ public class AdminViewModel : ViewModel
     private void StatisticsCommand_OnExecute(object? parameter)
     {
         StatisticsEnabled = false;
-
-        FrameContent = new ElectiveEditing(Store);
+        FrameContent = new Statistics(Store);
     }
 
     #endregion

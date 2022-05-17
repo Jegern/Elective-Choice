@@ -1,4 +1,4 @@
-﻿<Page x:Class="Elective_Choice.Views.ElectiveEditing"
+﻿<Page x:Class="Elective_Choice.Views.Statistics"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,28 +6,16 @@
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       xmlns:models="clr-namespace:Elective_Choice.Models"
       mc:Ignorable="d">
-
+    
     <Page.DataContext>
-        <vms:ElectiveEditingViewModel />
+        <vms:StatisticsViewModel />
     </Page.DataContext>
     
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/ElectiveEditing/CapacityDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/DataGrid.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/DataGridColumnHeader.xaml" />
-                <ResourceDictionary Source="Styles/ElectiveEditing/NameDataGridCell.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <Grid>
-        <DataGrid ItemsSource="{Binding Path=Electives}">
+        <DataGrid ItemsSource="{Binding Path=Semesters}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название электива"
-                                    Binding="{Binding (models:Elective.Name)}"
-                                    CellStyle="{StaticResource NameCell}"
+                                    Binding="{Binding (models:Semester.Year)}"
                                     Width="1*"
                                     FontSize="15"
                                     FontWeight="Normal"
@@ -35,8 +23,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn Header="Вместимость"
-                                    Binding="{Binding (models:Elective.Capacity)}"
-                                    CellStyle="{StaticResource CapacityCell}"
+                                    Binding="{Binding (models:Semester.IsFirst)}"
                                     Width="125"
                                     FontSize="15"
                                     FontWeight="Normal">

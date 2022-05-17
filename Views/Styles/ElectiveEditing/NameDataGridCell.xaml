@@ -7,14 +7,14 @@
                     <Border x:Name="Border"
                             CornerRadius="10, 0, 0, 10"
                             Background="White"
-                            BorderThickness="0"
+                            BorderThickness="2, 2, 0, 2"
+                            BorderBrush="Transparent"
                             Margin="5, 5, 0, 5">
                         <ContentPresenter x:Name="ContentPresenter"
                                           Margin="20" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="BorderThickness" TargetName="Border" Value="2, 2, 0, 2" />
                             <Setter Property="BorderBrush" TargetName="Border" Value="Black" />
                             <Setter Property="TextBlock.Foreground" Value="Black" />
                         </Trigger>
