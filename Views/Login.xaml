@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="#00C4FF">
+    <Grid Background="{StaticResource PrimaryColor}">
         <Border CornerRadius="25"
                 Background="White"
                 VerticalAlignment="Center"
@@ -30,7 +30,7 @@
             <StackPanel Margin="30, 20">
                 <Grid Width="100" Height="100"
                       Margin="0, -70, 0, 0">
-                    <Ellipse Fill="#F2F2F2" />
+                    <Ellipse Fill="#D8D8D8" />
                     <Image Source="Styles/Icons/User (White).png"
                            Width="70" Height="70" />
                 </Grid>

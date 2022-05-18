@@ -25,7 +25,7 @@
     <DockPanel>
         <Grid DockPanel.Dock="Left"
               Width="200"
-              Background="#238BC8">
+              Background="{StaticResource PrimaryColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

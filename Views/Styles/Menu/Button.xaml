@@ -5,14 +5,14 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="FontWeight" Value="Bold" />       
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock Text="{TemplateBinding Content}"
                                TextWrapping="Wrap"
-                               Margin="37, 0, 10, 0"/>
+                               Margin="37, 0, 10, 0" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -28,12 +28,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="#147DB9" />
-                            <Setter Property="BorderBrush" TargetName="Border" Value="#147DB9"/>
+                            <Setter Property="Background" TargetName="Border" 
+                                    Value="{StaticResource ButtonPressed}" />
+                            <Setter Property="BorderBrush" TargetName="Border" 
+                                    Value="{StaticResource ButtonPressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="Border" Value="#F98941" />
-                            <Setter Property="BorderBrush" TargetName="Border" Value="#CE6327"/>
+                            <Setter Property="Background" TargetName="Border" 
+                                    Value="{StaticResource SecondaryColor}" />
+                            <Setter Property="BorderBrush" TargetName="Border" 
+                                    Value="#CE6327" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

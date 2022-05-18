@@ -3,7 +3,7 @@
     <Style TargetType="{x:Type Button}">
         <Setter Property="Width" Value="250" />
         <Setter Property="Height" Value="55" />
-        <Setter Property="Background" Value="#28ACEC" />
+        <Setter Property="Background" Value="{StaticResource PrimaryColor}" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="25" />
         <Setter Property="Cursor" Value="Hand" />
@@ -19,11 +19,9 @@
                                           VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="#0F92D3" />
-                        </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="#0083C4" />
+                            <Setter Property="Background" TargetName="Border"
+                                    Value="{StaticResource ButtonPressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Background" TargetName="Border" Value="#C8C8C8" />
