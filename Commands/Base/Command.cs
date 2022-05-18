@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Laboratory_work_1.Commands.Base;
+namespace Elective_Choice.Commands.Base;
 
 public class Command : ICommand
 {

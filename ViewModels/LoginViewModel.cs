@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Elective_Choice.Commands.Base;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
-using Laboratory_work_1.Commands.Base;
 
 namespace Elective_Choice.ViewModels;
 
@@ -68,7 +68,7 @@ public class LoginViewModel : ViewModel
     private void SignInCommand_OnExecute(object? parameter)
     {
         if (CheckUserData())
-            Store?.TriggerSuccessfulLoginEvent(Email, Rights);
+            Store?.TriggerSuccessfulLogin(Email, Rights);
     }
 
     private bool CheckUserData()

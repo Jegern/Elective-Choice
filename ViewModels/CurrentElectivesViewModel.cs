@@ -1,28 +1,33 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using Elective_Choice.Models;
+using Elective_Choice.Commands.Base;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
-using Laboratory_work_1.Commands.Base;
 using Npgsql;
 
 namespace Elective_Choice.ViewModels;
 
-public class ElectiveEditingViewModel : ViewModel
+public class CurrentElectivesViewModel : ViewModel
 {
+    #region Fields
+
     public ObservableCollection<Elective>? Electives { get; }
-    private Elective? _selectedElective;
-    
-    public Elective? SelectedElective
+    private Page? _frameContent;
+
+    public Page? FrameContent
     {
-        get => _selectedElective;
-        set => Set(ref _selectedElective, value);
+        get => _frameContent;
+        set => Set(ref _frameContent, value);
     }
+
+    #endregion
     
-    public ElectiveEditingViewModel()
+    public CurrentElectivesViewModel()
     {
     }
 
-    public ElectiveEditingViewModel(ViewModelStore? store) : base(store)
+    public CurrentElectivesViewModel(ViewModelStore store) : base(store)
     {
         Electives = GetCurrentElectives();
 
@@ -53,11 +58,11 @@ public class ElectiveEditingViewModel : ViewModel
 
     public Command? OpenElectiveCommand { get; }
 
-    private bool OpenElectiveCommand_CanExecute(object? parameter) => SelectedElective is not null;
+    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is Elective;
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
-        
+        Store?.TriggerElectiveStatisticsLoading(((Elective) parameter!).Name);
     }
 
     #endregion

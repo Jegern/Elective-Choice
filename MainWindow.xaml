@@ -16,6 +16,7 @@
 
     <Grid>
         <Frame Content="{Binding FrameContent}"
-               NavigationUIVisibility="Hidden" />
+               NavigationUIVisibility="Hidden"
+               Navigated="Frame_OnNavigated"/>
     </Grid>
 </Window>
