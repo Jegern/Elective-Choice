@@ -87,7 +87,7 @@ public class ElectiveStatisticsViewModel : ViewModel
     {
         new Axis
         {
-            // TextSize = 0
+            TextSize = 0
         }
     };
 
