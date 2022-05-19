@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Menu/Button.xaml" />
+                <ResourceDictionary Source="Styles/DataGrid/Border.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -126,49 +127,105 @@
                                                TextAlignment="Center">
                                     </TextBlock>
                                 </Grid>
-                                <Border Grid.Row="1" Margin="10" CornerRadius="5" BorderBrush="Black">
-                                    <Image Source="Styles/Icons/Lock (Locked).png"
+                                <Border Grid.Row="1" Margin="10">
+                                    <Image Source="Styles/Icons/plus.png"
                                            HorizontalAlignment="Center"
                                            Width="60" Height="60"
                                            Margin="5, 5, 5, 5" />
                                 </Border>
-                                <Grid Row="2" Margin="10">
-                                    <Button Content="Добавить электив"
-                                            Command="{Binding SaveChoiceCommand}" />
-                                </Grid>
-                                <Grid Row="3" Margin="10">
-                                    <Button Content="Добавить электив"
-                                            Command="{Binding SaveChoiceCommand}" />
-                                </Grid>
+                                <Border Grid.Row="2" Margin="10">
+                                </Border>
+                                <Border Grid.Row="3" Margin="10">
+                                </Border>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid Column="1" Margin="10, -50, 10, 0" Background="Gainsboro">
-                        <StackPanel>
-                            <TextBlock Text="Среда"
-                                       FontSize="20"
-                                       Margin="5, 5, 5, 5"
-                                       TextAlignment="Center">
-                            </TextBlock>
-                        </StackPanel>
+                    <Grid Column="1" Margin="20, -50, 10, 0" Background="Gainsboro">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Row="0">
+                                    <TextBlock Text="Среда"
+                                               FontSize="20"
+                                               Margin="5"
+                                               TextAlignment="Center">
+                                    </TextBlock>
+                                </Grid>
+                                <Border Grid.Row="1" Margin="10">
+                                    <Image Source="Styles/Icons/plus.png"
+                                           HorizontalAlignment="Center"
+                                           Width="60" Height="60"
+                                           Margin="5, 5, 5, 5" />
+                                </Border>
+                                <Border Grid.Row="2" Margin="10">
+                                </Border>
+                                <Border Grid.Row="3" Margin="10">
+                                </Border>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid Column="2" Margin="10, -50, 10, 0" Background="Gainsboro">
-                        <StackPanel>
-                            <TextBlock Text="Четверг"
-                                       FontSize="20"
-                                       Margin="5, 5, 5, 5"
-                                       TextAlignment="Center">
-                            </TextBlock>
-                        </StackPanel>
+                    <Grid Column="2" Margin="20, -50, 10, 0" Background="Gainsboro">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Row="0">
+                                    <TextBlock Text="Четверг"
+                                               FontSize="20"
+                                               Margin="5"
+                                               TextAlignment="Center">
+                                    </TextBlock>
+                                </Grid>
+                                <Border Grid.Row="1" Margin="10">
+                                    <Image Source="Styles/Icons/plus.png"
+                                           HorizontalAlignment="Center"
+                                           Width="60" Height="60"
+                                           Margin="5, 5, 5, 5" />
+                                </Border>
+                                <Border Grid.Row="2" Margin="10">
+                                </Border>
+                                <Border Grid.Row="3" Margin="10">
+                                </Border>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid Column="3" Margin="10, -50, 20, 0" Background="Gainsboro">
-                        <StackPanel>
-                            <TextBlock Text="Пятница"
-                                       FontSize="20"
-                                       Margin="5, 5, 5, 5"
-                                       TextAlignment="Center">
-                            </TextBlock>
-                        </StackPanel>
+                    <Grid Column="3" Margin="20, -50, 10, 0" Background="Gainsboro">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Row="0">
+                                    <TextBlock Text="Пятница"
+                                               FontSize="20"
+                                               Margin="5"
+                                               TextAlignment="Center">
+                                    </TextBlock>
+                                </Grid>
+                                <Border Grid.Row="1" Margin="10">
+                                    <Image Source="Styles/Icons/plus.png"
+                                           HorizontalAlignment="Center"
+                                           Width="60" Height="60"
+                                           Margin="5, 5, 5, 5" />
+                                </Border>
+                                <Border Grid.Row="2" Margin="10">
+                                </Border>
+                                <Border Grid.Row="3" Margin="10">
+                                </Border>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
