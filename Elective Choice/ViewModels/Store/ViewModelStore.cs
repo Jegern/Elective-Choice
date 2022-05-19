@@ -1,4 +1,5 @@
 using System;
+using Microsoft.VisualBasic;
 using Npgsql;
 
 namespace Elective_Choice.ViewModels.Store;
@@ -10,8 +11,8 @@ public class ViewModelStore
 
     public event Action<string, bool>? SuccessfulLogin;
     public event Action<string>? LoginCompleted;
-    public event Action<string>? ElectiveStatisticsLoading;
-    public event Action<string>? ElectiveStatisticsLoaded;
+    public event Action<string, int, string>? ElectiveStatisticsLoading;
+    public event Action<string, int, string>? ElectiveStatisticsLoaded;
 
     public void TriggerSuccessfulLogin(string email, bool rights) =>
         SuccessfulLogin?.Invoke(email, rights);
@@ -19,9 +20,9 @@ public class ViewModelStore
     public void TriggerLoginCompleted(string email) =>
         LoginCompleted?.Invoke(email);
 
-    public void TriggerElectiveStatisticsLoading(string name) =>
-        ElectiveStatisticsLoading?.Invoke(name);
+    public void TriggerElectiveStatisticsLoading(string name, int year, string season) =>
+        ElectiveStatisticsLoading?.Invoke(name, year, season);
 
-    public void TriggerElectiveStatisticsLoaded(string name) =>
-        ElectiveStatisticsLoaded?.Invoke(name);
+    public void TriggerElectiveStatisticsLoaded(string name, int year, string season) =>
+        ElectiveStatisticsLoaded?.Invoke(name, year, season);
 }

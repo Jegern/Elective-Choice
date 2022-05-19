@@ -115,11 +115,11 @@ public class AdminViewModel : ViewModel
         // TODO: Реализовать обращение к БД и получение некоторых полей
     }
 
-    private void ElectiveStatisticsLoading_OnChanged(string name)
+    private void ElectiveStatisticsLoading_OnChanged(string name, int year, string season)
     {
         CurrentElectives = FrameContent;
         FrameContent = new ElectiveStatistics(Store!);
-        Store?.TriggerElectiveStatisticsLoaded(name);
+        Store?.TriggerElectiveStatisticsLoaded(name, year, season);
     }
 
     #endregion

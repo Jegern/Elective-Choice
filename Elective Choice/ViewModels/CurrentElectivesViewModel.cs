@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Elective_Choice.Models;
 using Elective_Choice.Commands.Base;
@@ -42,9 +43,9 @@ public class CurrentElectivesViewModel : ViewModel
 
         Store?.SqlConnection.Open();
         var reader = new NpgsqlCommand(
-            "SELECT electiveName, capacity " +
-            "FROM electives " +
-            "ORDER BY electiveName", Store?.SqlConnection).ExecuteReader();
+            @"SELECT name, capacity 
+                     FROM electives 
+                     ORDER BY name", Store?.SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
         Store?.SqlConnection.Close();
@@ -62,7 +63,19 @@ public class CurrentElectivesViewModel : ViewModel
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
-        Store?.TriggerElectiveStatisticsLoading(((Elective) parameter!).Name);
+        Store?.SqlConnection.Open();
+        var reader = new NpgsqlCommand(
+            @"SELECT year, semester
+                     FROM selected_electives
+                     GROUP BY year, semester
+                     ORDER BY year DESC, semester DESC", Store?.SqlConnection).ExecuteReader();
+        reader.Read();
+        var year = reader.GetInt32(0);
+        var season = reader.GetString(1);
+        reader.Close();
+        Store?.SqlConnection.Close();
+        
+        Store?.TriggerElectiveStatisticsLoading(((Elective) parameter!).Name, year, season);
     }
 
     #endregion

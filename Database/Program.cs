@@ -30,14 +30,36 @@ namespace Database
             }
 
             SqlConnection.Open();
-            
+
             for (var i = 0; i < studentMarks.Count; i++)
             {
                 var (key, value) = studentMarks.ElementAt(i);
                 new NpgsqlCommand(
-                    $"INSERT INTO students VALUES ('{key.PadLeft(10, '0')}', {value.Average()}, 'Студент {i}')",
+                    $@"INSERT INTO students VALUES ('{key.PadLeft(10, '0')}', {value.Average()}, 'Студент {i}')",
                     SqlConnection).ExecuteNonQuery();
             }
+
+            SqlConnection.Close();
+        }
+
+        public static void DistributeElectivesByDay()
+        {
+            SqlConnection.Open();
+
+            Dictionary<int, int> electiveDays;
+            using (var reader = new NpgsqlCommand(@"SELECT id 
+                                                           FROM electives 
+                                                           ORDER BY id", SqlConnection).ExecuteReader())
+            {
+                electiveDays = new Dictionary<int, int>();
+                while (reader.Read())
+                    electiveDays.Add(reader.GetInt32(0), new Random().Next(2, 6));
+            }
+
+            foreach (var (key, value) in electiveDays)
+                new NpgsqlCommand(
+                    $@"INSERT INTO elective_days VALUES ({key}, {value})",
+                    SqlConnection).ExecuteNonQuery();
 
             SqlConnection.Close();
         }

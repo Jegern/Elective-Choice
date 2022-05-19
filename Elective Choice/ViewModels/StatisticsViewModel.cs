@@ -13,7 +13,7 @@ public class StatisticsViewModel : ViewModel
     public StatisticsViewModel()
     {
     }
-    
+
     public StatisticsViewModel(ViewModelStore store) : base(store)
     {
         Semesters = GetSemesters();
@@ -24,17 +24,19 @@ public class StatisticsViewModel : ViewModel
         var semesters = new ObservableCollection<Semester>();
 
         Store?.SqlConnection.Open();
+
         var reader = new NpgsqlCommand(
-            "SELECT yearofpassage, semester " + 
-            "FROM selected_electives " + 
-            "GROUP BY yearofpassage, semester", Store?.SqlConnection).ExecuteReader();
+            @"SELECT year, semester
+                      FROM selected_electives
+                      GROUP BY year, semester", Store?.SqlConnection).ExecuteReader();
         while (reader.Read())
         {
             // TODO: Переделать базу данных (?), возвращать bool вместо строки для определения семестра
             semesters.Add(new Semester(reader.GetInt32(0), reader.GetString(1)));
         }
+
         Store?.SqlConnection.Close();
-        
+
         return semesters;
     }
 }
