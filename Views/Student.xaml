@@ -65,7 +65,7 @@
             <StackPanel Grid.Row="1">
                 <Grid>
                     <Button Content="Приоритеты"
-                            Command="{Binding OpenPrioritiesCommand}"/>
+                            Command="{Binding OpenPrioritiesCommand}" />
                     <Image Source="Styles/Icons/Edit.png"
                            Width="20" Height="20"
                            HorizontalAlignment="Left"
@@ -73,7 +73,7 @@
                 </Grid>
                 <Grid>
                     <Button Content="Сохранить выбор"
-                            Command="{Binding SaveChoiceCommand}"/>
+                            Command="{Binding SaveChoiceCommand}" />
                     <Image Source="Styles/Icons/Graph.png"
                            Width="20" Height="20"
                            HorizontalAlignment="Left"
@@ -87,72 +87,83 @@
             </StackPanel>
         </Grid>
         <Grid DockPanel.Dock="Right">
-            <Grid 
-                Width="1080">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid Column="0" >
-                    <Grid>
-                        <TextBlock Text="Вторник" 
-                                   FontSize="20" 
-                                   Margin="20" 
-                                   TextAlignment="Center">
-                        </TextBlock>
-                        <Grid VerticalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid Row="0" Margin="10" >
-                                <Button Content="Добавить электив"
-                                        Command="{Binding SaveChoiceCommand}"/>
-                                <Image Source="Styles/Icons/Lock (Locked).png"
-                                       HorizontalAlignment="Right"
-                                       Width="60" Height="60"
-                                       Margin="5, 5, 5, 5" />  
-                            </Grid>
-                            <Grid Row="1" Margin="10">
-                                <Button Content="Добавить электив"
-                                        Command="{Binding SaveChoiceCommand}"/>
-                            </Grid>
-                            <Grid Row="2" Margin="10">
-                                <Button Content="Добавить электив"
-                                        Command="{Binding SaveChoiceCommand}"/>
+            <Grid Width="1080">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Row="0" Background="Navy">
+                    <TextBlock Text="Меню студента" Margin="0,0,0, 20" TextAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="Snow"></TextBlock>
+                </Grid>
+                <Grid Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Column="0" Margin="20, -50, 10, 0" Background="Gainsboro">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Row="0">
+                                    <TextBlock Text="Вторник"
+                                               FontSize="20"
+                                               Margin="5"
+                                               TextAlignment="Center">
+                                    </TextBlock>
+                                </Grid>
+                                <Grid Row="1" Margin="10">
+                                    <Button Content="Добавить электив"
+                                            Command="{Binding SaveChoiceCommand}" />
+                                    <Image Source="Styles/Icons/Lock (Locked).png"
+                                           HorizontalAlignment="Right"
+                                           Width="60" Height="60"
+                                           Margin="5, 5, 5, 5" />
+                                </Grid>
+                                <Grid Row="2" Margin="10">
+                                    <Button Content="Добавить электив"
+                                            Command="{Binding SaveChoiceCommand}" />
+                                </Grid>
+                                <Grid Row="3" Margin="10">
+                                    <Button Content="Добавить электив"
+                                            Command="{Binding SaveChoiceCommand}" />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid Column="1">
-                    <StackPanel>
-                        <TextBlock Text="Среда" 
-                                   FontSize="20" 
-                                   Margin="5, 5, 5, 5" 
-                                   TextAlignment="Center">
-                        </TextBlock>
-                    </StackPanel>
-                </Grid>
-                <Grid Column="2">
-                    <StackPanel>
-                        <TextBlock Text="Четверг" 
-                                   FontSize="20" 
-                                   Margin="5, 5, 5, 5" 
-                                   TextAlignment="Center">
-                        </TextBlock>
-                    </StackPanel>
-                </Grid>
-                <Grid Column="3">
-                    <StackPanel>
-                        <TextBlock Text="Пятница" 
-                                   FontSize="20" 
-                                   Margin="5, 5, 5, 5" 
-                                   TextAlignment="Center">
-                        </TextBlock>
-                    </StackPanel>
+                    <Grid Column="1" Margin="10, -50, 10, 0" Background="Gainsboro">
+                        <StackPanel>
+                            <TextBlock Text="Среда"
+                                       FontSize="20"
+                                       Margin="5, 5, 5, 5"
+                                       TextAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Column="2" Margin="10, -50, 10, 0" Background="Gainsboro">
+                        <StackPanel>
+                            <TextBlock Text="Четверг"
+                                       FontSize="20"
+                                       Margin="5, 5, 5, 5"
+                                       TextAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Column="3" Margin="10, -50, 20, 0" Background="Gainsboro">
+                        <StackPanel>
+                            <TextBlock Text="Пятница"
+                                       FontSize="20"
+                                       Margin="5, 5, 5, 5"
+                                       TextAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
