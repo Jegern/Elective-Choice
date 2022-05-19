@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <RootNamespace>Elective_Choice</RootNamespace>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Views\Styles\Icons\User (White).png" />
+      <Resource Include="Views\Styles\Icons\User (White).png" />
+      <None Remove="Views\Styles\Icons\Lock (Locked).png" />
+      <Resource Include="Views\Styles\Icons\Lock (Locked).png" />
+      <None Remove="Views\Styles\Icons\Lock (Unlocked).png" />
+      <Resource Include="Views\Styles\Icons\Lock (Unlocked).png" />
+      <None Remove="Views\Styles\Icons\User (Gray).png" />
+      <Resource Include="Views\Styles\Icons\User (Gray).png" />
+      <None Remove="Views\Styles\Icons\Menu.png" />
+      <Resource Include="Views\Styles\Icons\Menu.png" />
+      <None Remove="Views\Styles\Icons\Logout.png" />
+      <Resource Include="Views\Styles\Icons\Logout.png" />
+      <None Remove="Views\Styles\Icons\Edit.png" />
+      <Resource Include="Views\Styles\Icons\Edit.png" />
+      <None Remove="Views\Styles\Icons\Graph.png" />
+      <Resource Include="Views\Styles\Icons\Graph.png" />
+      <None Remove="Views\Styles\Icons\Statistics.png" />
+      <Resource Include="Views\Styles\Icons\Statistics.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
+    </ItemGroup>
+
+</Project>
