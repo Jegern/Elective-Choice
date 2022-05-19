@@ -105,6 +105,7 @@
                 <TextBlock Text="{Binding BeforeDistribution}" />
             </StackPanel>
         </Grid>
-        <Frame Content="{Binding FrameContent}" />
+        <Frame Content="{Binding FrameContent}"
+               Navigated="Frame_OnNavigated"/>
     </DockPanel>
 </Page>

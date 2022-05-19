@@ -37,6 +37,6 @@ public class MainViewModel : ViewModel
     {
         FrameContent = rights ? new Admin(Store) : new Student(Store);
         ResizeMode = ResizeMode.CanResize;
-        Store.TriggerLoginCompleteEvent(email);
+        Store.TriggerLoginCompleted(email);
     }
 }

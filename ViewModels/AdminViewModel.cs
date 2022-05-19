@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
+using Elective_Choice.Commands.Base;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.ViewModels.Store;
 using Elective_Choice.Views;
-using Laboratory_work_1.Commands.Base;
 
 namespace Elective_Choice.ViewModels;
 
@@ -11,6 +11,7 @@ public class AdminViewModel : ViewModel
     #region Fields
 
     private string Email { get; set; } = string.Empty;
+    private Page? CurrentElectives { get; set; }
     private Page? _frameContent;
     private string _fullname = string.Empty;
     private bool _editEnabled;
@@ -77,18 +78,18 @@ public class AdminViewModel : ViewModel
     }
 
     #endregion
-    
+
     public AdminViewModel()
     {
-        
     }
 
     public AdminViewModel(ViewModelStore store) : base(store)
     {
-        store.LoginComplete += LoginComplete_OnChanged;
+        store.LoginCompleted += LoginCompletedOnChanged;
+        store.ElectiveStatisticsLoading += ElectiveStatisticsLoading_OnChanged;
 
-        FrameContent = new ElectiveEditing(Store);
-        
+        FrameContent = new CurrentElectives(Store);
+
         MenuCommand = new Command(
             MenuCommand_OnExecute,
             MenuCommand_CanExecute);
@@ -108,10 +109,17 @@ public class AdminViewModel : ViewModel
 
     #region Event Subscription
 
-    private void LoginComplete_OnChanged(string email)
+    private void LoginCompletedOnChanged(string email)
     {
         Email = email;
         // TODO: Реализовать обращение к БД и получение некоторых полей
+    }
+
+    private void ElectiveStatisticsLoading_OnChanged(string name)
+    {
+        CurrentElectives = FrameContent;
+        FrameContent = new ElectiveStatistics(Store);
+        Store?.TriggerElectiveStatisticsLoaded(name);
     }
 
     #endregion
@@ -126,7 +134,6 @@ public class AdminViewModel : ViewModel
 
     private void MenuCommand_OnExecute(object? parameter)
     {
-        
     }
 
     #endregion
@@ -139,7 +146,6 @@ public class AdminViewModel : ViewModel
 
     private void LogoutCommand_OnExecute(object? parameter)
     {
-        
     }
 
     #endregion
@@ -153,7 +159,7 @@ public class AdminViewModel : ViewModel
     private void EditCommand_OnExecute(object? parameter)
     {
         EditEnabled = false;
-        FrameContent = new ElectiveEditing(Store);
+        FrameContent = new CurrentElectives(Store);
     }
 
     #endregion

@@ -7,12 +7,21 @@ public class ViewModelStore
 {
     public NpgsqlConnection SqlConnection { get; } =
         new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
-    
-    public event Action<string, bool>? SuccessfulLogin;
-    public event Action<string>? LoginComplete;
 
-    public void TriggerSuccessfulLoginEvent(string email, bool rights) => 
+    public event Action<string, bool>? SuccessfulLogin;
+    public event Action<string>? LoginCompleted;
+    public event Action<string>? ElectiveStatisticsLoading;
+    public event Action<string>? ElectiveStatisticsLoaded;
+
+    public void TriggerSuccessfulLogin(string email, bool rights) =>
         SuccessfulLogin?.Invoke(email, rights);
-    public void TriggerLoginCompleteEvent(string email) => 
-        LoginComplete?.Invoke(email);
+
+    public void TriggerLoginCompleted(string email) =>
+        LoginCompleted?.Invoke(email);
+
+    public void TriggerElectiveStatisticsLoading(string name) =>
+        ElectiveStatisticsLoading?.Invoke(name);
+    
+    public void TriggerElectiveStatisticsLoaded(string name) =>
+        ElectiveStatisticsLoaded?.Invoke(name);
 }

@@ -14,6 +14,6 @@ public class StudentViewModel : ViewModel
 
     public StudentViewModel(ViewModelStore store) : base(store)
     {
-        store.LoginComplete += email => Email = email;
+        store.LoginCompleted += email => Email = email;
     }
 }

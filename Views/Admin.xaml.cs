@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
 using Elective_Choice.ViewModels;
 using Elective_Choice.ViewModels.Store;
 
@@ -19,5 +21,10 @@ public partial class Admin
         window.SizeToContent = SizeToContent.WidthAndHeight;
         window.Top = (SystemParameters.WorkArea.Height - window.Height) / 2;
         window.Left = (SystemParameters.WorkArea.Width - window.Width) / 2;
+    }
+
+    private void Frame_OnNavigated(object sender, NavigationEventArgs e)
+    {
+        (sender as Frame)?.NavigationService.RemoveBackEntry();
     }
 }
