@@ -13,7 +13,149 @@
         <vms:StudentViewModel />
     </Page.DataContext>
 
-    <Grid>
-        <TextBlock Text="Student" />
-    </Grid>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Left"
+              Width="200"
+              Background="{StaticResource PrimaryColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="110" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Row="0" Grid.Column="0"
+                       Source="Styles/Icons/Menu.png"
+                       Width="20" Height="20"
+                       VerticalAlignment="Top"
+                       Margin="20, 20, 0, 0">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding MenuCommand}" />
+                    </Image.InputBindings>
+                </Image>
+                <Image Grid.Row="0" Grid.Column="1"
+                       Source="Styles/Icons/User (White).png"
+                       Width="75" Height="75"
+                       VerticalAlignment="Bottom" />
+                <Image Grid.Row="0" Grid.Column="2"
+                       Source="Styles/Icons/Logout.png"
+                       Width="20" Height="20"
+                       VerticalAlignment="Top"
+                       Margin="0, 20, 20, 0">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding LogoutCommand}" />
+                    </Image.InputBindings>
+                </Image>
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                           Text="{Binding Fullname}"
+                           Margin="0, -5, 0, 20" />
+            </Grid>
+            <StackPanel Grid.Row="1">
+                <Grid>
+                    <Button Content="Приоритеты"
+                            Command="{Binding OpenPrioritiesCommand}"/>
+                    <Image Source="Styles/Icons/Edit.png"
+                           Width="20" Height="20"
+                           HorizontalAlignment="Left"
+                           Margin="10, 0, 0, 0" />
+                </Grid>
+                <Grid>
+                    <Button Content="Сохранить выбор"
+                            Command="{Binding SaveChoiceCommand}"/>
+                    <Image Source="Styles/Icons/Graph.png"
+                           Width="20" Height="20"
+                           HorizontalAlignment="Left"
+                           Margin="10, 0, 0, 0" />
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="2" />
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="{Binding CurrentDate}" />
+                <TextBlock Text="{Binding BeforeDistribution}" />
+            </StackPanel>
+        </Grid>
+        <Grid DockPanel.Dock="Right">
+            <Grid 
+                Width="1080">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid Column="0" >
+                    <Grid>
+                        <TextBlock Text="Вторник" 
+                                   FontSize="20" 
+                                   Margin="20" 
+                                   TextAlignment="Center">
+                        </TextBlock>
+                        <Grid VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid Row="0" Margin="10" >
+                                <Button Content="Добавить электив"
+                                        Command="{Binding SaveChoiceCommand}"/>
+                                <Image Source="Styles/Icons/Lock (Locked).png"
+                                       HorizontalAlignment="Right"
+                                       Width="60" Height="60"
+                                       Margin="5, 5, 5, 5" />  
+                            </Grid>
+                            <Grid Row="1" Margin="10">
+                                <Button Content="Добавить электив"
+                                        Command="{Binding SaveChoiceCommand}"/>
+                            </Grid>
+                            <Grid Row="2" Margin="10">
+                                <Button Content="Добавить электив"
+                                        Command="{Binding SaveChoiceCommand}"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Column="1">
+                    <StackPanel>
+                        <TextBlock Text="Среда" 
+                                   FontSize="20" 
+                                   Margin="5, 5, 5, 5" 
+                                   TextAlignment="Center">
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+                <Grid Column="2">
+                    <StackPanel>
+                        <TextBlock Text="Четверг" 
+                                   FontSize="20" 
+                                   Margin="5, 5, 5, 5" 
+                                   TextAlignment="Center">
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+                <Grid Column="3">
+                    <StackPanel>
+                        <TextBlock Text="Пятница" 
+                                   FontSize="20" 
+                                   Margin="5, 5, 5, 5" 
+                                   TextAlignment="Center">
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Frame Content="{Binding FrameContent}" />
+    </DockPanel>
 </Page>
