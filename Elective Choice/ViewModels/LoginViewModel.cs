@@ -18,7 +18,7 @@ public class LoginViewModel : ViewModel
         new BitmapImage(
             new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
 
-    private bool Rights { get; set; } = true;
+    private bool Rights { get; set; }
 
     public string Email
     {

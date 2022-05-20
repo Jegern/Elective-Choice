@@ -17,7 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Menu/Button.xaml" />
-                <ResourceDictionary Source="Styles/DataGrid/Border.xaml" />
+                <ResourceDictionary Source="Styles/Calendar/Border.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

@@ -27,6 +27,10 @@
       <Resource Include="Views\Styles\Icons\Graph.png" />
       <None Remove="Views\Styles\Icons\Statistics.png" />
       <Resource Include="Views\Styles\Icons\Statistics.png" />
+      <None Remove="Views\Styles\Icons\Left.png" />
+      <Resource Include="Views\Styles\Icons\Left.png" />
+      <None Remove="Views\Styles\Icons\Plus.png" />
+      <Resource Include="Views\Styles\Icons\Plus.png" />
     </ItemGroup>
 
     <ItemGroup>

@@ -113,8 +113,8 @@ public class ElectiveStatisticsViewModel : ViewModel
             var reader = new NpgsqlCommand(
                 $@"SELECT selected_electives.priority, Count(*) AS number_of_elections
                           FROM selected_electives
-                              JOIN electives ON selected_electives.electiveID = electives.id
-                              JOIN old_students ON selected_electives.studentID = old_students.id
+                              JOIN electives ON selected_electives.elective_id = electives.id
+                              JOIN old_students ON selected_electives.student_id = old_students.id
                           WHERE year = {year} AND semester = '{season}' AND electives.name = '{name}'
                               AND old_students.performance >= {perf} AND old_students.performance < {perf + 0.5}
                           GROUP BY selected_electives.priority", Store?.SqlConnection).ExecuteReader();
