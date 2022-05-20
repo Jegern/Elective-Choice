@@ -101,7 +101,7 @@
                     <RowDefinition Height="150"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid Row="0" Background="Navy">
+                <Grid Row="0" Background="{StaticResource HeaderColor}">
                     <TextBlock Text="Меню студента" Margin="0,0,0, 20" TextAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="Snow"></TextBlock>
                 </Grid>
                 <Grid Row="1">

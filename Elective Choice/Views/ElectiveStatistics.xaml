@@ -17,7 +17,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
-              Background="#0069A5">
+              Background="{StaticResource HeaderColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition />

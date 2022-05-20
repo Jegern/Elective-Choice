@@ -7,6 +7,7 @@
     <Application.Resources>
         <SolidColorBrush x:Key="PrimaryColor" Color="#238BC8" />
         <SolidColorBrush x:Key="SecondaryColor" Color="#F98941" />
+        <SolidColorBrush x:Key="HeaderColor" Color="#0069A5" />
         <SolidColorBrush x:Key="ButtonPressed" Color="#147DB9" />
         <cnv:IntToRadiusConverter x:Key="IntToRadius" />
     </Application.Resources>
