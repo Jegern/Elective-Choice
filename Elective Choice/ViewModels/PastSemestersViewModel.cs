@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Elective_Choice.Commands.Base;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Base;
@@ -8,7 +9,7 @@ namespace Elective_Choice.ViewModels;
 
 public class PastSemestersViewModel : ViewModel
 {
-    public ObservableCollection<Semester>? Semesters { get; }
+    public List<Semester>? Semesters { get; }
 
     public PastSemestersViewModel()
     {
@@ -16,7 +17,7 @@ public class PastSemestersViewModel : ViewModel
 
     public PastSemestersViewModel(ViewModelStore store) : base(store)
     {
-        Semesters = new ObservableCollection<Semester>(DatabaseAccess.GetSemesters());
+        Semesters = DatabaseAccess.GetSemesters();
 
         OpenSemesterCommand = new Command(
             OpenSemesterCommand_OnExecuted,
@@ -31,6 +32,7 @@ public class PastSemestersViewModel : ViewModel
 
     private void OpenSemesterCommand_OnExecuted(object? parameter)
     {
+        Store?.TriggerSemesterLoading(((Semester) parameter!).Year, ((Semester) parameter).Spring == "Весна");
     }
 
     #endregion

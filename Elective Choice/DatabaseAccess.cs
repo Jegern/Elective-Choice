@@ -48,11 +48,33 @@ public static class DatabaseAccess
         return electives;
     }
 
+    public static List<Elective> GetSemesterElectives(int year, bool spring)
+    {
+        SqlConnection.Open();
+
+        var electives = new List<Elective>();
+        var reader = new NpgsqlCommand(
+            $@"SELECT name, capacity
+                      FROM electives JOIN (
+                          SELECT elective_id
+                          FROM past_semesters
+                          WHERE year = {year} AND spring = {spring}
+                          GROUP BY elective_id) AS semester_electives ON electives.id = elective_id",
+            SqlConnection).ExecuteReader();
+        while (reader.Read())
+            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+
+        SqlConnection.Close();
+
+        return electives;
+    }
+
     public static List<Semester> GetSemesters()
     {
         SqlConnection.Open();
 
         var semesters = new List<Semester>();
+        // TODO: Исправить подсчет количества элективов 
         var reader = new NpgsqlCommand(
             @"SELECT year, spring, COUNT(elective_id)
                      FROM past_semesters
@@ -60,8 +82,8 @@ public static class DatabaseAccess
             SqlConnection).ExecuteReader();
         while (reader.Read())
             semesters.Add(new Semester(
-                reader.GetInt32(0), 
-                reader.GetBoolean(1), 
+                reader.GetInt32(0),
+                reader.GetBoolean(1),
                 reader.GetInt32(2)));
 
         SqlConnection.Close();
@@ -69,11 +91,11 @@ public static class DatabaseAccess
         return semesters;
     }
 
-    public static List<int>[] GetElectiveStatistics(string name)
+    public static int[][] GetElectiveStatistics(string name)
     {
         SqlConnection.Open();
 
-        var values = new List<int>[] {new(), new(), new(), new(), new()};
+        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
         for (double i = 0d, performance = 3d; performance <= 5d; i++, performance += 0.5)
         {
             var reader = new NpgsqlCommand(
@@ -85,13 +107,8 @@ public static class DatabaseAccess
                               AND performance >= {performance} AND performance < {performance + 0.5}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
-            for (var priority = 1; priority <= 5; priority++)
-            {
-                if (reader.Read() && reader.GetInt32(0) == priority)
-                    values[(int) i].Add(reader.GetInt32(1));
-                else
-                    values[(int) i].Add(0);
-            }
+            while (reader.Read())
+                values[(int) i][reader.GetInt32(0)] = reader.GetInt32(1);
 
             reader.Close();
         }
@@ -101,11 +118,11 @@ public static class DatabaseAccess
         return values;
     }
 
-    public static List<int>[] GetElectiveStatistics(string name, int year, bool spring)
+    public static int[][] GetElectiveStatistics(string name, int year, bool spring)
     {
         SqlConnection.Open();
 
-        var values = new List<int>[5];
+        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
         for (double i = 0d, performance = 3d; performance <= 5d; i++, performance += 0.5)
         {
             var reader = new NpgsqlCommand(
@@ -117,13 +134,8 @@ public static class DatabaseAccess
                               AND performance >= {performance} AND performance < {performance + 0.5}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
-            for (var priority = 1; priority <= 5; priority++)
-            {
-                if (reader.Read() && reader.GetInt32(0) == priority)
-                    values[(int) i].Add(reader.GetInt32(1));
-                else
-                    values[(int) i].Add(0);
-            }
+            while (reader.Read())
+                values[(int) i][reader.GetInt32(0)] = reader.GetInt32(1);
 
             reader.Close();
         }

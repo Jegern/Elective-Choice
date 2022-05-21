@@ -110,6 +110,7 @@ public class ElectiveStatisticsViewModel : ViewModel
 
     private void ElectiveStatistics_OnLoaded(string name, int? year, bool? spring)
     {
+        // TODO: Исправить множественную подписку на событие
         Name = name;
 
         if (year is null || spring is null)
@@ -118,7 +119,7 @@ public class ElectiveStatisticsViewModel : ViewModel
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(name, (int) year, (bool) spring));
     }
 
-    private void FillSeriesWith(IReadOnlyList<List<int>> values)
+    private void FillSeriesWith(IReadOnlyList<int[]> values)
     {
         for (var i = 0; i < Series.Count; i++)
             Series[i].Values = values[i];

@@ -1,14 +1,13 @@
-﻿<Page x:Class="Elective_Choice.Views.CurrentElectives"
+﻿<Page x:Class="Elective_Choice.Views.SemesterElectives"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
-      xmlns:mdls="clr-namespace:Elective_Choice.Models"
       mc:Ignorable="d">
 
     <Page.DataContext>
-        <vms:CurrentElectivesViewModel />
+        <vms:SemesterElectivesViewModel />
     </Page.DataContext>
 
     <Page.Resources>
@@ -24,10 +23,38 @@
     </Page.Resources>
 
     <Grid>
-        <DataGrid ItemsSource="{Binding Path=Electives}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Background="{StaticResource HeaderColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Year}"
+                       Foreground="White"
+                       FontSize="25"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center" />
+            <TextBlock Grid.Column="1"
+                       Text="{Binding Spring}"
+                       Foreground="White"
+                       FontSize="25"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center" />
+        </Grid>
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Path=Electives}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название электива"
-                                    Binding="{Binding (mdls:Elective.Name)}"
+                                    Binding="{Binding Name}"
                                     CellStyle="{StaticResource LeftCell}"
                                     Width="1*"
                                     FontSize="15"
@@ -36,7 +63,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn Header="Вместимость"
-                                    Binding="{Binding (mdls:Elective.Capacity)}"
+                                    Binding="{Binding Capacity}"
                                     CellStyle="{StaticResource RightCell}"
                                     EditingElementStyle="{StaticResource EditingElement}"
                                     Width="150"

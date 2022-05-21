@@ -88,8 +88,9 @@ public class AdminViewModel : ViewModel
         store.LoginCompleted += Login_OnCompleted;
         store.ElectiveStatisticsLoading += ElectiveStatistics_OnLoading;
         store.ElectiveStatisticsClosed += ElectiveStatistics_OnClosed;
+        store.SemesterLoading += Semester_OnLoading;
 
-        FrameContent = new CurrentElectives(Store!);
+        // FrameContent = new SemesterElectives(Store!);
 
         MenuCommand = new Command(
             MenuCommand_OnExecute,
@@ -126,6 +127,12 @@ public class AdminViewModel : ViewModel
     private void ElectiveStatistics_OnClosed()
     {
         FrameContent = CurrentElectives;
+    }
+
+    private void Semester_OnLoading(int year, bool spring)
+    {
+        FrameContent = new SemesterElectives(Store!);
+        Store?.TriggerSemesterLoaded(year, spring);
     }
 
     #endregion
@@ -165,7 +172,7 @@ public class AdminViewModel : ViewModel
     private void EditCommand_OnExecute(object? parameter)
     {
         EditEnabled = false;
-        FrameContent = new CurrentElectives(Store!);
+        // FrameContent = new SemesterElectives(Store!);
     }
 
     #endregion
