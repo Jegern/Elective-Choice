@@ -8,7 +8,7 @@ public static class DatabaseAccess
 {
     private static NpgsqlConnection SqlConnection { get; } =
         new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
-    
+
     public static string GetPersonNameBy(string id)
     {
         SqlConnection.Open();
@@ -23,7 +23,7 @@ public static class DatabaseAccess
                          FROM students) AS names
                      WHERE id = '{id}'",
             SqlConnection).ExecuteScalar()?.ToString();
-        
+
         SqlConnection.Close();
 
         return name!;
@@ -54,13 +54,15 @@ public static class DatabaseAccess
 
         var semesters = new List<Semester>();
         var reader = new NpgsqlCommand(
-            @"SELECT year, spring
+            @"SELECT year, spring, COUNT(elective_id)
                      FROM past_semesters
-                     GROUP BY year, spring
-                     ORDER BY year DESC", 
+                     GROUP BY year, spring",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            semesters.Add(new Semester(reader.GetInt32(0), reader.GetBoolean(1)));
+            semesters.Add(new Semester(
+                reader.GetInt32(0), 
+                reader.GetBoolean(1), 
+                reader.GetInt32(2)));
 
         SqlConnection.Close();
 

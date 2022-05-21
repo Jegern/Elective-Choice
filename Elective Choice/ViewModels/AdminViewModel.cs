@@ -179,7 +179,7 @@ public class AdminViewModel : ViewModel
     private void StatisticsCommand_OnExecute(object? parameter)
     {
         StatisticsEnabled = false;
-        FrameContent = new Statistics(Store!);
+        FrameContent = new PastSemesters(Store!);
     }
 
     #endregion

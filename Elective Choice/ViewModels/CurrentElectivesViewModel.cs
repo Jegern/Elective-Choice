@@ -35,8 +35,6 @@ public class CurrentElectivesViewModel : ViewModel
             OpenElectiveCommand_CanExecute);
     }
 
-    #region Commands
-
     #region OpenElectiveCommand
 
     public Command? OpenElectiveCommand { get; }
@@ -47,8 +45,6 @@ public class CurrentElectivesViewModel : ViewModel
     {
         Store?.TriggerElectiveStatisticsLoading(((Elective) parameter!).Name);
     }
-
-    #endregion
 
     #endregion
 }
