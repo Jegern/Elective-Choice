@@ -13,7 +13,7 @@ public class AdminViewModel : ViewModel
     private string Email { get; set; } = string.Empty;
     private Page? CurrentElectives { get; set; }
     private Page? _frameContent;
-    private string _fullname = string.Empty;
+    private string _name = string.Empty;
     private bool _editEnabled;
     private bool _statisticsEnabled = true;
     private bool _algorithmEnabled = true;
@@ -26,10 +26,10 @@ public class AdminViewModel : ViewModel
         set => Set(ref _frameContent, value);
     }
 
-    public string Fullname
+    public string Name
     {
-        get => _fullname;
-        set => Set(ref _fullname, value);
+        get => _name;
+        set => Set(ref _name, value);
     }
 
     public bool EditEnabled
@@ -85,8 +85,9 @@ public class AdminViewModel : ViewModel
 
     public AdminViewModel(ViewModelStore store) : base(store)
     {
-        store.LoginCompleted += LoginCompletedOnChanged;
-        store.ElectiveStatisticsLoading += ElectiveStatisticsLoading_OnChanged;
+        store.LoginCompleted += Login_OnCompleted;
+        store.ElectiveStatisticsLoading += ElectiveStatistics_OnLoading;
+        store.ElectiveStatisticsClosed += ElectiveStatistics_OnClosed;
 
         FrameContent = new CurrentElectives(Store!);
 
@@ -109,17 +110,22 @@ public class AdminViewModel : ViewModel
 
     #region Event Subscription
 
-    private void LoginCompletedOnChanged(string email)
+    private void Login_OnCompleted(string email)
     {
         Email = email;
-        // TODO: Реализовать обращение к БД и получение некоторых полей
+        Name = DatabaseAccess.GetPersonNameBy(email.Substring(4, 10));
     }
 
-    private void ElectiveStatisticsLoading_OnChanged(string name, int year, string season)
+    private void ElectiveStatistics_OnLoading(string name, int? year, bool? spring)
     {
         CurrentElectives = FrameContent;
         FrameContent = new ElectiveStatistics(Store!);
-        Store?.TriggerElectiveStatisticsLoaded(name, year, season);
+        Store?.TriggerElectiveStatisticsLoaded(name, year, spring);
+    }
+
+    private void ElectiveStatistics_OnClosed()
+    {
+        FrameContent = CurrentElectives;
     }
 
     #endregion

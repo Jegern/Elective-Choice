@@ -1,4 +1,4 @@
-*.suo
+﻿*.suo
 *.user
 .vs/
 **/.idea/

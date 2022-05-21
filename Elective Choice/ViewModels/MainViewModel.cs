@@ -30,10 +30,10 @@ public class MainViewModel : ViewModel
 
     public MainViewModel()
     {
-        Store.SuccessfulLogin += SuccessfulLogin_OnChanged;
+        Store.LoginSucceed += Login_OnSucceed;
     }
 
-    private void SuccessfulLogin_OnChanged(string email, bool rights)
+    private void Login_OnSucceed(string email, bool rights)
     {
         FrameContent = rights ? new Admin(Store) : new Student(Store);
         ResizeMode = ResizeMode.CanResize;

@@ -30,7 +30,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn Header="Время года"
-                                    Binding="{Binding (mdls:Semester.Season)}"
+                                    Binding="{Binding (mdls:Semester.Spring)}"
                                     Width="100"
                                     FontSize="15"
                                     FontWeight="Normal"

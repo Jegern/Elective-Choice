@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using System.Reflection;
+using Npgsql;
 
 namespace Database
 {
@@ -7,59 +8,147 @@ namespace Database
         private static NpgsqlConnection SqlConnection { get; } =
             new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
 
-        public static void FillDatabaseWithStudents()
+        private static void GenerateStudents(int numberOfStudents = 5084)
         {
-            var filePath = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName +
-                           "/Student Marks/";
-            var xLines = File.ReadAllLines(filePath + "X_train.csv")
-                .Select(x => x.Split(';'))
-                .ToArray();
-            var yLines = File.ReadAllLines(filePath + "y_train.csv")
-                .Select(x => x.Split(';'))
-                .ToArray();
+            var studentExams = ReadStudentExams();
+            var marks = ReadMarks();
 
             var studentMarks = new Dictionary<string, List<int>>();
-            for (var i = 1; i < xLines.Length; i++)
-            {
-                var studentId = xLines[i][0].Split(',')[1];
-                var studentMark = Convert.ToInt32(yLines[i][0].Split(',')[1]);
-                if (studentMarks.ContainsKey(studentId))
-                    studentMarks[studentId].Add(studentMark);
+            for (var i = 1; i < studentExams.Count; i++)
+                if (studentMarks.ContainsKey(studentExams[i]))
+                    studentMarks[studentExams[i]].Add(marks[i]);
                 else
-                    studentMarks.Add(studentId, new List<int> {studentMark});
-            }
+                    studentMarks.Add(studentExams[i], new List<int> {marks[i]});
 
+            WriteStudents(studentMarks, numberOfStudents);
+        }
+
+        private static List<string> ReadStudentExams()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var studentExams = new List<string>();
+            using var stream = assembly.GetManifestResourceStream("Database.Students.X_train.csv");
+            using var reader = new StreamReader(stream!);
+            while (!reader.EndOfStream)
+                studentExams.Add(reader.ReadLine()!.Split(',')[1]);
+            return studentExams;
+        }
+
+        private static List<int> ReadMarks()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var marks = new List<int>();
+            using var stream = assembly.GetManifestResourceStream("Database.Students.y_train.csv");
+            using var reader = new StreamReader(stream!);
+            while (!reader.EndOfStream)
+                marks.Add(Convert.ToInt32(reader.ReadLine()!.Split(',')[1]));
+            return marks;
+        }
+
+        private static void WriteStudents(Dictionary<string, List<int>> studentMarks, int numberOfStudents)
+        {
             SqlConnection.Open();
 
             for (var i = 0; i < studentMarks.Count; i++)
             {
                 var (key, value) = studentMarks.ElementAt(i);
                 new NpgsqlCommand(
-                    $@"INSERT INTO students VALUES ('{key.PadLeft(10, '0')}', {value.Average()}, 'Студент {i}')",
+                    $@"INSERT INTO students 
+                              VALUES ('{key.PadLeft(10, '0')}',
+                                      {value.Average()},
+                                      'Студент {i + 1}',
+                                      {i < numberOfStudents})",
                     SqlConnection).ExecuteNonQuery();
             }
 
             SqlConnection.Close();
         }
 
-        public static void DistributeElectivesByDay()
+        private static void DistributeElectivesByDay(int firstDay = 2, int lastDay = 5)
+        {
+            var electives = ReadElectivesId();
+            var electiveDays = electives.ToDictionary(
+                x => x,
+                _ => new Random().Next(firstDay, lastDay + 1));
+            WriteElectiveDays(electiveDays);
+        }
+
+        private static List<int> ReadElectivesId()
         {
             SqlConnection.Open();
 
-            Dictionary<int, int> electiveDays;
-            using (var reader = new NpgsqlCommand(@"SELECT id 
-                                                           FROM electives 
-                                                           ORDER BY id", SqlConnection).ExecuteReader())
-            {
-                electiveDays = new Dictionary<int, int>();
-                while (reader.Read())
-                    electiveDays.Add(reader.GetInt32(0), new Random().Next(2, 6));
-            }
+            var electives = new List<int>();
+            var reader = new NpgsqlCommand(@"SELECT id 
+                                                    FROM electives 
+                                                    ORDER BY id", 
+                SqlConnection).ExecuteReader();
+            while (reader.Read())
+                electives.Add(reader.GetInt32(0));
+            reader.Close();
+
+            SqlConnection.Close();
+
+            return electives;
+        }
+
+        private static void WriteElectiveDays(Dictionary<int, int> electiveDays)
+        {
+            SqlConnection.Open();
 
             foreach (var (key, value) in electiveDays)
                 new NpgsqlCommand(
-                    $@"INSERT INTO elective_days VALUES ({key}, {value})",
+                    $@"INSERT INTO elective_days 
+                              VALUES ({key}, {value})",
                     SqlConnection).ExecuteNonQuery();
+
+            SqlConnection.Close();
+        }
+
+        private static void GenerateChoices()
+        {
+            var students = ReadStudentId();
+            var electives = ReadElectivesId();
+            
+            var studentChoices = new Dictionary<string, int[]>();
+            foreach (var student in students)
+            {
+                var choices = Enumerable.Range(1, electives.Count)
+                    .OrderBy(_ => new Random().Next())
+                    .Take(5)
+                    .ToArray();
+                studentChoices.Add(student, choices);
+            }
+            
+            WriteSelectedElectives(studentChoices);
+        }
+
+        private static List<string> ReadStudentId()
+        {
+            SqlConnection.Open();
+            
+            var students = new List<string>();
+            var reader = new NpgsqlCommand(@"SELECT id 
+                                                    FROM students", 
+                SqlConnection).ExecuteReader();
+            while (reader.Read())
+                students.Add(reader.GetString(0));
+            reader.Close();
+            
+            SqlConnection.Close();
+
+            return students;
+        }
+
+        private static void WriteSelectedElectives(Dictionary<string, int[]> studentChoices)
+        {
+            SqlConnection.Open();
+
+            foreach (var (student, choices) in studentChoices)
+                for (var i = 0; i < choices.Length; i++)
+                    new NpgsqlCommand(
+                        $@"INSERT INTO selected_electives 
+                                  VALUES ('{student}', {choices[i]}, {i + 1}, {false})",
+                        SqlConnection).ExecuteNonQuery();
 
             SqlConnection.Close();
         }

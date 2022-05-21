@@ -9,7 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
       <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Student Dataset\X_train.csv" />
+      <EmbeddedResource Include="Students\X_train.csv" />
+      <None Remove="Student Dataset\y_train.csv" />
+      <EmbeddedResource Include="Students\y_train.csv" />
     </ItemGroup>
 
 </Project>

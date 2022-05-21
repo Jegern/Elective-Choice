@@ -11,12 +11,11 @@ public class LoginViewModel : ViewModel
 {
     #region Fields
 
-    private string _email = "stud0000123456@study.utmn.ru";
+    private string _email = "stud0000211632@study.utmn.ru";
     private string _password = "string.Empty";
 
-    private ImageSource _lockSource =
-        new BitmapImage(
-            new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
+    private ImageSource _lockSource = new BitmapImage(
+        new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
 
     private bool Rights { get; set; }
 
@@ -42,7 +41,6 @@ public class LoginViewModel : ViewModel
 
     public LoginViewModel()
     {
-        
     }
 
     public LoginViewModel(ViewModelStore store) : base(store)
@@ -61,14 +59,14 @@ public class LoginViewModel : ViewModel
 
     public Command? SignInCommand { get; }
 
-    private bool SignInCommand_CanExecute(object? parameter) => 
+    private bool SignInCommand_CanExecute(object? parameter) =>
         Email.Length > 0 &&
         Password.Length > 0;
 
     private void SignInCommand_OnExecute(object? parameter)
     {
         if (CheckUserData())
-            Store?.TriggerSuccessfulLogin(Email, Rights);
+            Store?.TriggerLoginSucceed(Email, Rights);
     }
 
     private bool CheckUserData()

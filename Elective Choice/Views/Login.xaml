@@ -55,10 +55,11 @@
                         Content="Войти" />
                 <TextBlock Text="Забыли пароль?"
                            FontSize="15"
-                           Foreground="#C3C3C3">
+                           Foreground="#C3C3C3"
+                           Cursor="Hand">
                     <TextBlock.InputBindings>
-                        <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding PasswordForgottenCommand}"/>
+                        <MouseBinding MouseAction="LeftClick"
+                                      Command="{Binding PasswordForgottenCommand}" />
                     </TextBlock.InputBindings>
                 </TextBlock>
             </StackPanel>

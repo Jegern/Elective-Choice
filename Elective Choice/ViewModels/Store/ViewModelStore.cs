@@ -1,28 +1,26 @@
 using System;
-using Microsoft.VisualBasic;
-using Npgsql;
 
 namespace Elective_Choice.ViewModels.Store;
 
 public class ViewModelStore
 {
-    public NpgsqlConnection SqlConnection { get; } =
-        new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
-
-    public event Action<string, bool>? SuccessfulLogin;
+    public event Action<string, bool>? LoginSucceed;
     public event Action<string>? LoginCompleted;
-    public event Action<string, int, string>? ElectiveStatisticsLoading;
-    public event Action<string, int, string>? ElectiveStatisticsLoaded;
+    public event Action<string, int?, bool?>? ElectiveStatisticsLoading;
+    public event Action<string, int?, bool?>? ElectiveStatisticsLoaded;
+    public event Action? ElectiveStatisticsClosed; 
 
-    public void TriggerSuccessfulLogin(string email, bool rights) =>
-        SuccessfulLogin?.Invoke(email, rights);
+    public void TriggerLoginSucceed(string email, bool rights) =>
+        LoginSucceed?.Invoke(email, rights);
 
     public void TriggerLoginCompleted(string email) =>
         LoginCompleted?.Invoke(email);
 
-    public void TriggerElectiveStatisticsLoading(string name, int year, string season) =>
+    public void TriggerElectiveStatisticsLoading(string name, int? year = null, bool? season = null) =>
         ElectiveStatisticsLoading?.Invoke(name, year, season);
 
-    public void TriggerElectiveStatisticsLoaded(string name, int year, string season) =>
+    public void TriggerElectiveStatisticsLoaded(string name, int? year, bool? season) =>
         ElectiveStatisticsLoaded?.Invoke(name, year, season);
+
+    public void TriggerElectiveStatisticsClosed() => ElectiveStatisticsClosed?.Invoke();
 }

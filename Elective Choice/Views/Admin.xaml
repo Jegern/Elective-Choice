@@ -67,8 +67,9 @@
                     </Image.InputBindings>
                 </Image>
                 <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                           Text="{Binding Fullname}"
-                           Margin="0, -5, 0, 20" />
+                           Text="{Binding Name}"
+                           FontSize="15"
+                           Margin="0, 5, 0, 20" />
             </Grid>
             <StackPanel Grid.Row="1">
                 <Grid>
