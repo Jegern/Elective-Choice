@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Elective_Choice.Converters;
+namespace Elective_Choice.Infrastructure.Converters;
 
 public class IntToRadiusConverter : IValueConverter
 {

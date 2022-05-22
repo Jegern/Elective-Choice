@@ -80,7 +80,7 @@ namespace Database
             var electives = new List<int>();
             var reader = new NpgsqlCommand(@"SELECT id 
                                                     FROM electives 
-                                                    ORDER BY id", 
+                                                    ORDER BY id",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
                 electives.Add(reader.GetInt32(0));
@@ -108,7 +108,7 @@ namespace Database
         {
             var students = ReadStudentId();
             var electives = ReadElectivesId();
-            
+
             var studentChoices = new Dictionary<string, int[]>();
             foreach (var student in students)
             {
@@ -118,22 +118,22 @@ namespace Database
                     .ToArray();
                 studentChoices.Add(student, choices);
             }
-            
+
             WriteSelectedElectives(studentChoices);
         }
 
         private static List<string> ReadStudentId()
         {
             SqlConnection.Open();
-            
+
             var students = new List<string>();
             var reader = new NpgsqlCommand(@"SELECT id 
-                                                    FROM students", 
+                                                    FROM students",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
                 students.Add(reader.GetString(0));
             reader.Close();
-            
+
             SqlConnection.Close();
 
             return students;

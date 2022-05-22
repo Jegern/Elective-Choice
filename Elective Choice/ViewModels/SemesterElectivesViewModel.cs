@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
-using Elective_Choice.Commands.Base;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.ViewModels;
 
@@ -38,9 +38,9 @@ public class SemesterElectivesViewModel : ViewModel
     {
     }
 
-    public SemesterElectivesViewModel(ViewModelStore store) : base(store)
+    public SemesterElectivesViewModel(EventSource source) : base(source)
     {
-        store.SemesterLoaded += Semester_OnLoaded;
+        source.SemesterLoaded += Semester_OnLoaded;
 
         OpenElectiveCommand = new Command(
             OpenElectiveCommand_OnExecuted,
@@ -67,7 +67,7 @@ public class SemesterElectivesViewModel : ViewModel
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
-        Store?.TriggerElectiveStatisticsLoading(((Elective) parameter!).Name, Year, Spring == "Весна");
+        Source?.RaiseStatisticsLoading(((Elective) parameter!).Name, Year, Spring == "Весна");
     }
 
     #endregion

@@ -1,11 +1,11 @@
-﻿using Elective_Choice.ViewModels;
-using Elective_Choice.ViewModels.Store;
+﻿using Elective_Choice.Infrastructure.EventSource;
+using Elective_Choice.ViewModels;
 
 namespace Elective_Choice.Views;
 
 public partial class SemesterElectives
 {
-    public SemesterElectives(ViewModelStore store)
+    public SemesterElectives(EventSource store)
     {
         InitializeComponent();
         DataContext = new SemesterElectivesViewModel(store);

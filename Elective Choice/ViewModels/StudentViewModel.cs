@@ -1,5 +1,5 @@
-﻿using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
+﻿using Elective_Choice.Infrastructure.EventSource;
+using Elective_Choice.ViewModels.Base;
 
 namespace Elective_Choice.ViewModels;
 
@@ -12,8 +12,8 @@ public class StudentViewModel : ViewModel
         
     }
 
-    public StudentViewModel(ViewModelStore store) : base(store)
+    public StudentViewModel(EventSource source) : base(source)
     {
-        store.LoginCompleted += email => Email = email;
+        source.LoginCompleted += email => Email = email;
     }
 }

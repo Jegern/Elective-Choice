@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Views;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.ViewModels;
 
@@ -10,8 +10,8 @@ public class MainViewModel : ViewModel
 {
     #region Fields
 
-    private new static ViewModelStore Store { get; } = new();
-    private Page _frameContent = new Login(Store);
+    private new static EventSource Source { get; } = new();
+    private Page _frameContent = new Login(Source);
     private ResizeMode _resizeMode = ResizeMode.CanMinimize;
 
     public Page FrameContent
@@ -30,13 +30,13 @@ public class MainViewModel : ViewModel
 
     public MainViewModel()
     {
-        Store.LoginSucceed += Login_OnSucceed;
+        Source.LoginSucceed += Login_OnSucceed;
     }
 
     private void Login_OnSucceed(string email, bool rights)
     {
-        FrameContent = rights ? new Admin(Store) : new Student(Store);
+        FrameContent = rights ? new Admin(Source) : new Student(Source);
         ResizeMode = ResizeMode.CanResize;
-        Store.TriggerLoginCompleted(email);
+        Source.RaiseLoginCompleted(email);
     }
 }

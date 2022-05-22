@@ -3,11 +3,11 @@ using Elective_Choice.ViewModels;
 
 namespace Elective_Choice.Views;
 
-public partial class Login
+public partial class Statistics
 {
-    public Login(EventSource store)
+    public Statistics(EventSource store)
     {
         InitializeComponent();
-        DataContext = new LoginViewModel(store);
+        DataContext = new StatisticsViewModel(store);
     }
 }

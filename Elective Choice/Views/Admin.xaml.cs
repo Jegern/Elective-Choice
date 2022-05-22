@@ -1,14 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels;
-using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.Views;
 
 public partial class Admin
 {
-    public Admin(ViewModelStore store)
+    public Admin(EventSource store)
     {
         InitializeComponent();
         DataContext = new AdminViewModel(store);

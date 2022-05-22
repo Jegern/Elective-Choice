@@ -1,12 +1,12 @@
 ﻿using System.Windows;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels;
-using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.Views;
 
 public partial class Student
 {
-    public Student(ViewModelStore store)
+    public Student(EventSource store)
     {
         InitializeComponent();
         DataContext = new StudentViewModel(store);

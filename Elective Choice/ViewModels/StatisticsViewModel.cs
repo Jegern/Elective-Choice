@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Elective_Choice.Commands.Base;
+using System.Windows;
+using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventArgs;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
 using LiveChartsCore;
 using LiveChartsCore.Kernel;
 using LiveChartsCore.SkiaSharpView;
@@ -14,7 +16,7 @@ using SkiaSharp;
 
 namespace Elective_Choice.ViewModels;
 
-public class ElectiveStatisticsViewModel : ViewModel
+public class StatisticsViewModel : ViewModel
 {
     #region Fields
 
@@ -25,7 +27,7 @@ public class ElectiveStatisticsViewModel : ViewModel
         get => _name;
         set => Set(ref _name, value);
     }
-
+    
     public List<ISeries> Series { get; set; } = new()
     {
         new StackedColumnSeries<int>
@@ -70,7 +72,7 @@ public class ElectiveStatisticsViewModel : ViewModel
         var chart = (CartesianChart) point.Context.Chart;
         var totalSelected = 0d;
         for (var i = 0; i < 5; i++)
-            totalSelected += ((List<int>) chart.Series.ElementAt(i).Values!).Sum();
+            totalSelected += ((int[]) chart.Series.ElementAt(i).Values!).Sum();
         return $"{Math.Round(100 * point.PrimaryValue / totalSelected, 2)}%";
     }
 
@@ -93,30 +95,34 @@ public class ElectiveStatisticsViewModel : ViewModel
 
     #endregion
 
-    public ElectiveStatisticsViewModel()
+    public StatisticsViewModel()
     {
     }
 
-    public ElectiveStatisticsViewModel(ViewModelStore store) : base(store)
+    public StatisticsViewModel(EventSource source) : base(source)
     {
-        store.ElectiveStatisticsLoaded += ElectiveStatistics_OnLoaded;
+        source.StatisticsLoaded += Statistics_OnLoaded;
+        // WeakEventManager<EventSource, StatisticsEventArgs>.AddHandler(
+        //     source, 
+        //     nameof(EventSource.StatisticsLoaded), 
+        //     Statistics_OnLoaded);
 
         BackToListCommand = new Command(
             BackToListCommand_OnExecuted,
             BackToListCommand_CanExecute);
     }
-
+    
     #region Event Subscription
 
-    private void ElectiveStatistics_OnLoaded(string name, int? year, bool? spring)
+    private void Statistics_OnLoaded(object? sender, StatisticsEventArgs e)
     {
         // TODO: Исправить множественную подписку на событие
-        Name = name;
+        Name = e.Name;
 
-        if (year is null || spring is null)
-            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(name));
+        if (e.Year is null || e.Spring is null)
+            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name));
         else
-            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(name, (int) year, (bool) spring));
+            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name, (int) e.Year, (bool) e.Spring));
     }
 
     private void FillSeriesWith(IReadOnlyList<int[]> values)
@@ -135,7 +141,7 @@ public class ElectiveStatisticsViewModel : ViewModel
 
     private void BackToListCommand_OnExecuted(object? parameter)
     {
-        Store?.TriggerElectiveStatisticsClosed();
+        Source?.RaiseStatisticsClosed();
     }
 
     #endregion

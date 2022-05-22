@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Elective_Choice.ViewModels.Store;
+using Elective_Choice.Infrastructure.EventSource;
 
 namespace Elective_Choice.ViewModels.Base;
 
@@ -18,16 +18,15 @@ public abstract class ViewModel : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
         return true;
     }
-    
-    protected ViewModelStore? Store { get; }
+
+    protected EventSource? Source { get; }
 
     protected ViewModel()
     {
-        
     }
 
-    protected ViewModel(ViewModelStore? store)
+    protected ViewModel(EventSource? source)
     {
-        Store = store;
+        Source = source;
     }
 }

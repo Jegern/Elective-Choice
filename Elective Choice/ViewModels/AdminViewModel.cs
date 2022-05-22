@@ -1,7 +1,8 @@
 ﻿using System.Windows.Controls;
-using Elective_Choice.Commands.Base;
+using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventArgs;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
 using Elective_Choice.Views;
 
 namespace Elective_Choice.ViewModels;
@@ -83,12 +84,12 @@ public class AdminViewModel : ViewModel
     {
     }
 
-    public AdminViewModel(ViewModelStore store) : base(store)
+    public AdminViewModel(EventSource source) : base(source)
     {
-        store.LoginCompleted += Login_OnCompleted;
-        store.ElectiveStatisticsLoading += ElectiveStatistics_OnLoading;
-        store.ElectiveStatisticsClosed += ElectiveStatistics_OnClosed;
-        store.SemesterLoading += Semester_OnLoading;
+        source.LoginCompleted += Login_OnCompleted;
+        source.StatisticsLoading += StatisticsOnLoading;
+        source.StatisticsClosed += StatisticsOnClosed;
+        source.SemesterLoading += Semester_OnLoading;
 
         // FrameContent = new SemesterElectives(Store!);
 
@@ -117,22 +118,22 @@ public class AdminViewModel : ViewModel
         Name = DatabaseAccess.GetPersonNameBy(email.Substring(4, 10));
     }
 
-    private void ElectiveStatistics_OnLoading(string name, int? year, bool? spring)
+    private void StatisticsOnLoading(string name, int? year, bool? spring)
     {
         CurrentElectives = FrameContent;
-        FrameContent = new ElectiveStatistics(Store!);
-        Store?.TriggerElectiveStatisticsLoaded(name, year, spring);
+        FrameContent = new Statistics(Source!);
+        Source?.RaiseStatisticsLoaded(this, new StatisticsEventArgs(name, year, spring));
     }
 
-    private void ElectiveStatistics_OnClosed()
+    private void StatisticsOnClosed()
     {
         FrameContent = CurrentElectives;
     }
 
     private void Semester_OnLoading(int year, bool spring)
     {
-        FrameContent = new SemesterElectives(Store!);
-        Store?.TriggerSemesterLoaded(year, spring);
+        FrameContent = new SemesterElectives(Source!);
+        Source?.RaiseSemesterLoaded(year, spring);
     }
 
     #endregion
@@ -186,7 +187,7 @@ public class AdminViewModel : ViewModel
     private void StatisticsCommand_OnExecute(object? parameter)
     {
         StatisticsEnabled = false;
-        FrameContent = new PastSemesters(Store!);
+        FrameContent = new Semesters(Source!);
     }
 
     #endregion

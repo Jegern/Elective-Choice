@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Elective_Choice.Commands.Base;
+using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.ViewModels.Store;
 
 namespace Elective_Choice.ViewModels;
 
@@ -43,7 +43,7 @@ public class LoginViewModel : ViewModel
     {
     }
 
-    public LoginViewModel(ViewModelStore store) : base(store)
+    public LoginViewModel(EventSource source) : base(source)
     {
         SignInCommand = new Command(
             SignInCommand_OnExecute,
@@ -66,7 +66,7 @@ public class LoginViewModel : ViewModel
     private void SignInCommand_OnExecute(object? parameter)
     {
         if (CheckUserData())
-            Store?.TriggerLoginSucceed(Email, Rights);
+            Source?.RaiseLoginSucceed(Email, Rights);
     }
 
     private bool CheckUserData()
