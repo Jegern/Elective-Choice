@@ -103,7 +103,7 @@
             <StackPanel Grid.Row="2" />
             <StackPanel Grid.Row="3">
                 <TextBlock Text="{Binding CurrentDate}" />
-                <TextBlock Text="{Binding BeforeDistribution}" />
+                <TextBlock Text="{Binding Countdown}" />
             </StackPanel>
         </Grid>
         <Frame Content="{Binding FrameContent}"

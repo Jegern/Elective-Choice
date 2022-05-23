@@ -1,4 +1,5 @@
-﻿using Elective_Choice.Infrastructure.EventSource;
+﻿using Elective_Choice.Infrastructure.EventArgs;
+using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
 
 namespace Elective_Choice.ViewModels;
@@ -14,6 +15,11 @@ public class StudentViewModel : ViewModel
 
     public StudentViewModel(EventSource source) : base(source)
     {
-        source.LoginCompleted += email => Email = email;
+        source.LoginCompleted += Login_OnCompleted;
+    }
+
+    private void Login_OnCompleted(object? sender, LoginEventArgs e)
+    {
+        Email = e.Email;
     }
 }

@@ -10,6 +10,14 @@
     <Page.DataContext>
         <vms:StatisticsViewModel />
     </Page.DataContext>
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Electives/TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,13 +42,7 @@
                 </Image.InputBindings>
             </Image>
             <TextBlock Grid.Column="1"
-                       Text="{Binding Name}"
-                       Foreground="White"
-                       FontSize="25"
-                       TextWrapping="Wrap"
-                       TextAlignment="Center"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center" />
+                       Text="{Binding Name}" />
         </Grid>
         <lvc:CartesianChart Grid.Row="1"
                             Series="{Binding Series}"

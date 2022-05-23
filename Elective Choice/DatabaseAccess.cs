@@ -29,25 +29,6 @@ public static class DatabaseAccess
         return name!;
     }
 
-    public static List<Elective> GetCurrentElectives()
-    {
-        SqlConnection.Open();
-
-        var electives = new List<Elective>();
-        var reader = new NpgsqlCommand(
-            @"SELECT name, capacity 
-                     FROM electives
-                     WHERE exist
-                     ORDER BY name",
-            SqlConnection).ExecuteReader();
-        while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
-
-        SqlConnection.Close();
-
-        return electives;
-    }
-
     public static List<Elective> GetSemesterElectives(int year, bool spring)
     {
         SqlConnection.Open();
@@ -96,7 +77,8 @@ public static class DatabaseAccess
         SqlConnection.Open();
 
         var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
-        for (double i = 0d, performance = 3d; performance <= 5d; i++, performance += 0.5)
+        var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
+        for (var i = 0; i < performances.Length - 1; i++)
         {
             var reader = new NpgsqlCommand(
                 $@"SELECT priority, Count(*) AS number_of_elections
@@ -104,11 +86,11 @@ public static class DatabaseAccess
                               JOIN electives ON selected_electives.elective_id = electives.id
                               JOIN students ON selected_electives.student_id = students.id
                           WHERE electives.name = '{name}'
-                              AND performance >= {performance} AND performance < {performance + 0.5}
+                              AND performance >= {performances[i]} AND performance < {performances[i + 1]}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
-                values[(int) i][reader.GetInt32(0)] = reader.GetInt32(1);
+                values[i][reader.GetInt32(0) - 1] = reader.GetInt32(1);
 
             reader.Close();
         }
@@ -123,7 +105,8 @@ public static class DatabaseAccess
         SqlConnection.Open();
 
         var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
-        for (double i = 0d, performance = 3d; performance <= 5d; i++, performance += 0.5)
+        var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
+        for (var i = 0; i < performances.Length - 1; i++)
         {
             var reader = new NpgsqlCommand(
                 $@"SELECT priority, Count(*) AS number_of_elections
@@ -131,11 +114,11 @@ public static class DatabaseAccess
                               JOIN electives ON past_semesters.elective_id = electives.id
                               JOIN students ON past_semesters.student_id = students.id
                           WHERE electives.name = '{name}' AND year = {year} AND spring = {spring}
-                              AND performance >= {performance} AND performance < {performance + 0.5}
+                              AND performance >= {performances[i]} AND performance < {performances[i + 1]}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
-                values[(int) i][reader.GetInt32(0)] = reader.GetInt32(1);
+                values[i][reader.GetInt32(0) - 1] = reader.GetInt32(1);
 
             reader.Close();
         }
@@ -143,5 +126,55 @@ public static class DatabaseAccess
         SqlConnection.Close();
 
         return values;
+    }
+
+    public static List<Elective> GetIncompleteElectives()
+    {
+        SqlConnection.Open();
+
+        var electives = new List<Elective>();
+        var reader = new NpgsqlCommand(
+            @"SELECT name, capacity
+                         FROM (
+                             SELECT count(id) AS counts, name, capacity
+                             FROM selected_electives JOIN (
+                                 SELECT id, name, capacity
+                                 FROM electives
+                                 WHERE exist) AS current_electives ON elective_id = id
+                             WHERE assigned = false
+                             GROUP BY id, name, capacity) AS elective_counts
+                     WHERE counts < 0.8 * capacity OR counts < 15",
+            SqlConnection).ExecuteReader();
+        while (reader.Read())
+            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+
+        SqlConnection.Close();
+
+        return electives;
+    }
+
+    public static List<Elective> GetOverflowedElectives()
+    {
+        SqlConnection.Open();
+
+        var electives = new List<Elective>();
+        var reader = new NpgsqlCommand(
+            @"SELECT name, capacity
+                         FROM (
+                             SELECT count(id) AS counts, name, capacity
+                             FROM selected_electives JOIN (
+                                 SELECT id, name, capacity
+                                 FROM electives
+                                 WHERE exist) AS current_electives ON elective_id = id
+                             WHERE assigned = false
+                             GROUP BY id, name, capacity) AS elective_counts
+                     WHERE counts > 3 * capacity",
+            SqlConnection).ExecuteReader();
+        while (reader.Read())
+            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+
+        SqlConnection.Close();
+
+        return electives;
     }
 }

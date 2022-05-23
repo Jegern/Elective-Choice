@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
 
@@ -66,7 +67,7 @@ public class LoginViewModel : ViewModel
     private void SignInCommand_OnExecute(object? parameter)
     {
         if (CheckUserData())
-            Source?.RaiseLoginSucceed(Email, Rights);
+            Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, Rights));
     }
 
     private bool CheckUserData()

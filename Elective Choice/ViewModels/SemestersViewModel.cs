@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Base;
@@ -31,7 +32,8 @@ public class SemestersViewModel : ViewModel
 
     private void OpenSemesterCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseSemesterLoading(((Semester) parameter!).Year, ((Semester) parameter).Spring == "Весна");
+        Source?.RaiseSemesterLoading(this,
+            new SemesterEventArgs(((Semester) parameter!).Year, ((Semester) parameter).Spring == "Весна"));
     }
 
     #endregion

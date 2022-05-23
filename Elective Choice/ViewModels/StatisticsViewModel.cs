@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -27,42 +26,37 @@ public class StatisticsViewModel : ViewModel
         get => _name;
         set => Set(ref _name, value);
     }
-    
-    public List<ISeries> Series { get; set; } = new()
+
+    public static List<ISeries> Series { get; set; } = new()
     {
         new StackedColumnSeries<int>
         {
-            Values = new List<int>(),
-            Name = "Диапазон [3.0; 3.5)",
-            Fill = new SolidColorPaint(new SKColor(255, 51, 0)),
+            Values = new int[5],
+            Name = "Диапазон [3.0; 4.0)",
+            Fill = new SolidColorPaint(new SKColor(255, 70, 0)),
             TooltipLabelFormatter = TooltipLabelFormatter
         },
         new StackedColumnSeries<int>
         {
-            Values = new List<int>(),
-            Name = "Диапазон [3.5; 4.0)",
-            Fill = new SolidColorPaint(new SKColor(255, 102, 0)),
+            Values = new int[5],
+            Name = "Диапазон [4.0; 4.75)",
+            Fill = new SolidColorPaint(new SKColor(255, 155, 0)),
             TooltipLabelFormatter = TooltipLabelFormatter
         },
         new StackedColumnSeries<int>
         {
-            Values = new List<int>(),
-            Name = "Диапазон [4.0; 4.5)",
-            Fill = new SolidColorPaint(new SKColor(255, 153, 0)),
+            Values = new int[5],
+            Name = "Диапазон [4.75; 5]",
+            Fill = new SolidColorPaint(new SKColor(255, 230, 0)),
             TooltipLabelFormatter = TooltipLabelFormatter
         },
-        new StackedColumnSeries<int>
+        new ColumnSeries<int>
         {
-            Values = new List<int>(),
-            Name = "Диапазон [4.5; 5)",
-            Fill = new SolidColorPaint(new SKColor(255, 204, 0)),
-            TooltipLabelFormatter = TooltipLabelFormatter
-        },
-        new StackedColumnSeries<int>
-        {
-            Values = new List<int>(),
-            Name = "Диапазон [5.0; 5.0]",
-            Fill = new SolidColorPaint(new SKColor(255, 255, 0)),
+            Values = new int[5],
+            Name = "Все диапазоны",
+            Fill = new SolidColorPaint(new SKColor(200, 200, 200)),
+            IgnoresBarPosition = true,
+            ZIndex = -1,
             TooltipLabelFormatter = TooltipLabelFormatter
         }
     };
@@ -71,7 +65,7 @@ public class StatisticsViewModel : ViewModel
     {
         var chart = (CartesianChart) point.Context.Chart;
         var totalSelected = 0d;
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < Series.Count; i++)
             totalSelected += ((int[]) chart.Series.ElementAt(i).Values!).Sum();
         return $"{Math.Round(100 * point.PrimaryValue / totalSelected, 2)}%";
     }
@@ -111,7 +105,7 @@ public class StatisticsViewModel : ViewModel
             BackToListCommand_OnExecuted,
             BackToListCommand_CanExecute);
     }
-    
+
     #region Event Subscription
 
     private void Statistics_OnLoaded(object? sender, StatisticsEventArgs e)
@@ -125,10 +119,16 @@ public class StatisticsViewModel : ViewModel
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name, (int) e.Year, (bool) e.Spring));
     }
 
-    private void FillSeriesWith(IReadOnlyList<int[]> values)
+    private static void FillSeriesWith(IReadOnlyList<int[]> values)
     {
         for (var i = 0; i < Series.Count; i++)
             Series[i].Values = values[i];
+        for (var i = 0; i < 5; i++)
+            ((int[]) Series.ElementAt(^1).Values!)[i] = values[0][i] +
+                                                        values[1][i] +
+                                                        values[2][i] +
+                                                        values[3][i] +
+                                                        values[4][i];
     }
 
     #endregion
@@ -141,7 +141,7 @@ public class StatisticsViewModel : ViewModel
 
     private void BackToListCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseStatisticsClosed();
+        Source?.RaiseStatisticsClosing(this, new StatisticsEventArgs(Name));
     }
 
     #endregion

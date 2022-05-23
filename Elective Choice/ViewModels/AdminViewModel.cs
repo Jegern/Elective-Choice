@@ -12,14 +12,15 @@ public class AdminViewModel : ViewModel
     #region Fields
 
     private string Email { get; set; } = string.Empty;
-    private Page? CurrentElectives { get; set; }
+    private Page? ElectivePage { get; set; }
+    private Page? SemesterPage { get; set; }
     private Page? _frameContent;
     private string _name = string.Empty;
     private bool _editEnabled;
     private bool _statisticsEnabled = true;
     private bool _algorithmEnabled = true;
     private string _currentDate = string.Empty;
-    private string _beforeDistribution = string.Empty;
+    private string _countdown = string.Empty;
 
     public Page? FrameContent
     {
@@ -72,10 +73,10 @@ public class AdminViewModel : ViewModel
         set => Set(ref _currentDate, value);
     }
 
-    public string BeforeDistribution
+    public string Countdown
     {
-        get => _beforeDistribution;
-        set => Set(ref _beforeDistribution, value);
+        get => _countdown;
+        set => Set(ref _countdown, value);
     }
 
     #endregion
@@ -88,10 +89,11 @@ public class AdminViewModel : ViewModel
     {
         source.LoginCompleted += Login_OnCompleted;
         source.StatisticsLoading += StatisticsOnLoading;
-        source.StatisticsClosed += StatisticsOnClosed;
+        source.StatisticsClosing += StatisticsOnClosing;
         source.SemesterLoading += Semester_OnLoading;
+        source.SemesterClosing += Semester_OnClosing;
 
-        // FrameContent = new SemesterElectives(Store!);
+        FrameContent = new ProblemElectives(Source!);
 
         MenuCommand = new Command(
             MenuCommand_OnExecute,
@@ -112,28 +114,34 @@ public class AdminViewModel : ViewModel
 
     #region Event Subscription
 
-    private void Login_OnCompleted(string email)
+    private void Login_OnCompleted(object? sender, LoginEventArgs e)
     {
-        Email = email;
-        Name = DatabaseAccess.GetPersonNameBy(email.Substring(4, 10));
+        Email = e.Email;
+        Name = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
     }
 
-    private void StatisticsOnLoading(string name, int? year, bool? spring)
+    private void StatisticsOnLoading(object? sender, StatisticsEventArgs e)
     {
-        CurrentElectives = FrameContent;
+        ElectivePage = FrameContent;
         FrameContent = new Statistics(Source!);
-        Source?.RaiseStatisticsLoaded(this, new StatisticsEventArgs(name, year, spring));
+        Source?.RaiseStatisticsLoaded(sender, e);
     }
 
-    private void StatisticsOnClosed()
+    private void StatisticsOnClosing(object? sender, StatisticsEventArgs e)
     {
-        FrameContent = CurrentElectives;
+        FrameContent = ElectivePage;
     }
 
-    private void Semester_OnLoading(int year, bool spring)
+    private void Semester_OnLoading(object? sender, SemesterEventArgs e)
     {
-        FrameContent = new SemesterElectives(Source!);
-        Source?.RaiseSemesterLoaded(year, spring);
+        SemesterPage = FrameContent;
+        FrameContent = new PastElectives(Source!);
+        Source?.RaiseSemesterLoaded(this, e);
+    }
+
+    private void Semester_OnClosing(object? sender, SemesterEventArgs e)
+    {
+        FrameContent = SemesterPage;
     }
 
     #endregion
@@ -173,7 +181,7 @@ public class AdminViewModel : ViewModel
     private void EditCommand_OnExecute(object? parameter)
     {
         EditEnabled = false;
-        // FrameContent = new SemesterElectives(Store!);
+        FrameContent = new ProblemElectives(Source!);
     }
 
     #endregion

@@ -5,33 +5,28 @@ namespace Elective_Choice.Infrastructure.EventSource;
 
 public class EventSource
 {
-    public int kek = 1;
-    
-    public event Action<string, bool>? LoginSucceed;
-    public event Action<string>? LoginCompleted;
-    public event Action<string, int?, bool?>? StatisticsLoading;
+    public event EventHandler<LoginEventArgs>? LoginSucceed;
+    public event EventHandler<LoginEventArgs>? LoginCompleted;
+    public event EventHandler<StatisticsEventArgs>? StatisticsLoading;
     public event EventHandler<StatisticsEventArgs>? StatisticsLoaded;
-    public event Action? StatisticsClosed;
-    public event Action<int, bool>? SemesterLoading;
-    public event Action<int, bool>? SemesterLoaded;
+    public event EventHandler<StatisticsEventArgs>? StatisticsClosing;
+    public event EventHandler<SemesterEventArgs>? SemesterLoading;
+    public event EventHandler<SemesterEventArgs>? SemesterLoaded;
+    public event EventHandler<SemesterEventArgs>? SemesterClosing;
 
-    public void RaiseLoginSucceed(string email, bool rights) =>
-        LoginSucceed?.Invoke(email, rights);
+    public void RaiseLoginSucceed(object? sender, LoginEventArgs e) => LoginSucceed?.Invoke(sender, e);
 
-    public void RaiseLoginCompleted(string email) =>
-        LoginCompleted?.Invoke(email);
+    public void RaiseLoginCompleted(object? sender, LoginEventArgs e) => LoginCompleted?.Invoke(sender, e);
 
-    public void RaiseStatisticsLoading(string name, int? year = null, bool? spring = null) =>
-        StatisticsLoading?.Invoke(name, year, spring);
+    public void RaiseStatisticsLoading(object? sender, StatisticsEventArgs e) => StatisticsLoading?.Invoke(sender, e);
 
-    public void RaiseStatisticsLoaded(object? sender, StatisticsEventArgs e) =>
-        StatisticsLoaded?.Invoke(sender, e);
+    public void RaiseStatisticsLoaded(object? sender, StatisticsEventArgs e) => StatisticsLoaded?.Invoke(sender, e);
 
-    public void RaiseStatisticsClosed() => StatisticsClosed?.Invoke();
+    public void RaiseStatisticsClosing(object? sender, StatisticsEventArgs e) => StatisticsClosing?.Invoke(sender, e);
 
-    public void RaiseSemesterLoading(int year, bool spring) =>
-        SemesterLoading?.Invoke(year, spring);
+    public void RaiseSemesterLoading(object? sender, SemesterEventArgs e) => SemesterLoading?.Invoke(sender, e);
 
-    public void RaiseSemesterLoaded(int year, bool spring) =>
-        SemesterLoaded?.Invoke(year, spring);
+    public void RaiseSemesterLoaded(object? sender, SemesterEventArgs e) => SemesterLoaded?.Invoke(sender, e);
+    
+    public void RaiseSemesterClosing(object? sender, SemesterEventArgs e) => SemesterClosing?.Invoke(sender, e);
 }

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Views;
 using Elective_Choice.ViewModels.Base;
@@ -33,10 +34,10 @@ public class MainViewModel : ViewModel
         Source.LoginSucceed += Login_OnSucceed;
     }
 
-    private void Login_OnSucceed(string email, bool rights)
+    private void Login_OnSucceed(object? sender, LoginEventArgs e)
     {
-        FrameContent = rights ? new Admin(Source) : new Student(Source);
+        FrameContent = e.Rights ? new Admin(Source) : new Student(Source);
         ResizeMode = ResizeMode.CanResize;
-        Source.RaiseLoginCompleted(email);
+        Source.RaiseLoginCompleted(sender, e);
     }
 }
