@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Globalization;
+using System.Windows.Controls;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -25,13 +27,13 @@ public class AdminViewModel : ViewModel
     public Page? FrameContent
     {
         get => _frameContent;
-        set => Set(ref _frameContent, value);
+        private set => Set(ref _frameContent, value);
     }
 
     public string Name
     {
         get => _name;
-        set => Set(ref _name, value);
+        private set => Set(ref _name, value);
     }
 
     public bool EditEnabled
@@ -70,7 +72,7 @@ public class AdminViewModel : ViewModel
     public string CurrentDate
     {
         get => _currentDate;
-        set => Set(ref _currentDate, value);
+        private set => Set(ref _currentDate, value);
     }
 
     public string Countdown
@@ -88,8 +90,8 @@ public class AdminViewModel : ViewModel
     public AdminViewModel(EventSource source) : base(source)
     {
         source.LoginCompleted += Login_OnCompleted;
-        source.StatisticsLoading += StatisticsOnLoading;
-        source.StatisticsClosing += StatisticsOnClosing;
+        source.StatisticsLoading += Statistics_OnLoading;
+        source.StatisticsClosing += Statistics_OnClosing;
         source.SemesterLoading += Semester_OnLoading;
         source.SemesterClosing += Semester_OnClosing;
 
@@ -118,16 +120,17 @@ public class AdminViewModel : ViewModel
     {
         Email = e.Email;
         Name = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
+        CurrentDate = DateTime.Today.ToString("D", CultureInfo.GetCultureInfo("ru-RU"));
     }
 
-    private void StatisticsOnLoading(object? sender, StatisticsEventArgs e)
+    private void Statistics_OnLoading(object? sender, StatisticsEventArgs e)
     {
         ElectivePage = FrameContent;
         FrameContent = new Statistics(Source!);
         Source?.RaiseStatisticsLoaded(sender, e);
     }
 
-    private void StatisticsOnClosing(object? sender, StatisticsEventArgs e)
+    private void Statistics_OnClosing(object? sender, StatisticsEventArgs e)
     {
         FrameContent = ElectivePage;
     }
@@ -168,6 +171,7 @@ public class AdminViewModel : ViewModel
 
     private void LogoutCommand_OnExecute(object? parameter)
     {
+        Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, true));
     }
 
     #endregion

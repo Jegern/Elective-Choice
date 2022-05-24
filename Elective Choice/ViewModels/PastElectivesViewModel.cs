@@ -12,7 +12,7 @@ public class PastElectivesViewModel : ViewModel
     #region Fields
 
     private string _name = string.Empty;
-    private List<Elective>? _electives;
+    private List<PastElective>? _electives;
 
 
     private int Year { get; set; }
@@ -24,7 +24,7 @@ public class PastElectivesViewModel : ViewModel
         set => Set(ref _name, value);
     }
 
-    public List<Elective>? Electives
+    public List<PastElective>? Electives
     {
         get => _electives;
         set => Set(ref _electives, value);
@@ -67,12 +67,12 @@ public class PastElectivesViewModel : ViewModel
 
     public Command? OpenElectiveCommand { get; }
 
-    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is Elective;
+    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is PastElective;
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseStatisticsLoading(this,
-            new StatisticsEventArgs(((Elective) parameter!).Name, Year, Spring));
+            new StatisticsEventArgs(((PastElective) parameter!).Name, Year, Spring));
     }
 
     #endregion

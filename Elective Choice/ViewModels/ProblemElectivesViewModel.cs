@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -11,34 +11,22 @@ public class ProblemElectivesViewModel : ViewModel
 {
     #region Fields
 
-    private string _name = string.Empty;
-    private List<Elective>? _incomplete;
-    private List<Elective>? _overflowed;
-    private List<Elective>? _resolved;
+    private readonly ObservableCollection<ProblemElective>? _incomplete;
+    private readonly ObservableCollection<ProblemElective>? _overflowed;
 
-    public string Name
-    {
-        get => _name;
-        set => Set(ref _name, value);
-    }
-
-    public List<Elective>? Incomplete
+    public ObservableCollection<ProblemElective>? Incomplete
     {
         get => _incomplete;
-        set => Set(ref _incomplete, value);
+        private init => Set(ref _incomplete, value);
     }
 
-    public List<Elective>? Overflowed
+    public ObservableCollection<ProblemElective>? Overflowed
     {
         get => _overflowed;
-        set => Set(ref _overflowed, value);
+        private init => Set(ref _overflowed, value);
     }
 
-    public List<Elective>? Resolved
-    {
-        get => _resolved;
-        set => Set(ref _resolved, value);
-    }
+    public ObservableCollection<ProblemElective>? Resolved { get; } = new();
 
     #endregion
 
@@ -48,24 +36,28 @@ public class ProblemElectivesViewModel : ViewModel
 
     public ProblemElectivesViewModel(EventSource source) : base(source)
     {
-        Incomplete = DatabaseAccess.GetIncompleteElectives();
-        Overflowed = DatabaseAccess.GetOverflowedElectives();
+        Incomplete = new ObservableCollection<ProblemElective>(DatabaseAccess.GetIncompleteElectives());
+        Overflowed = new ObservableCollection<ProblemElective>(DatabaseAccess.GetOverflowedElectives());
 
         OpenElectiveCommand = new Command(
             OpenElectiveCommand_OnExecuted,
             OpenElectiveCommand_CanExecute);
     }
 
+    #region Commands
+
     #region OpenElectiveCommand
 
     public Command? OpenElectiveCommand { get; }
 
-    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is Elective;
+    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is ProblemElective;
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseStatisticsLoading(this, new StatisticsEventArgs(((Elective) parameter!).Name));
+        Source?.RaiseStatisticsLoading(this, new StatisticsEventArgs(((ProblemElective)parameter!).Name));
     }
+
+    #endregion
 
     #endregion
 }

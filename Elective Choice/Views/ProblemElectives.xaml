@@ -13,6 +13,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/LoginForm/Button.xaml" />
                 <ResourceDictionary Source="Styles/Electives/DataGrid.xaml" />
                 <ResourceDictionary Source="Styles/Electives/DataGridColumnHeader.xaml" />
                 <ResourceDictionary Source="Styles/Electives/LeftDataGridCell.xaml" />
@@ -37,7 +38,9 @@
 
         <TabControl Grid.Row="1">
             <TabItem Header="Не собранные">
-                <DataGrid ItemsSource="{Binding Incomplete}">
+                <DataGrid ItemsSource="{Binding Incomplete}"
+                          CellEditEnding="DataGrid_OnCellEditEnding"
+                          CurrentCellChanged="DataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -57,18 +60,20 @@
                                             FontWeight="Normal">
                         </DataGridTextColumn>
                     </DataGrid.Columns>
+                    <DataGrid.RowValidationErrorTemplate>
+                        <ControlTemplate />
+                    </DataGrid.RowValidationErrorTemplate>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
                                       Command="{Binding OpenElectiveCommand}"
                                       CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                        <KeyBinding Key="Enter"
-                                    Command="{Binding OpenElectiveCommand}"
-                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                     </DataGrid.InputBindings>
                 </DataGrid>
             </TabItem>
             <TabItem Header="Переполненные">
-                <DataGrid ItemsSource="{Binding Overflowed}">
+                <DataGrid ItemsSource="{Binding Overflowed}"
+                          CellEditEnding="DataGrid_OnCellEditEnding"
+                          CurrentCellChanged="DataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -88,13 +93,13 @@
                                             FontWeight="Normal">
                         </DataGridTextColumn>
                     </DataGrid.Columns>
+                    <DataGrid.RowValidationErrorTemplate>
+                        <ControlTemplate />
+                    </DataGrid.RowValidationErrorTemplate>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
                                       Command="{Binding OpenElectiveCommand}"
                                       CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                        <KeyBinding Key="Enter"
-                                    Command="{Binding OpenElectiveCommand}"
-                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                     </DataGrid.InputBindings>
                 </DataGrid>
             </TabItem>
@@ -119,13 +124,13 @@
                                             FontWeight="Normal">
                         </DataGridTextColumn>
                     </DataGrid.Columns>
+                    <DataGrid.RowValidationErrorTemplate>
+                        <ControlTemplate />
+                    </DataGrid.RowValidationErrorTemplate>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
                                       Command="{Binding OpenElectiveCommand}"
                                       CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                        <KeyBinding Key="Enter"
-                                    Command="{Binding OpenElectiveCommand}"
-                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                     </DataGrid.InputBindings>
                 </DataGrid>
             </TabItem>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -24,7 +25,7 @@ public class MainViewModel : ViewModel
     public ResizeMode ResizeMode
     {
         get => _resizeMode;
-        set => Set(ref _resizeMode, value);
+        private set => Set(ref _resizeMode, value);
     }
 
     #endregion
@@ -32,7 +33,10 @@ public class MainViewModel : ViewModel
     public MainViewModel()
     {
         Source.LoginSucceed += Login_OnSucceed;
+        Source.LogoutSucceed +=  SourceOnLogoutSucceed;
     }
+
+    #region Event Subcription
 
     private void Login_OnSucceed(object? sender, LoginEventArgs e)
     {
@@ -40,4 +44,12 @@ public class MainViewModel : ViewModel
         ResizeMode = ResizeMode.CanResize;
         Source.RaiseLoginCompleted(sender, e);
     }
+    
+    private void SourceOnLogoutSucceed(object? sender, LoginEventArgs e)
+    {
+        FrameContent = new Login(Source);
+        ResizeMode = ResizeMode.CanMinimize;
+    }
+
+    #endregion
 }

@@ -13,5 +13,6 @@
         <!-- <Setter Property="CanUserSortColumns" Value="False" /> -->
         <Setter Property="CanUserResizeColumns" Value="False" />
         <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
     </Style>
 </ResourceDictionary>

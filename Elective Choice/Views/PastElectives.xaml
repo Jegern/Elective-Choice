@@ -70,6 +70,9 @@
                                     FontWeight="Normal">
                 </DataGridTextColumn>
             </DataGrid.Columns>
+            <DataGrid.RowValidationErrorTemplate>
+                <ControlTemplate />
+            </DataGrid.RowValidationErrorTemplate>
             <DataGrid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"
                               Command="{Binding OpenElectiveCommand}"

@@ -102,8 +102,10 @@
             </StackPanel>
             <StackPanel Grid.Row="2" />
             <StackPanel Grid.Row="3">
-                <TextBlock Text="{Binding CurrentDate}" />
-                <TextBlock Text="{Binding Countdown}" />
+                <TextBlock Text="{Binding CurrentDate}"
+                           FontSize="15"/>
+                <TextBlock Text="{Binding Countdown}"
+                           FontSize="15"/>
             </StackPanel>
         </Grid>
         <Frame Content="{Binding FrameContent}"

@@ -7,6 +7,7 @@ public class EventSource
 {
     public event EventHandler<LoginEventArgs>? LoginSucceed;
     public event EventHandler<LoginEventArgs>? LoginCompleted;
+    public event EventHandler<LoginEventArgs>? LogoutSucceed;
     public event EventHandler<StatisticsEventArgs>? StatisticsLoading;
     public event EventHandler<StatisticsEventArgs>? StatisticsLoaded;
     public event EventHandler<StatisticsEventArgs>? StatisticsClosing;
@@ -17,6 +18,8 @@ public class EventSource
     public void RaiseLoginSucceed(object? sender, LoginEventArgs e) => LoginSucceed?.Invoke(sender, e);
 
     public void RaiseLoginCompleted(object? sender, LoginEventArgs e) => LoginCompleted?.Invoke(sender, e);
+    
+    public void RaiseLogoutSucceed(object? sender, LoginEventArgs e) => LogoutSucceed?.Invoke(sender, e);
 
     public void RaiseStatisticsLoading(object? sender, StatisticsEventArgs e) => StatisticsLoading?.Invoke(sender, e);
 
@@ -27,6 +30,6 @@ public class EventSource
     public void RaiseSemesterLoading(object? sender, SemesterEventArgs e) => SemesterLoading?.Invoke(sender, e);
 
     public void RaiseSemesterLoaded(object? sender, SemesterEventArgs e) => SemesterLoaded?.Invoke(sender, e);
-    
+
     public void RaiseSemesterClosing(object? sender, SemesterEventArgs e) => SemesterClosing?.Invoke(sender, e);
 }

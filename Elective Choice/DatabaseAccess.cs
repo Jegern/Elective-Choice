@@ -29,11 +29,11 @@ public static class DatabaseAccess
         return name!;
     }
 
-    public static List<Elective> GetSemesterElectives(int year, bool spring)
+    public static List<PastElective> GetSemesterElectives(int year, bool spring)
     {
         SqlConnection.Open();
 
-        var electives = new List<Elective>();
+        var electives = new List<PastElective>();
         var reader = new NpgsqlCommand(
             $@"SELECT name, capacity
                       FROM electives JOIN (
@@ -43,7 +43,7 @@ public static class DatabaseAccess
                           GROUP BY elective_id) AS semester_electives ON electives.id = elective_id",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+            electives.Add(new PastElective(reader.GetString(0), reader.GetInt32(1)));
 
         SqlConnection.Close();
 
@@ -128,13 +128,13 @@ public static class DatabaseAccess
         return values;
     }
 
-    public static List<Elective> GetIncompleteElectives()
+    public static List<ProblemElective> GetIncompleteElectives()
     {
         SqlConnection.Open();
 
-        var electives = new List<Elective>();
+        var electives = new List<ProblemElective>();
         var reader = new NpgsqlCommand(
-            @"SELECT name, capacity
+            @"SELECT name, capacity, counts
                          FROM (
                              SELECT count(id) AS counts, name, capacity
                              FROM selected_electives JOIN (
@@ -146,20 +146,24 @@ public static class DatabaseAccess
                      WHERE counts < 0.8 * capacity OR counts < 15",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+            electives.Add(new ProblemElective(
+                reader.GetString(0), 
+                reader.GetInt32(1),
+                reader.GetInt32(2),
+                "Incomplete"));
 
         SqlConnection.Close();
 
         return electives;
     }
 
-    public static List<Elective> GetOverflowedElectives()
+    public static List<ProblemElective> GetOverflowedElectives()
     {
         SqlConnection.Open();
 
-        var electives = new List<Elective>();
+        var electives = new List<ProblemElective>();
         var reader = new NpgsqlCommand(
-            @"SELECT name, capacity
+            @"SELECT name, capacity, counts
                          FROM (
                              SELECT count(id) AS counts, name, capacity
                              FROM selected_electives JOIN (
@@ -171,7 +175,11 @@ public static class DatabaseAccess
                      WHERE counts > 3 * capacity",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+            electives.Add(new ProblemElective(
+                reader.GetString(0), 
+                reader.GetInt32(1),
+                reader.GetInt32(2),
+                "Overflowed"));
 
         SqlConnection.Close();
 
