@@ -55,10 +55,12 @@
                 <Image Grid.Row="0" Grid.Column="1"
                        Source="Styles/Icons/User (White).png"
                        Width="75" Height="75"
+                       Cursor="Hand"
                        VerticalAlignment="Bottom" />
                 <Image Grid.Row="0" Grid.Column="2"
                        Source="Styles/Icons/Logout.png"
                        Width="20" Height="20"
+                       Cursor="Hand"
                        VerticalAlignment="Top"
                        Margin="0, 20, 20, 0">
                     <Image.InputBindings>
