@@ -5,11 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       mc:Ignorable="d">
-    
+
     <Page.DataContext>
         <vms:SemestersViewModel />
     </Page.DataContext>
-    
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,12 +18,23 @@
                 <ResourceDictionary Source="Styles/PastSemesters/RightDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/PastSemesters/MiddleDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/PastSemesters/LeftDataGridCell.xaml" />
+                <ResourceDictionary Source="Styles/Electives/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid>
-        <DataGrid ItemsSource="{Binding Path=Semesters}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Background="{StaticResource HeaderColor}">
+            <TextBlock Text="Семестры, прошедшие распределение" />
+        </Grid>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Path=Semesters}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Год"
                                     Binding="{Binding Year}"
@@ -42,7 +53,7 @@
                                     FontWeight="Normal"
                                     IsReadOnly="True">
                 </DataGridTextColumn>
-                
+
                 <DataGridTextColumn Header="Количество элективов"
                                     Binding="{Binding NumberOfElectives}"
                                     CellStyle="{StaticResource RightCell}"

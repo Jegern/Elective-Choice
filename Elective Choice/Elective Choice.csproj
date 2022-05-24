@@ -10,32 +10,35 @@
 
     <ItemGroup>
       <None Remove="Views\Styles\Icons\User (White).png" />
-      <Resource Include="Views\Styles\Icons\User (White).png" />
       <None Remove="Views\Styles\Icons\Lock (Locked).png" />
-      <Resource Include="Views\Styles\Icons\Lock (Locked).png" />
       <None Remove="Views\Styles\Icons\Lock (Unlocked).png" />
-      <Resource Include="Views\Styles\Icons\Lock (Unlocked).png" />
       <None Remove="Views\Styles\Icons\User (Gray).png" />
-      <Resource Include="Views\Styles\Icons\User (Gray).png" />
       <None Remove="Views\Styles\Icons\Menu.png" />
-      <Resource Include="Views\Styles\Icons\Menu.png" />
       <None Remove="Views\Styles\Icons\Logout.png" />
-      <Resource Include="Views\Styles\Icons\Logout.png" />
       <None Remove="Views\Styles\Icons\Edit.png" />
-      <Resource Include="Views\Styles\Icons\Edit.png" />
       <None Remove="Views\Styles\Icons\Graph.png" />
-      <Resource Include="Views\Styles\Icons\Graph.png" />
       <None Remove="Views\Styles\Icons\Statistics.png" />
-      <Resource Include="Views\Styles\Icons\Statistics.png" />
       <None Remove="Views\Styles\Icons\Left.png" />
-      <Resource Include="Views\Styles\Icons\Left.png" />
       <None Remove="Views\Styles\Icons\Plus.png" />
-      <Resource Include="Views\Styles\Icons\Plus.png" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.230" />
       <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Views\Icons\Edit.png" />
+      <Resource Include="Views\Icons\Graph.png" />
+      <Resource Include="Views\Icons\Left.png" />
+      <Resource Include="Views\Icons\Lock (Locked).png" />
+      <Resource Include="Views\Icons\Lock (Unlocked).png" />
+      <Resource Include="Views\Icons\Logout.png" />
+      <Resource Include="Views\Icons\Menu.png" />
+      <Resource Include="Views\Icons\Plus.png" />
+      <Resource Include="Views\Icons\Statistics.png" />
+      <Resource Include="Views\Icons\User (Gray).png" />
+      <Resource Include="Views\Icons\User (White).png" />
     </ItemGroup>
 
 </Project>

@@ -31,7 +31,7 @@
                 <Grid Width="100" Height="100"
                       Margin="0, -70, 0, 0">
                     <Ellipse Fill="#D8D8D8" />
-                    <Image Source="Styles/Icons/User (White).png"
+                    <Image Source="Icons/User (White).png"
                            Width="70" Height="70" />
                 </Grid>
                 <TextBlock Text="Логин"
@@ -39,7 +39,7 @@
                            Foreground="#A0A0A0" />
                 <Grid>
                     <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
-                    <Image Source="Styles/Icons/User (Gray).png"
+                    <Image Source="Icons/User (Gray).png"
                            Width="25" Height="25"
                            HorizontalAlignment="Left"
                            Margin="20, 0, 0, 0" />

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:views="clr-namespace:Elective_Choice.Views"
       mc:Ignorable="d"
 
       Width="1280" Height="720"
@@ -13,104 +14,20 @@
         <vms:AdminViewModel />
     </Page.DataContext>
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Menu/Button.xaml" />
-                <ResourceDictionary Source="Styles/Menu/TextBlock.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <DockPanel>
-        <Grid DockPanel.Dock="Left"
-              Width="200"
-              Background="{StaticResource PrimaryColor}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="110" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                <Image Grid.Row="0" Grid.Column="0"
-                       Source="Styles/Icons/Menu.png"
-                       Width="20" Height="20"
-                       VerticalAlignment="Top"
-                       Margin="20, 20, 0, 0">
-                    <Image.InputBindings>
-                        <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding MenuCommand}" />
-                    </Image.InputBindings>
-                </Image>
-                <Image Grid.Row="0" Grid.Column="1"
-                       Source="Styles/Icons/User (White).png"
-                       Width="75" Height="75"
-                       Cursor="Hand"
-                       VerticalAlignment="Bottom" />
-                <Image Grid.Row="0" Grid.Column="2"
-                       Source="Styles/Icons/Logout.png"
-                       Width="20" Height="20"
-                       Cursor="Hand"
-                       VerticalAlignment="Top"
-                       Margin="0, 20, 20, 0">
-                    <Image.InputBindings>
-                        <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding LogoutCommand}" />
-                    </Image.InputBindings>
-                </Image>
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                           Text="{Binding Name}"
-                           FontSize="15"
-                           Margin="0, 5, 0, 20" />
-            </Grid>
-            <StackPanel Grid.Row="1">
-                <Grid>
-                    <Button Content="Редактирование элективов"
-                            Command="{Binding EditCommand}"
-                            IsEnabled="{Binding EditEnabled}" />
-                    <Image Source="Styles/Icons/Edit.png"
-                           Width="20" Height="20"
-                           HorizontalAlignment="Left"
-                           Margin="10, 0, 0, 0" />
-                </Grid>
-                <Grid>
-                    <Button Content="Статистика"
-                            Command="{Binding StatisticsCommand}"
-                            IsEnabled="{Binding StatisticsEnabled}" />
-                    <Image Source="Styles/Icons/Statistics.png"
-                           Width="20" Height="20"
-                           HorizontalAlignment="Left"
-                           Margin="10, 0, 0, 0" />
-                </Grid>
-                <Grid>
-                    <Button Content="Настройка алгоритма"
-                            Command="{Binding AlgorithmCommand}"
-                            IsEnabled="{Binding AlgorithmEnabled}" />
-                    <Image Source="Styles/Icons/Graph.png"
-                           Width="20" Height="20"
-                           HorizontalAlignment="Left"
-                           Margin="10, 0, 0, 0" />
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="2" />
-            <StackPanel Grid.Row="3">
-                <TextBlock Text="{Binding CurrentDate}"
-                           FontSize="15"/>
-                <TextBlock Text="{Binding Countdown}"
-                           FontSize="15"/>
-            </StackPanel>
-        </Grid>
+        <views:SideMenu DockPanel.Dock="Left"
+                        FirstText="Проблемные элективы"
+                        FirstSource="Icons/Edit.png"
+                        FirstClick="{Binding EditCommand}"
+                        
+                        SecondText="Статистика"
+                        SecondSource="Icons/Statistics.png"
+                        SecondClick="{Binding SemestersCommand}"
+                        
+                        ThirdText="Настройка алгоритма"
+                        ThirdSource="Icons/Graph.png"
+                        ThirdClick="{Binding AlgorithmCommand}"/>
         <Frame Content="{Binding FrameContent}"
-               Navigated="Frame_OnNavigated"/>
+               Navigated="Frame_OnNavigated" />
     </DockPanel>
 </Page>

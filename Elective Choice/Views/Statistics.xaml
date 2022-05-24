@@ -31,7 +31,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
-                   Source="Styles/Icons/Left.png"
+                   Source="Icons/Left.png"
                    Width="50" Height="50"
                    Cursor="Hand"
                    VerticalAlignment="Center"
@@ -42,7 +42,8 @@
                 </Image.InputBindings>
             </Image>
             <TextBlock Grid.Column="1"
-                       Text="{Binding Name}" />
+                       Text="{Binding Name}"
+                       Margin="0, 0, 100, 0"/>
         </Grid>
         <lvc:CartesianChart Grid.Row="1"
                             Series="{Binding Series}"

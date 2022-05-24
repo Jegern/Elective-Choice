@@ -16,7 +16,7 @@ public class LoginViewModel : ViewModel
     private string _password = "string.Empty";
 
     private ImageSource _lockSource = new BitmapImage(
-        new Uri(@"pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
+        new Uri(@"pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Locked).png"));
 
     private bool Rights { get; set; }
 
@@ -89,9 +89,9 @@ public class LoginViewModel : ViewModel
         Rights = !Rights;
         LockSource = Rights
             ? new BitmapImage(
-                new Uri("pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Unlocked).png"))
+                new Uri("pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Unlocked).png"))
             : new BitmapImage(
-                new Uri("pack://application:,,,/Elective Choice;component/Views/Styles/Icons/Lock (Locked).png"));
+                new Uri("pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Locked).png"));
     }
 
     #endregion

@@ -44,7 +44,7 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 <Image Grid.Row="0" Grid.Column="0"
-                       Source="Styles/Icons/Menu.png"
+                       Source="Icons/Menu.png"
                        Width="20" Height="20"
                        VerticalAlignment="Top"
                        Margin="20, 20, 0, 0">
@@ -54,11 +54,11 @@
                     </Image.InputBindings>
                 </Image>
                 <Image Grid.Row="0" Grid.Column="1"
-                       Source="Styles/Icons/User (White).png"
+                       Source="Icons/User (White).png"
                        Width="75" Height="75"
                        VerticalAlignment="Bottom" />
                 <Image Grid.Row="0" Grid.Column="2"
-                       Source="Styles/Icons/Logout.png"
+                       Source="Icons/Logout.png"
                        Width="20" Height="20"
                        VerticalAlignment="Top"
                        Margin="0, 20, 20, 0">
@@ -75,7 +75,7 @@
                 <Grid>
                     <Button Content="Приоритеты"
                             Command="{Binding OpenPrioritiesCommand}" />
-                    <Image Source="Styles/Icons/Edit.png"
+                    <Image Source="Icons/Edit.png"
                            Width="20" Height="20"
                            HorizontalAlignment="Left"
                            Margin="10, 0, 0, 0" />
@@ -83,7 +83,7 @@
                 <Grid>
                     <Button Content="Сохранить выбор"
                             Command="{Binding SaveChoiceCommand}" />
-                    <Image Source="Styles/Icons/Graph.png"
+                    <Image Source="Icons/Graph.png"
                            Width="20" Height="20"
                            HorizontalAlignment="Left"
                            Margin="10, 0, 0, 0" />
@@ -128,7 +128,7 @@
                                     </TextBlock>
                                 </Grid>
                                 <Border Grid.Row="1" Margin="10" Style="{StaticResource Container}">
-                                    <Image Source="Styles/Icons/plus.png"
+                                    <Image Source="Icons/plus.png"
                                            HorizontalAlignment="Center"
                                            Width="60" Height="60"
                                            Margin="5, 5, 5, 5" />
@@ -157,7 +157,7 @@
                                     </TextBlock>
                                 </Grid>
                                 <Border Grid.Row="1" Margin="10" Style="{StaticResource Container}">
-                                    <Image Source="Styles/Icons/plus.png"
+                                    <Image Source="Icons/plus.png"
                                            HorizontalAlignment="Center"
                                            Width="60" Height="60"
                                            Margin="5, 5, 5, 5" />
@@ -186,7 +186,7 @@
                                     </TextBlock>
                                 </Grid>
                                 <Border Grid.Row="1" Margin="10" Style="{StaticResource Container}">
-                                    <Image Source="Styles/Icons/plus.png"
+                                    <Image Source="Icons/plus.png"
                                            HorizontalAlignment="Center"
                                            Width="60" Height="60"
                                            Margin="5, 5, 5, 5" />
@@ -215,7 +215,7 @@
                                     </TextBlock>
                                 </Grid>
                                 <Border Grid.Row="1" Margin="10" Style="{StaticResource Container}">
-                                    <Image Source="Styles/Icons/plus.png"
+                                    <Image Source="Icons/plus.png"
                                            HorizontalAlignment="Center"
                                            Width="60" Height="60"
                                            Margin="5, 5, 5, 5" />
