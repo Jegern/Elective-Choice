@@ -12,6 +12,7 @@ public class AdminViewModel : ViewModel
     #region Fields
 
     private Page? _frameContent;
+    private string _fullName = string.Empty;
     private string Email { get; set; } = string.Empty;
     private Page? ElectivePage { get; set; }
     private Page? SemesterPage { get; set; }
@@ -22,6 +23,12 @@ public class AdminViewModel : ViewModel
         private set => Set(ref _frameContent, value);
     }
 
+    public string FullName
+    {
+        get => _fullName;
+        set => Set(ref _fullName, value);
+    }
+
     #endregion
 
     public AdminViewModel()
@@ -30,6 +37,7 @@ public class AdminViewModel : ViewModel
 
     public AdminViewModel(EventSource source) : base(source)
     {
+        source.LoginCompleted += Login_OnCompleted;
         source.StatisticsLoading += Statistics_OnLoading;
         source.StatisticsClosing += Statistics_OnClosing;
         source.SemesterLoading += Semester_OnLoading;
@@ -49,6 +57,12 @@ public class AdminViewModel : ViewModel
     }
 
     #region Event Subscription
+
+    private void Login_OnCompleted(object? sender, LoginEventArgs e)
+    {
+        Email = e.Email;
+        FullName = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
+    }
 
     private void Statistics_OnLoading(object? sender, StatisticsEventArgs e)
     {

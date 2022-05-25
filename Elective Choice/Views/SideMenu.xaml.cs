@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
-using Elective_Choice.Infrastructure.EventArgs;
-using Elective_Choice.Infrastructure.EventSource;
 
 namespace Elective_Choice.Views;
 
 public partial class SideMenu
 {
     #region Dependency Properties
+
+    public static readonly DependencyProperty FullNameProperty = DependencyProperty.Register(
+        nameof(FullName), typeof(string), typeof(SideMenu), new PropertyMetadata(string.Empty));
+
+    public string FullName
+    {
+        get => (string) GetValue(FullNameProperty);
+        set => SetValue(FullNameProperty, value);
+    }
 
     public static readonly DependencyProperty FirstTextProperty = DependencyProperty.Register(
         nameof(FirstText),
@@ -85,93 +93,81 @@ public partial class SideMenu
 
     #endregion
 
-    #region Routed Events
+    #region RoutedCommands
 
-    public static readonly RoutedEvent FirstClickEvent = EventManager.RegisterRoutedEvent(
-        nameof(FirstClick),
-        RoutingStrategy.Bubble,
-        typeof(RoutedEventHandler),
-        typeof(SideMenu));
+    public static readonly DependencyProperty FirstCommandProperty = DependencyProperty.Register(
+        nameof(FirstCommand), 
+        typeof(ICommand),
+        typeof(SideMenu), 
+        new PropertyMetadata(null));
 
-    public event RoutedEventHandler FirstClick
+    public ICommand? FirstCommand
     {
-        add => AddHandler(FirstClickEvent, value);
-        remove => RemoveHandler(FirstClickEvent, value);
+        get => (ICommand) GetValue(FirstCommandProperty);
+        set => SetValue(FirstCommandProperty, value);
     }
 
-    private void First_OnClick(object? sender, RoutedEventArgs e)
+    public static readonly DependencyProperty SecondCommandProperty = DependencyProperty.Register(
+        nameof(SecondCommand), 
+        typeof(ICommand),
+        typeof(SideMenu), 
+        new PropertyMetadata(null));
+
+    public ICommand? SecondCommand
     {
-        First.IsEnabled = false;
-        Second.IsEnabled = true;
-        Third.IsEnabled = true;
-        RaiseEvent(new RoutedEventArgs(FirstClickEvent));
+        get => (ICommand) GetValue(SecondCommandProperty);
+        set => SetValue(SecondCommandProperty, value);
     }
 
-    public static readonly RoutedEvent SecondClickEvent = EventManager.RegisterRoutedEvent(
-        nameof(SecondClick),
-        RoutingStrategy.Bubble,
-        typeof(RoutedEventHandler),
-        typeof(SideMenu));
+    public static readonly DependencyProperty ThirdCommandProperty = DependencyProperty.Register(
+        nameof(ThirdCommand), 
+        typeof(ICommand),
+        typeof(SideMenu), 
+        new PropertyMetadata(null));
 
-    public event RoutedEventHandler SecondClick
+    public ICommand? ThirdCommand
     {
-        add => AddHandler(SecondClickEvent, value);
-        remove => RemoveHandler(SecondClickEvent, value);
-    }
-
-    private void Second_OnClick(object? sender, RoutedEventArgs e)
-    {
-        First.IsEnabled = true;
-        Second.IsEnabled = false;
-        Third.IsEnabled = true;
-        RaiseEvent(new RoutedEventArgs(SecondClickEvent));
-    }
-
-    public static readonly RoutedEvent ThirdClickEvent = EventManager.RegisterRoutedEvent(
-        nameof(ThirdClick),
-        RoutingStrategy.Bubble,
-        typeof(RoutedEventHandler),
-        typeof(SideMenu));
-
-    public event RoutedEventHandler ThirdClick
-    {
-        add => AddHandler(ThirdClickEvent, value);
-        remove => RemoveHandler(ThirdClickEvent, value);
-    }
-
-    private void Third_OnClick(object? sender, RoutedEventArgs e)
-    {
-        First.IsEnabled = true;
-        Second.IsEnabled = true;
-        Third.IsEnabled = false;
-        RaiseEvent(new RoutedEventArgs(ThirdClickEvent));
+        get => (ICommand) GetValue(ThirdCommandProperty);
+        set => SetValue(ThirdCommandProperty, value);
     }
 
     #endregion
-
-    private EventSource? Source { get; }
-    private string Email { get; set; } = string.Empty;
 
     public SideMenu()
     {
         InitializeComponent();
     }
 
-    public SideMenu(EventSource source)
+    private void SideMenu_OnLoaded(object sender, RoutedEventArgs e)
     {
-        InitializeComponent();
-        Source = source;
-        source.LoginCompleted += Login_OnCompleted;
-    }
-
-    #region Event Subscription
-
-    private void Login_OnCompleted(object? sender, LoginEventArgs e)
-    {
-        Email = e.Email;
-        FullName.Text = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
         CurrentDate.Text = DateTime.Today.ToString("D", CultureInfo.GetCultureInfo("ru-RU"));
     }
 
-    #endregion
+    private void First_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (FirstCommand is null) return;
+        FirstCommand.Execute(null);
+        First.IsEnabled = false;
+        Second.IsEnabled = true;
+        Third.IsEnabled = true;
+    }
+
+    private void Second_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (SecondCommand is null) return;
+        SecondCommand.Execute(null);
+        First.IsEnabled = true;
+        Second.IsEnabled = false;
+        Third.IsEnabled = true;
+    }
+
+    private void Third_OnClick(object sender, RoutedEventArgs e)
+    {
+        
+        if (ThirdCommand is null) return;
+        ThirdCommand.Execute(null);
+        First.IsEnabled = true;
+        Second.IsEnabled = true;
+        Third.IsEnabled = false;
+    }
 }

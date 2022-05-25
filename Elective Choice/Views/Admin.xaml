@@ -16,17 +16,19 @@
 
     <DockPanel>
         <views:SideMenu DockPanel.Dock="Left"
+                        FullName="{Binding FullName}"
+                        
                         FirstText="Проблемные элективы"
                         FirstSource="Icons/Edit.png"
-                        FirstClick="{Binding EditCommand}"
+                        FirstCommand="{Binding EditCommand}"
                         
                         SecondText="Статистика"
                         SecondSource="Icons/Statistics.png"
-                        SecondClick="{Binding SemestersCommand}"
+                        SecondCommand="{Binding SemestersCommand}"
                         
                         ThirdText="Настройка алгоритма"
                         ThirdSource="Icons/Graph.png"
-                        ThirdClick="{Binding AlgorithmCommand}"/>
+                        ThirdCommand="{Binding AlgorithmCommand}"/>
         <Frame Content="{Binding FrameContent}"
                Navigated="Frame_OnNavigated" />
     </DockPanel>

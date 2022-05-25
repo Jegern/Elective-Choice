@@ -65,7 +65,7 @@ public class StatisticsViewModel : ViewModel
     {
         var chart = (CartesianChart) point.Context.Chart;
         var totalSelected = 0d;
-        for (var i = 0; i < Series.Count; i++)
+        for (var i = 0; i < Series.Count - 1; i++)
             totalSelected += ((int[]) chart.Series.ElementAt(i).Values!).Sum();
         return $"{Math.Round(100 * point.PrimaryValue / totalSelected, 2)}%";
     }

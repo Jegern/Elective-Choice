@@ -7,7 +7,7 @@ namespace Elective_Choice;
 public static class DatabaseAccess
 {
     private static NpgsqlConnection SqlConnection { get; } =
-        new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
+        new("Server=surus.db.elephantsql.com;User Id=zmfwlqkl;Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;Database=zmfwlqkl;");
 
     public static string GetPersonNameBy(string id)
     {
@@ -59,7 +59,8 @@ public static class DatabaseAccess
         var reader = new NpgsqlCommand(
             @"SELECT year, spring, COUNT(elective_id)
                      FROM past_semesters
-                     GROUP BY year, spring",
+                     GROUP BY year, spring
+                     ORDER BY year DESC",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             semesters.Add(new Semester(

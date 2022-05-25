@@ -7,7 +7,8 @@
              mc:Ignorable="d"
 
              x:Name="Root"
-             Width="200">
+             Width="200"
+             Loaded="SideMenu_OnLoaded">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -41,7 +42,7 @@
                    VerticalAlignment="Top"
                    Margin="20, 20, 0, 0">
                 <Image.InputBindings>
-                    <MouseBinding Gesture="LeftClick"
+                    <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding MenuCommand}" />
                 </Image.InputBindings>
             </Image>
@@ -57,12 +58,12 @@
                    VerticalAlignment="Top"
                    Margin="0, 20, 20, 0">
                 <Image.InputBindings>
-                    <MouseBinding Gesture="LeftClick"
+                    <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding LogoutCommand}" />
                 </Image.InputBindings>
             </Image>
             <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                       x:Name="FullName"
+                       Text="{Binding FullName, ElementName=Root}"
                        FontSize="15"
                        Margin="0, 5, 0, 20" />
         </Grid>
@@ -70,6 +71,7 @@
             <Grid>
                 <Button x:Name="First"
                         Content="{Binding FirstText, ElementName=Root}"
+                        IsEnabled="False"
                         Click="First_OnClick" />
                 <Image Source="{Binding FirstSource, ElementName=Root}"
                        Width="20" Height="20"
@@ -79,7 +81,7 @@
             <Grid>
                 <Button x:Name="Second"
                         Content="{Binding SecondText, ElementName=Root}"
-                        Click="Second_OnClick" />
+                        Click="Second_OnClick"/>
                 <Image Source="{Binding SecondSource, ElementName=Root}"
                        Width="20" Height="20"
                        HorizontalAlignment="Left"
@@ -88,7 +90,7 @@
             <Grid>
                 <Button x:Name="Third"
                         Content="{Binding ThirdText, ElementName=Root}"
-                        Click="Third_OnClick" />
+                        Click="Third_OnClick"/>
                 <Image Source="{Binding ThirdSource, ElementName=Root}"
                        Width="20" Height="20"
                        HorizontalAlignment="Left"
