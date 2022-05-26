@@ -11,10 +11,6 @@
     <ItemGroup>
       <None Remove="Views\Icons\User (White).png" />
       <Resource Include="Views\Icons\User (White).png" />
-      <None Remove="Views\Icons\Lock (Locked).png" />
-      <Resource Include="Views\Icons\Lock (Locked).png" />
-      <None Remove="Views\Icons\Lock (Unlocked).png" />
-      <Resource Include="Views\Icons\Lock (Unlocked).png" />
       <None Remove="Views\Icons\User (Gray).png" />
       <Resource Include="Views\Icons\User (Gray).png" />
       <None Remove="Views\Icons\Menu.png" />
@@ -31,6 +27,14 @@
       <Resource Include="Views\Icons\Left.png" />
       <None Remove="Views\Icons\Plus.png" />
       <Resource Include="Views\Icons\Plus.png" />
+      <None Remove="Views\Icons\Lock.png" />
+      <Resource Include="Views\Icons\Lock.png" />
+      <None Remove="Views\Icons\Calendar.png" />
+      <Resource Include="Views\Icons\Calendar.png" />
+      <None Remove="Views\Icons\Prioritize.png" />
+      <Resource Include="Views\Icons\Prioritize.png" />
+      <None Remove="Views\Icons\Result.png" />
+      <Resource Include="Views\Icons\Result.png" />
     </ItemGroup>
 
     <ItemGroup>

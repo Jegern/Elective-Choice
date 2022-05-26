@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Elective_Choice.Infrastructure.Commands.Base;
@@ -15,11 +16,6 @@ public class LoginViewModel : ViewModel
     private string _email = "stud0000211632@study.utmn.ru";
     private string _password = "string.Empty";
 
-    private ImageSource _lockSource = new BitmapImage(
-        new Uri(@"pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Locked).png"));
-
-    private bool Rights { get; set; }
-
     public string Email
     {
         get => _email;
@@ -30,12 +26,6 @@ public class LoginViewModel : ViewModel
     {
         get => _password;
         set => Set(ref _password, value);
-    }
-
-    public ImageSource LockSource
-    {
-        get => _lockSource;
-        private set => Set(ref _lockSource, value);
     }
 
     #endregion
@@ -70,6 +60,12 @@ public class LoginViewModel : ViewModel
             Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, false));
         else if (DatabaseAccess.PersonIsAdmin(Email.Substring(4, 10)))
             Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, true));
+        else
+            MessageBox.Show(
+                "Такого пользователя не существует", 
+                "Ошибка!", 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Error);
     }
 
     #endregion
@@ -82,12 +78,6 @@ public class LoginViewModel : ViewModel
 
     private void PasswordForgottenCommand_OnExecute(object? parameter)
     {
-        Rights = !Rights;
-        LockSource = Rights
-            ? new BitmapImage(
-                new Uri("pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Unlocked).png"))
-            : new BitmapImage(
-                new Uri("pack://application:,,,/Elective Choice;component/Views/Icons/Lock (Locked).png"));
     }
 
     #endregion

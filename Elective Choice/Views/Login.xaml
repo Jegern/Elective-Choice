@@ -46,7 +46,7 @@
                 </Grid>
                 <Grid>
                     <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-                    <Image Source="{Binding LockSource}"
+                    <Image Source="Icons/Lock.png"
                            Width="25" Height="25"
                            HorizontalAlignment="Left"
                            Margin="20, 0, 0, 0" />
