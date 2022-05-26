@@ -14,6 +14,15 @@
         <vms:AdminViewModel />
     </Page.DataContext>
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/SideMenu/Button.xaml" />
+                <ResourceDictionary Source="Styles/SideMenu/TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <DockPanel>
         <views:SideMenu DockPanel.Dock="Left"
                         FullName="{Binding FullName}"
@@ -30,6 +39,6 @@
                         ThirdSource="Icons/Graph.png"
                         ThirdCommand="{Binding AlgorithmCommand}"/>
         <Frame Content="{Binding FrameContent}"
-               Navigated="Frame_OnNavigated" />
+               Navigated="Frame_OnNavigated"/>
     </DockPanel>
 </Page>

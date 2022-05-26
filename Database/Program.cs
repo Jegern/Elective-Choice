@@ -5,11 +5,11 @@ namespace Database
 {
     public static class InterfaceData
     {
-        // private static NpgsqlConnection SqlConnection { get; } =
-        //     new("Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=electives;");
-        
         private static NpgsqlConnection SqlConnection { get; } =
-            new("Server=surus.db.elephantsql.com;User Id=zmfwlqkl;Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;Database=zmfwlqkl;");
+            new(@"Server=surus.db.elephantsql.com;
+                  User Id=zmfwlqkl;
+                  Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
+                  Database=zmfwlqkl;");
 
         private static void GenerateStudents(int numberOfStudents = 5084)
         {

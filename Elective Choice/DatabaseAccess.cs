@@ -7,7 +7,40 @@ namespace Elective_Choice;
 public static class DatabaseAccess
 {
     private static NpgsqlConnection SqlConnection { get; } =
-        new("Server=surus.db.elephantsql.com;User Id=zmfwlqkl;Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;Database=zmfwlqkl;");
+        new(@"Server=surus.db.elephantsql.com;
+              User Id=zmfwlqkl;
+              Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
+              Database=zmfwlqkl;");
+
+    public static bool PersonIsStudent(string id)
+    {
+        SqlConnection.Open();
+
+        var student = new NpgsqlCommand(
+            $@"SELECT id
+                      FROM students
+                      WHERE id = '{id}'",
+            SqlConnection).ExecuteScalar();
+
+        SqlConnection.Close();
+
+        return student is not null;
+    }
+
+    public static bool PersonIsAdmin(string id)
+    {
+        SqlConnection.Open();
+
+        var admin = new NpgsqlCommand(
+            $@"SELECT id
+                      FROM admins
+                      WHERE id = '{id}'",
+            SqlConnection).ExecuteScalar();
+
+        SqlConnection.Close();
+
+        return admin is not null;
+    }
 
     public static string GetPersonNameBy(string id)
     {
@@ -15,13 +48,13 @@ public static class DatabaseAccess
 
         var name = new NpgsqlCommand(
             $@"SELECT name
-                     FROM (
-                         SELECT id, name
-                         FROM admins
-                         UNION 
-                         SELECT id, name
-                         FROM students) AS names
-                     WHERE id = '{id}'",
+                      FROM (
+                          SELECT id, name
+                          FROM admins
+                          UNION 
+                          SELECT id, name
+                          FROM students) AS names
+                      WHERE id = '{id}'",
             SqlConnection).ExecuteScalar()?.ToString();
 
         SqlConnection.Close();
@@ -55,7 +88,6 @@ public static class DatabaseAccess
         SqlConnection.Open();
 
         var semesters = new List<Semester>();
-        // TODO: Исправить подсчет количества элективов 
         var reader = new NpgsqlCommand(
             @"SELECT year, spring, COUNT(elective_id)
                      FROM past_semesters
@@ -77,7 +109,7 @@ public static class DatabaseAccess
     {
         SqlConnection.Open();
 
-        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
+        var values = new[] { new int[5], new int[5], new int[5], new int[5], new int[5] };
         var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
         for (var i = 0; i < performances.Length - 1; i++)
         {
@@ -105,7 +137,7 @@ public static class DatabaseAccess
     {
         SqlConnection.Open();
 
-        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
+        var values = new[] { new int[5], new int[5], new int[5], new int[5], new int[5] };
         var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
         for (var i = 0; i < performances.Length - 1; i++)
         {
@@ -148,7 +180,7 @@ public static class DatabaseAccess
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new ProblemElective(
-                reader.GetString(0), 
+                reader.GetString(0),
                 reader.GetInt32(1),
                 reader.GetInt32(2),
                 "Incomplete"));
@@ -177,7 +209,7 @@ public static class DatabaseAccess
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new ProblemElective(
-                reader.GetString(0), 
+                reader.GetString(0),
                 reader.GetInt32(1),
                 reader.GetInt32(2),
                 "Overflowed"));
@@ -185,5 +217,18 @@ public static class DatabaseAccess
         SqlConnection.Close();
 
         return electives;
+    }
+
+    public static void UpdateElectiveCapacity(ProblemElective elective)
+    {
+        SqlConnection.Open();
+
+        new NpgsqlCommand(
+            $@"UPDATE electives
+                      SET capacity = {elective.Capacity}
+                      WHERE name = '{elective.Name}'",
+            SqlConnection).ExecuteNonQuery();
+
+        SqlConnection.Close();
     }
 }

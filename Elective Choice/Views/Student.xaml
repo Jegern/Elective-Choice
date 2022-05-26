@@ -16,7 +16,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Menu/Button.xaml" />
+                <ResourceDictionary Source="Styles/SideMenu/Button.xaml" />
                 <ResourceDictionary Source="Styles/Calendar/Border.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

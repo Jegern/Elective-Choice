@@ -40,7 +40,7 @@
             <TabItem Header="Не собранные">
                 <DataGrid ItemsSource="{Binding Incomplete}"
                           CellEditEnding="DataGrid_OnCellEditEnding"
-                          CurrentCellChanged="DataGrid_OnCurrentCellChanged">
+                          CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -73,7 +73,7 @@
             <TabItem Header="Переполненные">
                 <DataGrid ItemsSource="{Binding Overflowed}"
                           CellEditEnding="DataGrid_OnCellEditEnding"
-                          CurrentCellChanged="DataGrid_OnCurrentCellChanged">
+                          CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -104,7 +104,9 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Решенные">
-                <DataGrid ItemsSource="{Binding Resolved}">
+                <DataGrid ItemsSource="{Binding Resolved}"
+                          CellEditEnding="DataGrid_OnCellEditEnding"
+                          CurrentCellChanged="ResolvedDataGrid_OnCurrentCellChanged ">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"

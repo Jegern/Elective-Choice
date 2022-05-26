@@ -13,6 +13,7 @@ public class ProblemElectivesViewModel : ViewModel
 
     private readonly ObservableCollection<ProblemElective>? _incomplete;
     private readonly ObservableCollection<ProblemElective>? _overflowed;
+    private readonly ObservableCollection<ProblemElective>? _resolved = new();
 
     public ObservableCollection<ProblemElective>? Incomplete
     {
@@ -26,7 +27,11 @@ public class ProblemElectivesViewModel : ViewModel
         private init => Set(ref _overflowed, value);
     }
 
-    public ObservableCollection<ProblemElective>? Resolved { get; } = new();
+    public ObservableCollection<ProblemElective>? Resolved
+    {
+        get => _resolved;
+        private init => Set(ref _resolved, value);
+    }
 
     #endregion
 

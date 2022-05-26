@@ -35,7 +35,7 @@ public class LoginViewModel : ViewModel
     public ImageSource LockSource
     {
         get => _lockSource;
-        set => Set(ref _lockSource, value);
+        private set => Set(ref _lockSource, value);
     }
 
     #endregion
@@ -66,14 +66,10 @@ public class LoginViewModel : ViewModel
 
     private void SignInCommand_OnExecute(object? parameter)
     {
-        if (CheckUserData())
-            Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, Rights));
-    }
-
-    private bool CheckUserData()
-    {
-        // TODO: Реализовать обращение к БД и проверку электронной почты и пароля
-        return true;
+        if (DatabaseAccess.PersonIsStudent(Email.Substring(4, 10)))
+            Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, false));
+        else if (DatabaseAccess.PersonIsAdmin(Email.Substring(4, 10)))
+            Source?.RaiseLoginSucceed(this, new LoginEventArgs(Email, true));
     }
 
     #endregion

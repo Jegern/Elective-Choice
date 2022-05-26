@@ -13,8 +13,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Menu/Button.xaml" />
-                <ResourceDictionary Source="Styles/Menu/TextBlock.xaml" />
+                <ResourceDictionary Source="Styles/SideMenu/Button.xaml" />
+                <ResourceDictionary Source="Styles/SideMenu/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

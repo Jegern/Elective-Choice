@@ -8,7 +8,7 @@ namespace Elective_Choice.Views;
 
 public partial class ProblemElectives
 {
-    private ProblemElective? EditedProblemElective { get; set; }
+    private ProblemElective? EditedElective { get; set; }
 
     public ProblemElectives(EventSource source)
     {
@@ -18,23 +18,33 @@ public partial class ProblemElectives
 
     private void DataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        EditedProblemElective = e.Row.Item as ProblemElective;
+        EditedElective = e.Row.Item as ProblemElective;
     }
 
-    private void DataGrid_OnCurrentCellChanged(object? sender, EventArgs e)
+    private void ProblemDataGrid_OnCurrentCellChanged(object? sender, EventArgs e)
     {
-        if (EditedProblemElective is null) return;
-        switch (EditedProblemElective.Problem)
+        if (EditedElective is null) return;
+
+        switch (EditedElective.Problem)
         {
             case "Incomplete":
-                ((ProblemElectivesViewModel)DataContext).Incomplete?.Remove(EditedProblemElective);
+                ((ProblemElectivesViewModel)DataContext).Incomplete?.Remove(EditedElective);
                 break;
             case "Overflowed":
-                ((ProblemElectivesViewModel)DataContext).Overflowed?.Remove(EditedProblemElective);
+                ((ProblemElectivesViewModel)DataContext).Overflowed?.Remove(EditedElective);
                 break;
         }
-        
-        ((ProblemElectivesViewModel)DataContext).Resolved?.Add(EditedProblemElective);
-        EditedProblemElective = null;
+
+        ((ProblemElectivesViewModel)DataContext).Resolved?.Add(EditedElective);
+        // DatabaseAccess.UpdateElectiveCapacity(EditedElective);
+        EditedElective = null;
+    }
+
+    private void ResolvedDataGrid_OnCurrentCellChanged(object? sender, EventArgs e)
+    {
+        // TODO: Исправить проблему, при которой событие не запускается, если электив находится последним в списке 
+        if (EditedElective is null) return;
+        // DatabaseAccess.UpdateElectiveCapacity(EditedElective);
+        EditedElective = null;
     }
 }

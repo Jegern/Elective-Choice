@@ -9,17 +9,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Views\Styles\Icons\User (White).png" />
-      <None Remove="Views\Styles\Icons\Lock (Locked).png" />
-      <None Remove="Views\Styles\Icons\Lock (Unlocked).png" />
-      <None Remove="Views\Styles\Icons\User (Gray).png" />
-      <None Remove="Views\Styles\Icons\Menu.png" />
-      <None Remove="Views\Styles\Icons\Logout.png" />
-      <None Remove="Views\Styles\Icons\Edit.png" />
-      <None Remove="Views\Styles\Icons\Graph.png" />
-      <None Remove="Views\Styles\Icons\Statistics.png" />
-      <None Remove="Views\Styles\Icons\Left.png" />
-      <None Remove="Views\Styles\Icons\Plus.png" />
+      <None Remove="Views\Icons\User (White).png" />
+      <Resource Include="Views\Icons\User (White).png" />
+      <None Remove="Views\Icons\Lock (Locked).png" />
+      <Resource Include="Views\Icons\Lock (Locked).png" />
+      <None Remove="Views\Icons\Lock (Unlocked).png" />
+      <Resource Include="Views\Icons\Lock (Unlocked).png" />
+      <None Remove="Views\Icons\User (Gray).png" />
+      <Resource Include="Views\Icons\User (Gray).png" />
+      <None Remove="Views\Icons\Menu.png" />
+      <Resource Include="Views\Icons\Menu.png" />
+      <None Remove="Views\Icons\Logout.png" />
+      <Resource Include="Views\Icons\Logout.png" />
+      <None Remove="Views\Icons\Edit.png" />
+      <Resource Include="Views\Icons\Edit.png" />
+      <None Remove="Views\Icons\Graph.png" />
+      <Resource Include="Views\Icons\Graph.png" />
+      <None Remove="Views\Icons\Statistics.png" />
+      <Resource Include="Views\Icons\Statistics.png" />
+      <None Remove="Views\Icons\Left.png" />
+      <Resource Include="Views\Icons\Left.png" />
+      <None Remove="Views\Icons\Plus.png" />
+      <Resource Include="Views\Icons\Plus.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,17 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Views\Icons\Edit.png" />
-      <Resource Include="Views\Icons\Graph.png" />
-      <Resource Include="Views\Icons\Left.png" />
-      <Resource Include="Views\Icons\Lock (Locked).png" />
-      <Resource Include="Views\Icons\Lock (Unlocked).png" />
-      <Resource Include="Views\Icons\Logout.png" />
-      <Resource Include="Views\Icons\Menu.png" />
-      <Resource Include="Views\Icons\Plus.png" />
-      <Resource Include="Views\Icons\Statistics.png" />
-      <Resource Include="Views\Icons\User (Gray).png" />
-      <Resource Include="Views\Icons\User (White).png" />
+      <Page Remove="Views\Styles\Menu\Button.xaml" />
     </ItemGroup>
 
 </Project>
