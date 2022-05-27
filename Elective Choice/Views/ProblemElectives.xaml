@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="Styles/Electives/DataGridColumnHeader.xaml" />
                 <ResourceDictionary Source="Styles/Electives/LeftDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/Electives/RightDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/Electives/TextBlock.xaml" />
+                <ResourceDictionary Source="Styles/Header/TextBlock.xaml" />
                 <ResourceDictionary Source="Styles/Electives/TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

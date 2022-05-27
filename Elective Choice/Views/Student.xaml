@@ -14,15 +14,6 @@
         <vms:StudentViewModel />
     </Page.DataContext>
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/SideMenu/Button.xaml" />
-                <ResourceDictionary Source="Styles/Calendar/Border.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <DockPanel>
         <views:SideMenu DockPanel.Dock="Left"
                         FullName="{Binding FullName}"

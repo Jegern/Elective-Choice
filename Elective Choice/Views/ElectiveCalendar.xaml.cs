@@ -3,11 +3,11 @@ using Elective_Choice.ViewModels;
 
 namespace Elective_Choice.Views;
 
-public partial class Calendar
+public partial class ElectiveCalendar
 {
-    public Calendar(EventSource source)
+    public ElectiveCalendar(EventSource source)
     {
         InitializeComponent();
-        DataContext = new CalendarViewModel(source);
+        DataContext = new ElectiveCalendarViewModel(source);
     }
 }

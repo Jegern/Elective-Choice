@@ -37,6 +37,8 @@ public class StudentViewModel : ViewModel
     public StudentViewModel(EventSource source) : base(source)
     {
         source.LoginCompleted += Login_OnCompleted;
+
+        FrameContent = new ElectiveCalendar(source);
         
         CalendarCommand = new Command(
             CalendarCommand_OnExecute,
@@ -44,6 +46,9 @@ public class StudentViewModel : ViewModel
         PrioritizeCommand = new Command(
             PrioritizeCommand_OnExecute,
             PrioritizeCommand_CanExecute);
+        ResultCommand = new Command(
+            ResultCommand_OnExecute,
+            ResultCommand_CanExecute);
     }
 
     #region Event Subscription
@@ -51,6 +56,7 @@ public class StudentViewModel : ViewModel
     private void Login_OnCompleted(object? sender, LoginEventArgs e)
     {
         Email = e.Email;
+        FullName = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
     }
 
     #endregion
@@ -76,6 +82,18 @@ public class StudentViewModel : ViewModel
     private bool PrioritizeCommand_CanExecute(object? parameter) => Email != string.Empty;
 
     private void PrioritizeCommand_OnExecute(object? parameter)
+    {
+    }
+
+    #endregion
+
+    #region ResultCommand
+
+    public Command? ResultCommand { get; }
+
+    private bool ResultCommand_CanExecute(object? parameter) => Email != string.Empty;
+
+    private void ResultCommand_OnExecute(object? parameter)
     {
     }
 

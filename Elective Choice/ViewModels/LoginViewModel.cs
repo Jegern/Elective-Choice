@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Windows;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -13,7 +10,7 @@ public class LoginViewModel : ViewModel
 {
     #region Fields
 
-    private string _email = "stud0000211632@study.utmn.ru";
+    private string _email = "stud0000175711@study.utmn.ru";
     private string _password = "string.Empty";
 
     public string Email
