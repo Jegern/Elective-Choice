@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Npgsql;
+using Numpy;
 
 namespace Database
 {
@@ -10,12 +11,26 @@ namespace Database
         //           User Id=zmfwlqkl;
         //           Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
         //           Database=zmfwlqkl;");
-        
+
         private static NpgsqlConnection SqlConnection { get; } =
             new(@"Server=localhost;
                   User Id=postgres;
                   Password=12345;
                   Database=electives;");
+
+        private struct Elective
+        {
+            public int Id { get; set; }
+            public int Capacity { get; set; }
+            public int Day { get; set; }
+
+            public Elective(int id, int capacity, int day)
+            {
+                Id = id;
+                Capacity = capacity;
+                Day = day;
+            }
+        }
 
         private static void GenerateStudents(int numberOfStudents = 5084)
         {
@@ -75,24 +90,28 @@ namespace Database
 
         private static void DistributeElectivesByDay(int firstDay = 2, int lastDay = 5)
         {
-            var electives = ReadElectivesId();
+            var electives = ReadElectives();
             var electiveDays = electives.ToDictionary(
                 x => x,
                 _ => new Random().Next(firstDay, lastDay + 1));
             WriteElectiveDays(electiveDays);
         }
 
-        private static List<int> ReadElectivesId()
+        private static List<Elective> ReadElectives()
         {
             SqlConnection.Open();
 
-            var electives = new List<int>();
-            var reader = new NpgsqlCommand(@"SELECT id 
-                                                    FROM electives 
+            var electives = new List<Elective>();
+            var reader = new NpgsqlCommand(@"SELECT id, capacity, day_of_week
+                                                    FROM electives
+                                                        JOIN elective_days ON electives.id = elective_days.elective_id
                                                     ORDER BY id",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
-                electives.Add(reader.GetInt32(0));
+                electives.Add(new Elective(
+                    reader.GetInt32(0),
+                    reader.GetInt32(1),
+                    reader.GetInt32(2)));
             reader.Close();
 
             SqlConnection.Close();
@@ -100,38 +119,69 @@ namespace Database
             return electives;
         }
 
-        private static void WriteElectiveDays(Dictionary<int, int> electiveDays)
+        private static void WriteElectiveDays(Dictionary<Elective, int> electiveDays)
         {
             SqlConnection.Open();
 
-            foreach (var (key, value) in electiveDays)
+            foreach (var (elective, day) in electiveDays)
                 new NpgsqlCommand(
                     $@"INSERT INTO elective_days 
-                              VALUES ({key}, {value})",
+                              VALUES ({elective.Id}, {day})",
                     SqlConnection).ExecuteNonQuery();
 
             SqlConnection.Close();
         }
 
-        private static void GenerateChoices()
+        private static void GenerateChoices(
+            int unpopular = 10,
+            int popular = 20,
+            double unpopularPoints = 1,
+            double regularPoints = 2,
+            double popularPoints = 4)
         {
-            var students = ReadStudentId();
-            var electives = ReadElectivesId();
+            var students = ReadStudentIds();
+            var electives = ReadElectives();
+
+            var propabilities = new double[electives.Count];
+            var sum = unpopular * unpopularPoints +
+                      (electives.Count - (unpopular + popular)) * regularPoints +
+                      popular * popularPoints;
+            for (var i = 0; i < unpopular; i++)
+                propabilities[i] = unpopularPoints / sum;
+            for (var i = unpopular; i < electives.Count - popular; i++)
+                propabilities[i] = regularPoints / sum;
+            for (var i = electives.Count - popular; i < electives.Count; i++)
+                propabilities[i] = popularPoints / sum;
 
             var studentChoices = new Dictionary<string, int[]>();
             foreach (var student in students)
             {
-                var choices = electives
-                    .OrderBy(_ => new Random().Next())
-                    .Take(5)
-                    .ToArray();
+                var choices = new int[5];
+                var days = new int[4];
+
+                for (var i = 0; i < choices.Length; i++)
+                {
+                    var npChoice = np.random.choice(electives.Count, replace: false, p: propabilities);
+                    var choice = Convert.ToInt32(npChoice.ToString());
+                    var day = electives[choice].Day - 2;
+                    while (choices.Contains(choice) || days[day] == 3)
+                    {
+                        npChoice = np.random.choice(electives.Count, replace: false, p: propabilities);
+                        choice = Convert.ToInt32(npChoice.ToString());
+                        day = electives[choice].Day - 2;
+                    }
+
+                    choices[i] = choice;
+                    days[day]++;
+                }
+
                 studentChoices.Add(student, choices);
             }
 
             WriteSelectedElectives(studentChoices);
         }
 
-        private static List<string> ReadStudentId()
+        private static List<string> ReadStudentIds()
         {
             SqlConnection.Open();
 

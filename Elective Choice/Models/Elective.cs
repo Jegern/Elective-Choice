@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Elective_Choice.Models;
+﻿namespace Elective_Choice.Models;
 
 public class Elective
 {
