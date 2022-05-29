@@ -4,14 +4,17 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Elective_Choice.Views;
+namespace Elective_Choice.Views.Styles.SideMenu;
 
 public partial class SideMenu
 {
     #region Dependency Properties
 
     public static readonly DependencyProperty FullNameProperty = DependencyProperty.Register(
-        nameof(FullName), typeof(string), typeof(SideMenu), new PropertyMetadata(string.Empty));
+        nameof(FullName), 
+        typeof(string),
+        typeof(SideMenu), 
+        new PropertyMetadata(string.Empty));
 
     public string FullName
     {
@@ -94,6 +97,18 @@ public partial class SideMenu
     #endregion
 
     #region RoutedCommands
+
+    public static readonly DependencyProperty LogoutCommandProperty = DependencyProperty.Register(
+        nameof(LogoutCommand), 
+        typeof(ICommand),
+        typeof(SideMenu), 
+        new PropertyMetadata(null));
+
+    public ICommand? LogoutCommand
+    {
+        get => (ICommand) GetValue(LogoutCommandProperty);
+        set => SetValue(LogoutCommandProperty, value);
+    }
 
     public static readonly DependencyProperty FirstCommandProperty = DependencyProperty.Register(
         nameof(FirstCommand), 

@@ -11,20 +11,19 @@ public class PastElectivesViewModel : ViewModel
 {
     #region Fields
 
-    private string _name = string.Empty;
-    private List<PastElective>? _electives;
-
+    private string _headerText = string.Empty;
+    private List<Elective>? _electives;
 
     private int Year { get; set; }
     private bool Spring { get; set; }
 
-    public string Name
+    public string HeaderText
     {
-        get => _name;
-        set => Set(ref _name, value);
+        get => _headerText;
+        set => Set(ref _headerText, value);
     }
 
-    public List<PastElective>? Electives
+    public List<Elective>? Electives
     {
         get => _electives;
         set => Set(ref _electives, value);
@@ -43,9 +42,9 @@ public class PastElectivesViewModel : ViewModel
         OpenElectiveCommand = new Command(
             OpenElectiveCommand_OnExecuted,
             OpenElectiveCommand_CanExecute);
-        BackToListCommand = new Command(
-            BackToListCommand_OnExecuted,
-            BackToListCommand_CanExecute);
+        GoBackCommand = new Command(
+            GoBackCommand_OnExecuted,
+            GoBackCommand_CanExecute);
     }
 
     #region Event Subscription
@@ -53,7 +52,7 @@ public class PastElectivesViewModel : ViewModel
     private void Semester_OnLoaded(object? sender, SemesterEventArgs e)
     {
         // TODO: Исправить множественную подписку на событие
-        Name = $"{(e.Spring ? "Осень" : "Весна")}, {e.Year}-й";
+        HeaderText = $"{(e.Spring ? "Осень" : "Весна")}, {e.Year}-й";
         Year = e.Year;
         Spring = e.Spring;
         Electives = DatabaseAccess.GetSemesterElectives(e.Year, e.Spring);
@@ -67,23 +66,23 @@ public class PastElectivesViewModel : ViewModel
 
     public Command? OpenElectiveCommand { get; }
 
-    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is PastElective;
+    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is Elective;
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseStatisticsLoading(this,
-            new StatisticsEventArgs(((PastElective) parameter!).Name, Year, Spring));
+            new StatisticsEventArgs(((Elective) parameter!).Name, Year, Spring));
     }
 
     #endregion
 
-    #region BackToListCommand
+    #region GoBackCommand
 
-    public Command? BackToListCommand { get; }
+    public Command? GoBackCommand { get; }
 
-    private bool BackToListCommand_CanExecute(object? parameter) => Name != string.Empty;
+    private bool GoBackCommand_CanExecute(object? parameter) => HeaderText != string.Empty;
 
-    private void BackToListCommand_OnExecuted(object? parameter)
+    private void GoBackCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseSemesterClosing(this, new SemesterEventArgs(Year, Spring));
     }

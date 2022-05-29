@@ -14,12 +14,12 @@ public class StudentViewModel : ViewModel
     private Page? _frameContent;
     private string _fullName = string.Empty;
     private string Email { get; set; } = string.Empty;
-    private Page? ElectivePage { get; set; }
+    private Page? CalendarPage { get; set; }
 
     public Page? FrameContent
     {
         get => _frameContent;
-        private set => Set(ref _frameContent, value);
+        set => Set(ref _frameContent, value);
     }
 
     public string FullName
@@ -37,9 +37,14 @@ public class StudentViewModel : ViewModel
     public StudentViewModel(EventSource source) : base(source)
     {
         source.LoginCompleted += Login_OnCompleted;
+        source.DayLoading += Day_OnLoading;
+        source.DayClosing += Day_OnClosing;
 
-        FrameContent = new ElectiveCalendar(source);
+        FrameContent = new ElectiveCalendar(source, Email);
         
+        LogoutCommand = new Command(
+            LogoutCommand_OnExecute,
+            LogoutCommand_CanExecute);
         CalendarCommand = new Command(
             CalendarCommand_OnExecute,
             CalendarCommand_CanExecute);
@@ -59,9 +64,34 @@ public class StudentViewModel : ViewModel
         FullName = DatabaseAccess.GetPersonNameBy(e.Email.Substring(4, 10));
     }
 
+    private void Day_OnLoading(object? sender, DayEventArgs e)
+    {
+        CalendarPage = FrameContent;
+        FrameContent = new DayElectives(Source!);
+        Source?.RaiseDayLoaded(this, new DayEventArgs(e.Day));
+    }
+
+    private void Day_OnClosing(object? sender, DayEventArgs e)
+    {
+        FrameContent = CalendarPage;
+    }
+
     #endregion
     
     #region Commands
+
+    #region LogoutCommand
+
+    public Command? LogoutCommand { get; }
+
+    private bool LogoutCommand_CanExecute(object? parameter) => Email != string.Empty;
+
+    private void LogoutCommand_OnExecute(object? parameter)
+    {
+        Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
+    }
+
+    #endregion
 
     #region CalendarCommand
 
@@ -71,6 +101,7 @@ public class StudentViewModel : ViewModel
 
     private void CalendarCommand_OnExecute(object? parameter)
     {
+        FrameContent = new ElectiveCalendar(Source!, Email);
     }
 
     #endregion

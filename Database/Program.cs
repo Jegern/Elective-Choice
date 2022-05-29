@@ -5,11 +5,17 @@ namespace Database
 {
     public static class InterfaceData
     {
+        // private static NpgsqlConnection SqlConnection { get; } =
+        //     new(@"Server=surus.db.elephantsql.com;
+        //           User Id=zmfwlqkl;
+        //           Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
+        //           Database=zmfwlqkl;");
+        
         private static NpgsqlConnection SqlConnection { get; } =
-            new(@"Server=surus.db.elephantsql.com;
-                  User Id=zmfwlqkl;
-                  Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
-                  Database=zmfwlqkl;");
+            new(@"Server=localhost;
+                  User Id=postgres;
+                  Password=12345;
+                  Database=electives;");
 
         private static void GenerateStudents(int numberOfStudents = 5084)
         {
@@ -115,7 +121,7 @@ namespace Database
             var studentChoices = new Dictionary<string, int[]>();
             foreach (var student in students)
             {
-                var choices = Enumerable.Range(1, electives.Count)
+                var choices = electives
                     .OrderBy(_ => new Random().Next())
                     .Take(5)
                     .ToArray();
@@ -158,6 +164,7 @@ namespace Database
 
         public static void Main(string[] args)
         {
+            GenerateChoices();
         }
     }
 }

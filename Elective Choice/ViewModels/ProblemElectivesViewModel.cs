@@ -11,27 +11,22 @@ public class ProblemElectivesViewModel : ViewModel
 {
     #region Fields
 
-    private readonly ObservableCollection<ProblemElective>? _incomplete;
-    private readonly ObservableCollection<ProblemElective>? _overflowed;
-    private readonly ObservableCollection<ProblemElective>? _resolved = new();
+    private readonly ObservableCollection<Elective>? _incomplete;
+    private readonly ObservableCollection<Elective>? _overflowed;
 
-    public ObservableCollection<ProblemElective>? Incomplete
+    public ObservableCollection<Elective>? Incomplete
     {
         get => _incomplete;
         private init => Set(ref _incomplete, value);
     }
 
-    public ObservableCollection<ProblemElective>? Overflowed
+    public ObservableCollection<Elective>? Overflowed
     {
         get => _overflowed;
         private init => Set(ref _overflowed, value);
     }
 
-    public ObservableCollection<ProblemElective>? Resolved
-    {
-        get => _resolved;
-        private init => Set(ref _resolved, value);
-    }
+    public ObservableCollection<Elective>? Resolved { get; } = new();
 
     #endregion
 
@@ -41,8 +36,8 @@ public class ProblemElectivesViewModel : ViewModel
 
     public ProblemElectivesViewModel(EventSource source) : base(source)
     {
-        Incomplete = new ObservableCollection<ProblemElective>(DatabaseAccess.GetIncompleteElectives());
-        Overflowed = new ObservableCollection<ProblemElective>(DatabaseAccess.GetOverflowedElectives());
+        Incomplete = new ObservableCollection<Elective>(DatabaseAccess.GetIncompleteElectives());
+        Overflowed = new ObservableCollection<Elective>(DatabaseAccess.GetOverflowedElectives());
 
         OpenElectiveCommand = new Command(
             OpenElectiveCommand_OnExecuted,
@@ -55,11 +50,11 @@ public class ProblemElectivesViewModel : ViewModel
 
     public Command? OpenElectiveCommand { get; }
 
-    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is ProblemElective;
+    private bool OpenElectiveCommand_CanExecute(object? parameter) => parameter is Elective;
 
     private void OpenElectiveCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseStatisticsLoading(this, new StatisticsEventArgs(((ProblemElective)parameter!).Name));
+        Source?.RaiseStatisticsLoading(this, new StatisticsEventArgs(((Elective)parameter!).Name));
     }
 
     #endregion

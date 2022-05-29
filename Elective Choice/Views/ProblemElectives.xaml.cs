@@ -8,7 +8,7 @@ namespace Elective_Choice.Views;
 
 public partial class ProblemElectives
 {
-    private ProblemElective? EditedElective { get; set; }
+    private Elective? EditedElective { get; set; }
 
     public ProblemElectives(EventSource source)
     {
@@ -18,7 +18,7 @@ public partial class ProblemElectives
 
     private void DataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        EditedElective = e.Row.Item as ProblemElective;
+        EditedElective = e.Row.Item as Elective;
     }
 
     private void ProblemDataGrid_OnCurrentCellChanged(object? sender, EventArgs e)

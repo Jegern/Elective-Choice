@@ -30,7 +30,8 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               Background="{StaticResource HeaderColor}">
-            <TextBlock Text="Семестры, прошедшие распределение" />
+            <TextBlock Text="Семестры, прошедшие распределение"
+                       Style="{StaticResource Header}" />
         </Grid>
 
         <DataGrid Grid.Row="1"

@@ -35,6 +35,8 @@
       <Resource Include="Views\Icons\Prioritize.png" />
       <None Remove="Views\Icons\Result.png" />
       <Resource Include="Views\Icons\Result.png" />
+      <None Remove="Views\Icons\Cross.png" />
+      <Resource Include="Views\Icons\Cross.png" />
     </ItemGroup>
 
     <ItemGroup>

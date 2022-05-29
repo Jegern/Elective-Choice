@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       xmlns:views="clr-namespace:Elective_Choice.Views"
+      xmlns:sideMenu="clr-namespace:Elective_Choice.Views.Styles.SideMenu"
       mc:Ignorable="d"
 
       Width="1280" Height="720"
@@ -15,8 +16,9 @@
     </Page.DataContext>
 
     <DockPanel>
-        <views:SideMenu DockPanel.Dock="Left"
+        <sideMenu:SideMenu DockPanel.Dock="Left"
                         FullName="{Binding FullName}"
+                        LogoutCommand="{Binding LogoutCommand}"
 
                         FirstText="Элективы"
                         FirstSource="Icons/Calendar.png"

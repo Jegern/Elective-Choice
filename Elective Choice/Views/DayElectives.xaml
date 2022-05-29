@@ -1,15 +1,15 @@
-﻿<Page x:Class="Elective_Choice.Views.PastElectives"
+﻿<Page x:Class="Elective_Choice.Views.DayElectives"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       mc:Ignorable="d">
-
+    
     <Page.DataContext>
-        <vms:PastElectivesViewModel />
+        <vms:DayElectivesViewModel />
     </Page.DataContext>
-
+    
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,7 +22,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
@@ -51,7 +51,7 @@
                        Style="{StaticResource Header}"
                        Margin="0, 0, 100, 0"/>
         </Grid>
-
+        
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Path=Electives}">
             <DataGrid.Columns>
@@ -79,7 +79,7 @@
             </DataGrid.RowValidationErrorTemplate>
             <DataGrid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"
-                              Command="{Binding OpenElectiveCommand}"
+                              Command="{Binding ChooseElectiveCommand}"
                               CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
             </DataGrid.InputBindings>
         </DataGrid>

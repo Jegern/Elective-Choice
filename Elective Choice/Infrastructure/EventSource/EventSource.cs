@@ -1,5 +1,6 @@
 using System;
 using Elective_Choice.Infrastructure.EventArgs;
+using Elective_Choice.Models;
 
 namespace Elective_Choice.Infrastructure.EventSource;
 
@@ -11,6 +12,10 @@ public class EventSource
     public event EventHandler<StatisticsEventArgs>? StatisticsLoading;
     public event EventHandler<StatisticsEventArgs>? StatisticsLoaded;
     public event EventHandler<StatisticsEventArgs>? StatisticsClosing;
+    public event EventHandler<DayEventArgs>? DayLoading;
+    public event EventHandler<DayEventArgs>? DayLoaded;
+    public event EventHandler<DayEventArgs>? DayClosing;
+    public event EventHandler<DayEventArgs>? DayElectiveChosen;
     public event EventHandler<SemesterEventArgs>? SemesterLoading;
     public event EventHandler<SemesterEventArgs>? SemesterLoaded;
     public event EventHandler<SemesterEventArgs>? SemesterClosing;
@@ -18,7 +23,7 @@ public class EventSource
     public void RaiseLoginSucceed(object? sender, LoginEventArgs e) => LoginSucceed?.Invoke(sender, e);
 
     public void RaiseLoginCompleted(object? sender, LoginEventArgs e) => LoginCompleted?.Invoke(sender, e);
-    
+
     public void RaiseLogoutSucceed(object? sender, LoginEventArgs e) => LogoutSucceed?.Invoke(sender, e);
 
     public void RaiseStatisticsLoading(object? sender, StatisticsEventArgs e) => StatisticsLoading?.Invoke(sender, e);
@@ -26,6 +31,14 @@ public class EventSource
     public void RaiseStatisticsLoaded(object? sender, StatisticsEventArgs e) => StatisticsLoaded?.Invoke(sender, e);
 
     public void RaiseStatisticsClosing(object? sender, StatisticsEventArgs e) => StatisticsClosing?.Invoke(sender, e);
+
+    public void RaiseDayLoading(object? sender, DayEventArgs e) => DayLoading?.Invoke(sender, e);
+
+    public void RaiseDayLoaded(object? sender, DayEventArgs e) => DayLoaded?.Invoke(sender, e);
+
+    public void RaiseDayClosing(object? sender, DayEventArgs e) => DayClosing?.Invoke(sender, e);
+
+    public void RaiseDayElectiveChosen(object? sender, DayEventArgs e) => DayElectiveChosen?.Invoke(sender, e);
 
     public void RaiseSemesterLoading(object? sender, SemesterEventArgs e) => SemesterLoading?.Invoke(sender, e);
 

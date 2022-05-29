@@ -14,8 +14,8 @@ public class AdminViewModel : ViewModel
     private Page? _frameContent;
     private string _fullName = string.Empty;
     private string Email { get; set; } = string.Empty;
-    private Page? ElectivePage { get; set; }
-    private Page? SemesterPage { get; set; }
+    private Page? ElectivesPage { get; set; }
+    private Page? SemestersPage { get; set; }
 
     public Page? FrameContent
     {
@@ -45,6 +45,9 @@ public class AdminViewModel : ViewModel
 
         FrameContent = new ProblemElectives(source);
 
+        LogoutCommand = new Command(
+            LogoutCommand_OnExecute,
+            LogoutCommand_CanExecute);
         EditCommand = new Command(
             EditCommand_OnExecute,
             EditCommand_CanExecute);
@@ -66,31 +69,44 @@ public class AdminViewModel : ViewModel
 
     private void Statistics_OnLoading(object? sender, StatisticsEventArgs e)
     {
-        ElectivePage = FrameContent;
+        ElectivesPage = FrameContent;
         FrameContent = new Statistics(Source!);
         Source?.RaiseStatisticsLoaded(sender, e);
     }
 
     private void Statistics_OnClosing(object? sender, StatisticsEventArgs e)
     {
-        FrameContent = ElectivePage;
+        FrameContent = ElectivesPage;
     }
 
     private void Semester_OnLoading(object? sender, SemesterEventArgs e)
     {
-        SemesterPage = FrameContent;
+        SemestersPage = FrameContent;
         FrameContent = new PastElectives(Source!);
         Source?.RaiseSemesterLoaded(this, e);
     }
 
     private void Semester_OnClosing(object? sender, SemesterEventArgs e)
     {
-        FrameContent = SemesterPage;
+        FrameContent = SemestersPage;
     }
 
     #endregion
 
     #region Commands
+
+    #region LogoutCommand
+
+    public Command? LogoutCommand { get; }
+
+    private bool LogoutCommand_CanExecute(object? parameter) => Email != string.Empty;
+
+    private void LogoutCommand_OnExecute(object? parameter)
+    {
+        Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
+    }
+
+    #endregion
 
     #region EditCommand
 
