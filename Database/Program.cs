@@ -53,6 +53,7 @@ namespace Database
             var studentExams = new List<string>();
             using var stream = assembly.GetManifestResourceStream("Database.Students.X_train.csv");
             using var reader = new StreamReader(stream!);
+            reader.ReadLine();
             while (!reader.EndOfStream)
                 studentExams.Add(reader.ReadLine()!.Split(',')[1]);
             return studentExams;
@@ -64,6 +65,7 @@ namespace Database
             var marks = new List<int>();
             using var stream = assembly.GetManifestResourceStream("Database.Students.y_train.csv");
             using var reader = new StreamReader(stream!);
+            reader.ReadLine();
             while (!reader.EndOfStream)
                 marks.Add(Convert.ToInt32(reader.ReadLine()!.Split(',')[1]));
             return marks;
@@ -72,6 +74,8 @@ namespace Database
         private static void WriteStudents(Dictionary<string, List<int>> studentMarks, int numberOfStudents)
         {
             SqlConnection.Open();
+
+            new NpgsqlCommand("TRUNCATE students CASCADE", SqlConnection).ExecuteNonQuery();
 
             for (var i = 0; i < studentMarks.Count; i++)
             {
@@ -122,6 +126,8 @@ namespace Database
         private static void WriteElectiveDays(Dictionary<Elective, int> electiveDays)
         {
             SqlConnection.Open();
+
+            new NpgsqlCommand("TRUNCATE elective_days", SqlConnection).ExecuteNonQuery();
 
             foreach (var (elective, day) in electiveDays)
                 new NpgsqlCommand(
@@ -202,6 +208,8 @@ namespace Database
         {
             SqlConnection.Open();
 
+            new NpgsqlCommand("TRUNCATE selected_electives", SqlConnection).ExecuteNonQuery();
+
             foreach (var (student, choices) in studentChoices)
                 for (var i = 0; i < choices.Length; i++)
                     new NpgsqlCommand(
@@ -214,7 +222,94 @@ namespace Database
 
         public static void Main(string[] args)
         {
-            GenerateChoices();
+            var work = true;
+            while (work)
+            {
+                Console.Clear();
+                Console.Write("1. Сгенерировать N студентов\n" +
+                              "2. Сгенерировать выбор студентов\n" +
+                              "3. Распределить элективы по дням недели\n" +
+                              "4. Выход\n" +
+                              "Выберите пункт: ");
+                try
+                {
+                    var line = Console.ReadLine();
+                    switch (line)
+                    {
+                        case "1":
+                            Console.Write("\nПри этом будут стерты все выборы элективов. Вы уверены? (Y / N): ");
+                            line = Console.ReadLine();
+                            if ((line == string.Empty ? "y" : line)?.ToLower() == "y")
+                            {
+                                Console.Write("Сколько студентов вы хотите сгенерировать? (max = 5084): ");
+                                line = Console.ReadLine();
+                                var numberOfStudents = Convert.ToInt32(line == string.Empty ? 5084 : line);
+                                if (numberOfStudents is > 0 and <= 5084)
+                                {
+                                    GenerateStudents(numberOfStudents);
+                                    Console.WriteLine("\nСтуденты успешно сгенерированы");
+                                }
+                            }
+
+                            break;
+                        case "2":
+                            Console.Write("\nСколько элективов будут непопулярны? (std = 10): ");
+                            line = Console.ReadLine();
+                            var unpopular = Convert.ToInt32(line == string.Empty ? 10 : line);
+                            Console.Write("Сколько элективов будут популярны? (std = 20): ");
+                            line = Console.ReadLine();
+                            var popular = Convert.ToInt32(line == string.Empty ? 20 : line);
+                            Console.Write("Сколько очков получат непопулярные элективы? (std = 1.0): ");
+                            line = Console.ReadLine();
+                            var unpopularPoints = Convert.ToDouble(line == string.Empty ? 1.0 : line);
+                            Console.Write("Сколько очков получат обычные элективы? (std = 2.0): ");
+                            line = Console.ReadLine();
+                            var regularPoints = Convert.ToDouble(line == string.Empty ? 2.0 : line);
+                            Console.Write("Сколько очков получат популярные элективы? (std = 4.0): ");
+                            line = Console.ReadLine();
+                            var popularPoints = Convert.ToDouble(line == string.Empty ? 4.0 : line);
+                            if (unpopular is > 0 and <= 220 &&
+                                popular is > 0 and <= 220 &&
+                                unpopular + popular <= 220 &&
+                                unpopularPoints > 0 &&
+                                regularPoints > 0 &&
+                                popularPoints > 0 &&
+                                unpopularPoints <= regularPoints &&
+                                unpopularPoints <= popularPoints &&
+                                regularPoints <= popularPoints)
+                            {
+                                GenerateChoices(unpopular, popular, unpopularPoints, regularPoints, popularPoints);
+                                Console.WriteLine("\nВыборы студентов успешно сгенерорированы");
+                            }
+
+                            break;
+                        case "3":
+                            Console.Write("\nНомер дня недели, который будет первым (std = 2): ");
+                            line = Console.ReadLine();
+                            var firstDay = Convert.ToInt32(line == string.Empty ? 2 : line);
+                            Console.Write("Номер дня недели, который будет последним (std = 5): ");
+                            line = Console.ReadLine();
+                            var lastDay = Convert.ToInt32(line == string.Empty ? 5 : line);
+                            if (firstDay is > 0 and <= 7 && lastDay is > 0 and <= 7 && firstDay <= lastDay)
+                            {
+                                DistributeElectivesByDay(firstDay, lastDay);
+                                Console.WriteLine("\nЭлективы успешно распределены по дням");
+                            }
+
+                            break;
+                        case "4":
+                            work = false;
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                if (work)
+                    Console.ReadKey();
+            }
         }
     }
 }
