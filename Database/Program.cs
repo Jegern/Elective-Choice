@@ -6,17 +6,17 @@ namespace Database
 {
     public static class InterfaceData
     {
-        // private static NpgsqlConnection SqlConnection { get; } =
-        //     new(@"Server=surus.db.elephantsql.com;
-        //           User Id=zmfwlqkl;
-        //           Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
-        //           Database=zmfwlqkl;");
-
         private static NpgsqlConnection SqlConnection { get; } =
-            new(@"Server=localhost;
-                  User Id=postgres;
-                  Password=12345;
-                  Database=electives;");
+            new(@"Server=surus.db.elephantsql.com;
+                  User Id=zmfwlqkl;
+                  Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
+                  Database=zmfwlqkl;");
+
+        // private static NpgsqlConnection SqlConnection { get; } =
+        //     new(@"Server=localhost;
+        //           User Id=postgres;
+        //           Password=12345;
+        //           Database=electives;");
 
         private struct Elective
         {
@@ -256,6 +256,14 @@ namespace Database
             SqlConnection.Close();
         }
 
+        private static void ClearCurrentConsoleLine()
+        {
+            var currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.BufferWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
+        }
+
         public static void Main(string[] args)
         {
             var work = true;
@@ -336,9 +344,6 @@ namespace Database
                         case "4":
                             work = false;
                             break;
-                        case "5":
-                            GenerateSomeStrings();
-                            break;
                     }
                 }
                 catch (Exception e)
@@ -349,24 +354,6 @@ namespace Database
                 if (work)
                     Console.ReadKey();
             }
-        }
-
-        private static void GenerateSomeStrings()
-        {
-            Console.WriteLine("А вот и строки:");
-            Console.WriteLine("Один");
-            Console.WriteLine("Два");
-            Console.Write("Три");
-            Thread.Sleep(5000);
-            ClearCurrentConsoleLine();
-        }
-
-        private static void ClearCurrentConsoleLine()
-        {
-            var currentLineCursor = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.BufferWidth));
-            Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }
