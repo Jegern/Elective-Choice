@@ -6,17 +6,17 @@ namespace Database
 {
     public static class InterfaceData
     {
-        private static NpgsqlConnection SqlConnection { get; } =
-            new(@"Server=surus.db.elephantsql.com;
-                  User Id=zmfwlqkl;
-                  Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
-                  Database=zmfwlqkl;");
-
         // private static NpgsqlConnection SqlConnection { get; } =
-        //     new(@"Server=localhost;
-        //           User Id=postgres;
-        //           Password=12345;
-        //           Database=electives;");
+        //     new(@"Server=surus.db.elephantsql.com;
+        //           User Id=zmfwlqkl;
+        //           Password=mTKr9LzJYGiSitrt5zvTSN8yq9sbfXcj;
+        //           Database=zmfwlqkl;");
+
+        private static NpgsqlConnection SqlConnection { get; } =
+            new(@"Server=localhost;
+                  User Id=postgres;
+                  Password=12345;
+                  Database=electives;");
 
         private struct Elective
         {
@@ -76,9 +76,16 @@ namespace Database
             SqlConnection.Open();
 
             new NpgsqlCommand("TRUNCATE students CASCADE", SqlConnection).ExecuteNonQuery();
+            Console.WriteLine("\nТаблица со студентами была удалена");
 
             for (var i = 0; i < studentMarks.Count; i++)
             {
+                if (i % (studentMarks.Count / 100) == 0)
+                {
+                    ClearCurrentConsoleLine();
+                    Console.Write($"Создается новая таблица: [{i} / {studentMarks.Count}]");
+                }
+
                 var (key, value) = studentMarks.ElementAt(i);
                 new NpgsqlCommand(
                     $@"INSERT INTO students 
@@ -88,6 +95,9 @@ namespace Database
                                       {i < numberOfStudents})",
                     SqlConnection).ExecuteNonQuery();
             }
+
+            ClearCurrentConsoleLine();
+            Console.Write($"Создается новая таблица: [{studentMarks.Count} / {studentMarks.Count}]");
 
             SqlConnection.Close();
         }
@@ -128,12 +138,25 @@ namespace Database
             SqlConnection.Open();
 
             new NpgsqlCommand("TRUNCATE elective_days", SqlConnection).ExecuteNonQuery();
+            Console.WriteLine("\nТаблица со днями элективов была удалена");
 
-            foreach (var (elective, day) in electiveDays)
+            for (var i = 0; i < electiveDays.Count; i++)
+            {
+                if (i % (electiveDays.Count / 100) == 0)
+                {
+                    ClearCurrentConsoleLine();
+                    Console.Write($"Создается новая таблица: [{i} / {electiveDays.Count}]");
+                }
+                
+                var (elective, day) = electiveDays.ElementAt(i);
                 new NpgsqlCommand(
                     $@"INSERT INTO elective_days 
                               VALUES ({elective.Id}, {day})",
                     SqlConnection).ExecuteNonQuery();
+            }
+            
+            ClearCurrentConsoleLine();
+            Console.Write($"Создается новая таблица: [{electiveDays.Count} / {electiveDays.Count}]");
 
             SqlConnection.Close();
         }
@@ -209,13 +232,26 @@ namespace Database
             SqlConnection.Open();
 
             new NpgsqlCommand("TRUNCATE selected_electives", SqlConnection).ExecuteNonQuery();
+            Console.WriteLine("\nТаблица с выборами студентов была удалена");
 
-            foreach (var (student, choices) in studentChoices)
-                for (var i = 0; i < choices.Length; i++)
+            for (var i = 0; i < studentChoices.Count; i++)
+            {
+                if (i % (studentChoices.Count / 100) == 0)
+                {
+                    ClearCurrentConsoleLine();
+                    Console.Write($"Создается новая таблица: [{i} / {studentChoices.Count}]");
+                }
+                
+                var (student, choices) = studentChoices.ElementAt(i);
+                for (var j = 0; j < choices.Length; j++)
                     new NpgsqlCommand(
                         $@"INSERT INTO selected_electives 
-                                  VALUES ('{student}', {choices[i]}, {i + 1}, {false})",
+                                  VALUES ('{student}', {choices[j]}, {j + 1}, {false})",
                         SqlConnection).ExecuteNonQuery();
+            }
+            
+            ClearCurrentConsoleLine();
+            Console.Write($"Создается новая таблица: [{studentChoices.Count} / {studentChoices.Count}]");
 
             SqlConnection.Close();
         }
@@ -279,7 +315,7 @@ namespace Database
                                 regularPoints <= popularPoints)
                             {
                                 GenerateChoices(unpopular, popular, unpopularPoints, regularPoints, popularPoints);
-                                Console.WriteLine("\nВыборы студентов успешно сгенерорированы");
+                                Console.WriteLine("\nВыборы студентов успешно сгенерированы");
                             }
 
                             break;
@@ -300,6 +336,9 @@ namespace Database
                         case "4":
                             work = false;
                             break;
+                        case "5":
+                            GenerateSomeStrings();
+                            break;
                     }
                 }
                 catch (Exception e)
@@ -310,6 +349,24 @@ namespace Database
                 if (work)
                     Console.ReadKey();
             }
+        }
+
+        private static void GenerateSomeStrings()
+        {
+            Console.WriteLine("А вот и строки:");
+            Console.WriteLine("Один");
+            Console.WriteLine("Два");
+            Console.Write("Три");
+            Thread.Sleep(5000);
+            ClearCurrentConsoleLine();
+        }
+
+        private static void ClearCurrentConsoleLine()
+        {
+            var currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.BufferWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }
