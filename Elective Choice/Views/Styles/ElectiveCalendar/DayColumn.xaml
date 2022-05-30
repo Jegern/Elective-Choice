@@ -40,11 +40,11 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                 <Border Background="#C2A1F2"
-                                        Height="187"
+                                        Height="{Binding ActualHeight, ElementName=Plus}"
                                         BorderThickness="1"
                                         BorderBrush="#9C7FCA"
                                         CornerRadius="5"
-                                        Margin="3, 2.5, 3, 13.5">
+                                        Margin="3, 3, 3, 13">
                                     <Grid Margin="10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition MinWidth="25" />
@@ -70,16 +70,19 @@
                                             <Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftClick"
                                                               Command="{Binding CrossCommand, ElementName=Root}"
-                                                              CommandParameter="{Binding Name}"/>
+                                                              CommandParameter="{Binding Name}" />
                                             </Image.InputBindings>
                                         </Image>
                                         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                    Text="{Binding Capacity, StringFormat=Вместимость: {0}}"
                                                    FontStyle="Italic" />
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                                   Text="{Binding Annotation}"
-                                                   TextWrapping="Wrap"
-                                                   Margin="0, 5, 0, 0" />
+                                        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                                      VerticalScrollBarVisibility="Hidden"
+                                                      HorizontalScrollBarVisibility="Disabled"
+                                                      Margin="0, 5, 0, 0">
+                                            <TextBlock Text="{Binding Annotation}"
+                                                       TextWrapping="Wrap" />
+                                        </ScrollViewer>
                                     </Grid>
                                 </Border>
                             </ControlTemplate>

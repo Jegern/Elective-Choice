@@ -5,47 +5,23 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
       xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+      xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vms:StatisticsViewModel />
     </Page.DataContext>
-    
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Header/TextBlock.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Background="{StaticResource HeaderColor}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="0"
-                   Source="Icons/Left.png"
-                   Width="50" Height="50"
-                   Cursor="Hand"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center">
-                <Image.InputBindings>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding BackToListCommand}" />
-                </Image.InputBindings>
-            </Image>
-            <TextBlock Grid.Column="1"
-                       Text="{Binding Name}"
-                       Style="{StaticResource Header}"
-                       Margin="0, 0, 100, 0"/>
-        </Grid>
+        <header:Header Grid.Row="0"
+                     Text="{Binding HeaderText}"
+                     IconVisibility="Visible"
+                     GoBackCommand="{Binding GoBackCommand}"/> 
+        
         <lvc:CartesianChart Grid.Row="1"
                             Series="{Binding Series}"
                             XAxes="{Binding XAxes}"

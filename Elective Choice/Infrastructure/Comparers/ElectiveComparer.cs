@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Elective_Choice.Models;
 
 namespace Elective_Choice.Infrastructure.Comparers;
@@ -18,6 +17,6 @@ public class ElectiveComparer : IEqualityComparer<Elective>
 
     public int GetHashCode(Elective obj)
     {
-        return HashCode.Combine(obj.Name, obj.Capacity, obj.Annotation, obj.Link, obj.Counts, obj.Problem);
+        return obj.Name.GetHashCode();
     }
 }

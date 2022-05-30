@@ -8,7 +8,6 @@
       xmlns:sideMenu="clr-namespace:Elective_Choice.Views.Styles.SideMenu"
       mc:Ignorable="d"
 
-      Width="1280" Height="720"
       Loaded="AdminPage_OnLoaded">
 
     <Page.DataContext>

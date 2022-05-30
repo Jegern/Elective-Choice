@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -18,21 +19,18 @@
                 <ResourceDictionary Source="Styles/Semesters/RightDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/Semesters/MiddleDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/Semesters/LeftDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/Header/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Background="{StaticResource HeaderColor}">
-            <TextBlock Text="Семестры, прошедшие распределение"
-                       Style="{StaticResource Header}" />
-        </Grid>
+        <header:Header Grid.Row="0"
+                       Text="Семестры, прошедшие распределение"
+                       IconVisibility="Collapsed" />
 
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Path=Semesters}">

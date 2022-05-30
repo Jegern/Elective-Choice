@@ -48,6 +48,7 @@
             </Image>
             <Image Grid.Row="0" Grid.Column="1"
                    Source="../../Icons/User (White).png"
+                   RenderOptions.BitmapScalingMode="HighQuality"
                    Width="75" Height="75"
                    Cursor="Hand"
                    VerticalAlignment="Bottom" />

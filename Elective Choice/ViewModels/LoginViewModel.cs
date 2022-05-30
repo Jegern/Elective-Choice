@@ -10,7 +10,7 @@ public class LoginViewModel : ViewModel
 {
     #region Fields
 
-    private string _email = "stud0000175711@study.utmn.ru";
+    private string _email = "stud0000211632@study.utmn.ru";
     private string _password = "string.Empty";
 
     public string Email

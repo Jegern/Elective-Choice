@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -17,7 +18,6 @@
                 <ResourceDictionary Source="Styles/Electives/DataGridColumnHeader.xaml" />
                 <ResourceDictionary Source="Styles/Electives/LeftDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/Electives/RightDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/Header/TextBlock.xaml" />
                 <ResourceDictionary Source="Styles/Electives/TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -25,32 +25,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0"
-              Background="{StaticResource HeaderColor}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="0"
-                   Source="Icons/Left.png"
-                   Width="50" Height="50"
-                   Cursor="Hand"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center">
-                <Image.InputBindings>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding GoBackCommand}" />
-                </Image.InputBindings>
-            </Image>
-            <TextBlock Grid.Column="1" 
+        <header:Header Grid.Row="0"
                        Text="{Binding HeaderText}"
-                       Style="{StaticResource Header}"
-                       Margin="0, 0, 100, 0"/>
-        </Grid>
+                       IconVisibility="Visible"
+                       GoBackCommand="{Binding GoBackCommand}" />
 
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Path=Electives}">

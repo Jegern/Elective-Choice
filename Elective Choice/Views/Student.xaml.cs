@@ -18,7 +18,10 @@ public partial class Student
     {
         var window = Application.Current.MainWindow;
         if (window is null) return;
-        window.SizeToContent = SizeToContent.WidthAndHeight;
+        window.MinWidth = 960;
+        window.MinHeight = 720;
+        window.Width = 1280;
+        window.Height = 720;
         window.Top = (SystemParameters.WorkArea.Height - window.Height) / 2;
         window.Left = (SystemParameters.WorkArea.Width - window.Width) / 2;
     }

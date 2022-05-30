@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Elective_Choice.Views.Styles.Header.Header"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             x:Name="Root"
+             Height="50">
+
+    <Grid Background="#0069A5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0"
+               Source="../../Icons/Left.png"
+               Width="25" Height="25"
+               Visibility="{Binding IconVisibility, ElementName=Root}"
+               Cursor="Hand"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="12.5, 0">
+            <Image.InputBindings>
+                <MouseBinding MouseAction="LeftClick"
+                              Command="{Binding GoBackCommand, ElementName=Root}" />
+            </Image.InputBindings>
+        </Image>
+        <TextBlock Grid.Column="1"
+                   Text="{Binding Text, ElementName=Root}"
+                   Foreground="White"
+                   FontSize="25"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Center"
+                   Margin="30, 0" />
+    </Grid>
+</UserControl>

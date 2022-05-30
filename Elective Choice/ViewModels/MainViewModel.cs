@@ -13,7 +13,6 @@ public class MainViewModel : ViewModel
 
     private new static EventSource Source { get; } = new();
     private Page _frameContent = new Login(Source);
-    private ResizeMode _resizeMode = ResizeMode.CanMinimize;
 
     public Page FrameContent
     {
@@ -21,18 +20,12 @@ public class MainViewModel : ViewModel
         set => Set(ref _frameContent, value);
     }
 
-    public ResizeMode ResizeMode
-    {
-        get => _resizeMode;
-        private set => Set(ref _resizeMode, value);
-    }
-
     #endregion
 
     public MainViewModel()
     {
         Source.LoginSucceed += Login_OnSucceed;
-        Source.LogoutSucceed +=  SourceOnLogoutSucceed;
+        Source.LogoutSucceed +=  Logout_OnSucceed;
     }
 
     #region Event Subcription
@@ -40,14 +33,12 @@ public class MainViewModel : ViewModel
     private void Login_OnSucceed(object? sender, LoginEventArgs e)
     {
         FrameContent = e.Rights ? new Admin(Source) : new Student(Source);
-        ResizeMode = ResizeMode.CanResize;
         Source.RaiseLoginCompleted(sender, e);
     }
     
-    private void SourceOnLogoutSucceed(object? sender, LoginEventArgs e)
+    private void Logout_OnSucceed(object? sender, LoginEventArgs e)
     {
         FrameContent = new Login(Source);
-        ResizeMode = ResizeMode.CanMinimize;
     }
 
     #endregion

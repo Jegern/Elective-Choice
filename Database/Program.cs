@@ -168,8 +168,9 @@ namespace Database
             double regularPoints = 2,
             double popularPoints = 4)
         {
+            var random = new Random();
             var students = ReadStudentIds();
-            var electives = ReadElectives();
+            var electives = ReadElectives().OrderBy(_ => random.Next()).ToList();
 
             var propabilities = new double[electives.Count];
             var sum = unpopular * unpopularPoints +

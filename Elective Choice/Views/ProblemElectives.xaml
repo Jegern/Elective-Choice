@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -18,7 +19,6 @@
                 <ResourceDictionary Source="Styles/Electives/DataGridColumnHeader.xaml" />
                 <ResourceDictionary Source="Styles/Electives/LeftDataGridCell.xaml" />
                 <ResourceDictionary Source="Styles/Electives/RightDataGridCell.xaml" />
-                <ResourceDictionary Source="Styles/Header/TextBlock.xaml" />
                 <ResourceDictionary Source="Styles/Electives/TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -26,20 +26,17 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0"
-              Background="{StaticResource HeaderColor}">
-            <TextBlock Grid.Column="0"
-                       Text="Элективы, требующие внимания"
-                       Style="{StaticResource Header}" />
-        </Grid>
+        <header:Header Grid.Row="0"
+                     Text="Элективы, требующие внимания"
+                     IconVisibility="Collapsed"/> 
 
         <TabControl Grid.Row="1">
             <TabItem Header="Не собранные">
                 <DataGrid ItemsSource="{Binding Incomplete}"
+                          HorizontalScrollBarVisibility="Disabled"
                           CellEditEnding="DataGrid_OnCellEditEnding"
                           CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
@@ -73,6 +70,7 @@
             </TabItem>
             <TabItem Header="Переполненные">
                 <DataGrid ItemsSource="{Binding Overflowed}"
+                          HorizontalScrollBarVisibility="Disabled"
                           CellEditEnding="DataGrid_OnCellEditEnding"
                           CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
                     <DataGrid.Columns>
@@ -106,6 +104,7 @@
             </TabItem>
             <TabItem Header="Решенные">
                 <DataGrid ItemsSource="{Binding Resolved}"
+                          HorizontalScrollBarVisibility="Disabled"
                           CellEditEnding="DataGrid_OnCellEditEnding"
                           CurrentCellChanged="ResolvedDataGrid_OnCurrentCellChanged ">
                     <DataGrid.Columns>

@@ -19,12 +19,12 @@ public class StatisticsViewModel : ViewModel
 {
     #region Fields
 
-    private string _name = string.Empty;
+    private string _headerText = string.Empty;
 
-    public string Name
+    public string HeaderText
     {
-        get => _name;
-        set => Set(ref _name, value);
+        get => _headerText;
+        set => Set(ref _headerText, value);
     }
 
     public static List<ISeries> Series { get; set; } = new()
@@ -101,9 +101,9 @@ public class StatisticsViewModel : ViewModel
         //     nameof(EventSource.StatisticsLoaded), 
         //     Statistics_OnLoaded);
 
-        BackToListCommand = new Command(
-            BackToListCommand_OnExecuted,
-            BackToListCommand_CanExecute);
+        GoBackCommand = new Command(
+            GoBackCommand_OnExecuted,
+            GoBackCommand_CanExecute);
     }
 
     #region Event Subscription
@@ -111,7 +111,7 @@ public class StatisticsViewModel : ViewModel
     private void Statistics_OnLoaded(object? sender, StatisticsEventArgs e)
     {
         // TODO: Исправить множественную подписку на событие
-        Name = e.Name;
+        HeaderText = e.Name;
 
         if (e.Year is null || e.Spring is null)
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name));
@@ -133,15 +133,15 @@ public class StatisticsViewModel : ViewModel
 
     #endregion
 
-    #region BackToListCommand
+    #region GoBackCommand
 
-    public Command? BackToListCommand { get; }
+    public Command? GoBackCommand { get; }
 
-    private bool BackToListCommand_CanExecute(object? parameter) => Name != string.Empty;
+    private bool GoBackCommand_CanExecute(object? parameter) => HeaderText != string.Empty;
 
-    private void BackToListCommand_OnExecuted(object? parameter)
+    private void GoBackCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseStatisticsClosing(this, new StatisticsEventArgs(Name));
+        Source?.RaiseStatisticsClosing(this, new StatisticsEventArgs(HeaderText));
     }
 
     #endregion

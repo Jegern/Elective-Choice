@@ -176,23 +176,20 @@ public class ElectiveCalendarViewModel : ViewModel
 
     private void CrossCommand_OnExecuted(object? parameter)
     {
-        for (var i = 0; i < TuesdayElectives.Count; i++)
-            if (TuesdayElectives[i].Name == (string) parameter!)
-                TuesdayElectives.RemoveAt(i);
+        var electiveName = (string) parameter!;
+        RemoveElectiveFromObservableCollection(TuesdayElectives, electiveName);
+        RemoveElectiveFromObservableCollection(WednesdayElectives, electiveName);
+        RemoveElectiveFromObservableCollection(ThurdayElectives, electiveName);
+        RemoveElectiveFromObservableCollection(FridayElectives, electiveName);
 
-        for (var i = 0; i < WednesdayElectives.Count; i++)
-            if (WednesdayElectives[i].Name == (string) parameter!)
-                WednesdayElectives.RemoveAt(i);
+        DatabaseAccess.RemoveStudentElective(Email.Substring(4, 10), electiveName);
+    }
 
-        for (var i = 0; i < ThurdayElectives.Count; i++)
-            if (ThurdayElectives[i].Name == (string) parameter!)
-                ThurdayElectives.RemoveAt(i);
-
-        for (var i = 0; i < FridayElectives.Count; i++)
-            if (FridayElectives[i].Name == (string) parameter!)
-                FridayElectives.RemoveAt(i);
-
-        DatabaseAccess.RemoveStudentElective(Email.Substring(4, 10), (string) parameter!);
+    private static void RemoveElectiveFromObservableCollection(IList<Elective> electives, string name)
+    {
+        for (var i = 0; i < electives.Count; i++)
+            if (electives[i].Name == name)
+                electives.RemoveAt(i);
     }
 
     #endregion

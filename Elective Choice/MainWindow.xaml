@@ -6,8 +6,7 @@
         xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
         mc:Ignorable="d"
 
-        ResizeMode="{Binding ResizeMode}"
-        SizeToContent="WidthAndHeight"
+        Width="500" Height="600"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
