@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -95,15 +97,15 @@ public class ElectiveCalendarViewModel : ViewModel
         var dayElectives = DatabaseAccess.GetStudentElectivesForDay(2, id);
         foreach (var elective in dayElectives)
             TuesdayElectives.Add(elective);
-        
+
         dayElectives = DatabaseAccess.GetStudentElectivesForDay(3, id);
         foreach (var elective in dayElectives)
             WednesdayElectives.Add(elective);
-        
+
         dayElectives = DatabaseAccess.GetStudentElectivesForDay(4, id);
         foreach (var elective in dayElectives)
             ThurdayElectives.Add(elective);
-        
+
         dayElectives = DatabaseAccess.GetStudentElectivesForDay(5, id);
         foreach (var elective in dayElectives)
             FridayElectives.Add(elective);
@@ -114,20 +116,20 @@ public class ElectiveCalendarViewModel : ViewModel
         switch (e.Day)
         {
             case "Вторник":
-                TuesdayElectives.Add(e.Elective!);
+                TuesdayElectives.Add(e.Electives[^1]);
                 break;
             case "Среда":
-                WednesdayElectives.Add(e.Elective!);
+                WednesdayElectives.Add(e.Electives[^1]);
                 break;
             case "Четверг":
-                ThurdayElectives.Add(e.Elective!);
+                ThurdayElectives.Add(e.Electives[^1]);
                 break;
             case "Пятница":
-                FridayElectives.Add(e.Elective!);
+                FridayElectives.Add(e.Electives[^1]);
                 break;
         }
 
-        DatabaseAccess.AddStudentElective(Email.Substring(4, 10), e.Elective!.Name, ElectiveCounter);
+        DatabaseAccess.AddStudentElective(Email.Substring(4, 10), e.Electives[^1].Name, ElectiveCounter);
     }
 
     private void DayElectives_OnChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -152,7 +154,14 @@ public class ElectiveCalendarViewModel : ViewModel
 
     private void PlusCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseDayLoading(this, new DayEventArgs((string) parameter!));
+        Source?.RaiseDayLoading(this, new DayEventArgs((string) parameter!, (string) parameter! switch
+        {
+            "Вторник" => TuesdayElectives.ToList(),
+            "Среда" => WednesdayElectives.ToList(),
+            "Четверг" => ThurdayElectives.ToList(),
+            "Пятница" => FridayElectives.ToList(),
+            _ => new List<Elective>()
+        }));
     }
 
     #endregion
@@ -182,7 +191,7 @@ public class ElectiveCalendarViewModel : ViewModel
         for (var i = 0; i < FridayElectives.Count; i++)
             if (FridayElectives[i].Name == (string) parameter!)
                 FridayElectives.RemoveAt(i);
-        
+
         DatabaseAccess.RemoveStudentElective(Email.Substring(4, 10), (string) parameter!);
     }
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Elective_Choice.Infrastructure.Commands.Base;
+using Elective_Choice.Infrastructure.Comparers;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
@@ -12,9 +14,10 @@ public class DayElectivesViewModel : ViewModel
     #region Fields
 
     private string _headerText = string.Empty;
-    private List<Elective>? _electives;
+    private List<Elective>? _dayElectives;
 
     private string Day { get; set; } = string.Empty;
+    private List<Elective>? Electives { get; set; }
 
     public string HeaderText
     {
@@ -22,10 +25,10 @@ public class DayElectivesViewModel : ViewModel
         set => Set(ref _headerText, value);
     }
 
-    public List<Elective>? Electives
+    public List<Elective>? DayElectives
     {
-        get => _electives;
-        set => Set(ref _electives, value);
+        get => _dayElectives;
+        set => Set(ref _dayElectives, value);
     }
 
     #endregion
@@ -51,15 +54,16 @@ public class DayElectivesViewModel : ViewModel
     private void DayOnLoaded(object? sender, DayEventArgs e)
     {
         Day = e.Day;
+        Electives = e.Electives;
         HeaderText = $"Элективы на {e.Day switch {"Среда" => "среду", "Пятница" => "пятницу", _ => e.Day.ToLower()}}";
-        Electives = DatabaseAccess.GetElectivesForDay(e.Day switch
+        DayElectives = DatabaseAccess.GetElectivesForDay(e.Day switch
         {
             "Вторник" => 2,
             "Среда" => 3,
             "Четверг" => 4,
             "Пятница" => 5,
             _ => 0
-        });
+        }).Except(Electives, new ElectiveComparer()).ToList();
     }
 
     #endregion
@@ -76,8 +80,9 @@ public class DayElectivesViewModel : ViewModel
 
     private void ChooseElectiveCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseDayElectiveChosen(this, new DayEventArgs(Day, (Elective) parameter!));
-        Source?.RaiseDayClosing(this, new DayEventArgs(Day, (Elective) parameter!));
+        Electives!.Add((Elective) parameter!);
+        Source?.RaiseDayElectiveChosen(this, new DayEventArgs(Day, Electives!));
+        Source?.RaiseDayClosing(this, new DayEventArgs(Day, Electives!));
     }
 
     #endregion
@@ -86,11 +91,11 @@ public class DayElectivesViewModel : ViewModel
 
     public Command? GoBackCommand { get; }
 
-    private bool GoBackCommand_CanExecute(object? parameter) => Day != string.Empty;
+    private bool GoBackCommand_CanExecute(object? parameter) => true;
 
     private void GoBackCommand_OnExecuted(object? parameter)
     {
-        Source?.RaiseDayClosing(this, new DayEventArgs(Day));
+        Source?.RaiseDayClosing(this, new DayEventArgs(Day, Electives!));
     }
 
     #endregion

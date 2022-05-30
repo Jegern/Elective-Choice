@@ -53,7 +53,7 @@
         </Grid>
         
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Path=Electives}">
+                  ItemsSource="{Binding Path=DayElectives}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название электива"
                                     Binding="{Binding Name}"

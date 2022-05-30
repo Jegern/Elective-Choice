@@ -38,7 +38,7 @@ namespace Database
             var marks = ReadMarks();
 
             var studentMarks = new Dictionary<string, List<int>>();
-            for (var i = 1; i < studentExams.Count; i++)
+            for (var i = 0; i < studentExams.Count; i++)
                 if (studentMarks.ContainsKey(studentExams[i]))
                     studentMarks[studentExams[i]].Add(marks[i]);
                 else

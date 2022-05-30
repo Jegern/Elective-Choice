@@ -68,7 +68,7 @@ public class StudentViewModel : ViewModel
     {
         CalendarPage = FrameContent;
         FrameContent = new DayElectives(Source!);
-        Source?.RaiseDayLoaded(this, new DayEventArgs(e.Day));
+        Source?.RaiseDayLoaded(this, e);
     }
 
     private void Day_OnClosing(object? sender, DayEventArgs e)

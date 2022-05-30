@@ -1,6 +1,5 @@
 using System;
 using Elective_Choice.Infrastructure.EventArgs;
-using Elective_Choice.Models;
 
 namespace Elective_Choice.Infrastructure.EventSource;
 

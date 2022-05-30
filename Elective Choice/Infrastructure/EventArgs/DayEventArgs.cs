@@ -1,15 +1,16 @@
-﻿using Elective_Choice.Models;
+﻿using System.Collections.Generic;
+using Elective_Choice.Models;
 
 namespace Elective_Choice.Infrastructure.EventArgs;
 
 public class DayEventArgs : System.EventArgs
 {
     public string Day { get; }
-    public Elective? Elective { get; }
+    public List<Elective> Electives { get; }
 
-    public DayEventArgs(string day, Elective? elective = null)
+    public DayEventArgs(string day, List<Elective> electives)
     {
         Day = day;
-        Elective = elective;
+        Electives = electives;
     }
 }
