@@ -13,7 +13,7 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WPF;
 using SkiaSharp;
 
-namespace Elective_Choice.ViewModels;
+namespace Elective_Choice.ViewModels.Admin;
 
 public class StatisticsViewModel : ViewModel
 {

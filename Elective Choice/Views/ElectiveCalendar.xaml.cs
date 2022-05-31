@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels;
+using Elective_Choice.ViewModels.Student;
 
 namespace Elective_Choice.Views;
 

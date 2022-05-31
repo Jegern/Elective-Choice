@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Views;
@@ -32,7 +31,7 @@ public class MainViewModel : ViewModel
 
     private void Login_OnSucceed(object? sender, LoginEventArgs e)
     {
-        FrameContent = e.Rights ? new Admin(Source) : new Student(Source);
+        FrameContent = e.Rights ? new Views.Admin(Source) : new Views.Student(Source);
         Source.RaiseLoginCompleted(sender, e);
     }
     

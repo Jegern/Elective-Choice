@@ -8,7 +8,7 @@ using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Base;
 
-namespace Elective_Choice.ViewModels;
+namespace Elective_Choice.ViewModels.Student;
 
 public class ElectiveCalendarViewModel : ViewModel
 {
