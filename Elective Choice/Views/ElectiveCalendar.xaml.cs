@@ -17,6 +17,7 @@ public partial class ElectiveCalendar
         DataContext = email == string.Empty
             ? new ElectiveCalendarViewModel(source)
             : new ElectiveCalendarViewModel(source, email);
+        // TODO: Подписка на событие происходит после обновления списков
         ((ElectiveCalendarViewModel) DataContext).TuesdayElectives.CollectionChanged += TuesdayElectives_OnChanged;
         ((ElectiveCalendarViewModel) DataContext).WednesdayElectives.CollectionChanged += WednesdayElectives_OnChanged;
         ((ElectiveCalendarViewModel) DataContext).ThurdayElectives.CollectionChanged += ThurdayElectives_OnChanged;

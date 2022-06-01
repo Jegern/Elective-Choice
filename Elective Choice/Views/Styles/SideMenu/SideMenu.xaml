@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="0"
-                   Source="../../Icons/Menu.png"
+                   Source="../../Icons/Menu (White).png"
                    Width="20" Height="20"
                    VerticalAlignment="Top"
                    Margin="20, 20, 0, 0">

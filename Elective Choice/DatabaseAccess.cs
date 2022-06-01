@@ -310,4 +310,28 @@ public static class DatabaseAccess
 
         SqlConnection.Close();
     }
+
+    public static List<Elective> GetStudentElectives(string studentId)
+    {
+        SqlConnection.Open();
+
+        var electives = new List<Elective>();
+        var reader = new NpgsqlCommand(
+            $@"SELECT name, capacity, day_of_week
+                      FROM selected_electives
+                          JOIN electives ON selected_electives.elective_id = electives.id
+                          JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
+                      WHERE student_id = '{studentId}'
+                      ORDER BY priority",
+            SqlConnection).ExecuteReader();
+        while (reader.Read())
+            electives.Add(new Elective(
+                reader.GetString(0),
+                reader.GetInt32(1),
+                day: reader.GetInt32(2)));
+
+        SqlConnection.Close();
+
+        return electives;
+    }
 }

@@ -13,8 +13,6 @@
       <Resource Include="Views\Icons\User (White).png" />
       <None Remove="Views\Icons\User (Gray).png" />
       <Resource Include="Views\Icons\User (Gray).png" />
-      <None Remove="Views\Icons\Menu.png" />
-      <Resource Include="Views\Icons\Menu.png" />
       <None Remove="Views\Icons\Logout.png" />
       <Resource Include="Views\Icons\Logout.png" />
       <None Remove="Views\Icons\Edit.png" />
@@ -37,6 +35,10 @@
       <Resource Include="Views\Icons\Result.png" />
       <None Remove="Views\Icons\Cross.png" />
       <Resource Include="Views\Icons\Cross.png" />
+      <None Remove="Views\Icons\Menu (Violet).png" />
+      <Resource Include="Views\Icons\Menu (Violet).png" />
+      <None Remove="Views\Icons\Menu (White).png" />
+      <Resource Include="Views\Icons\Menu (White).png" />
     </ItemGroup>
 
     <ItemGroup>

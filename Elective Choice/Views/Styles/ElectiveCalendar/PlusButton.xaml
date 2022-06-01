@@ -7,16 +7,14 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style TargetType="{x:Type Grid}">
-            <Setter Property="Opacity" Value="0" />
-            <Setter Property="Cursor" Value="Hand" />
+        <Style TargetType="{x:Type Border}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                 To="1" Duration="0:0:0.3" />
+                                                 To="0.5" Duration="0:0:0.3" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -33,15 +31,15 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown">
-        <Border Background="LightGray"
-                BorderThickness="1"
-                BorderBrush="Black"
-                Opacity="0.4"
-                CornerRadius="5">
-            <Image
-                   Source="../../Icons/Plus.png"
-                   Width="55"/>
-        </Border>
-    </Grid>
+    <Border Background="LightGray"
+            BorderThickness="1"
+            BorderBrush="Black"
+            CornerRadius="5"
+            Opacity="0"
+            Cursor="Hand"
+            MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown">
+        <Image
+            Source="../../Icons/Plus.png"
+            Width="55" />
+    </Border>
 </UserControl>

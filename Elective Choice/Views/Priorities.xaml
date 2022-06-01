@@ -3,10 +3,84 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
+      xmlns:vms="clr-namespace:Elective_Choice.ViewModels.Student"
+      xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
+      xmlns:priorities="clr-namespace:Elective_Choice.Views.Styles.Priorities"
       mc:Ignorable="d">
-    
+
+    <Page.DataContext>
+        <vms:PrioritiesViewModel />
+    </Page.DataContext>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <header:Header Grid.Row="0"
+                       Text="Приоритеты"
+                       IconVisibility="Collapsed" />
+
+        <Grid Grid.Row="1"
+              Height="50">
+            <TextBlock Text="Расставьте элективы в порядке приоритета"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="20, 0" />
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="Высший"
+                       Foreground="Gray"
+                       FontWeight="SemiBold"
+                       Margin="0, 10, 0, 0" />
+
+            <TextBlock Grid.Column="0"
+                       Text="Низший"
+                       Foreground="Gray"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Center"
+                       Margin="10, 0, 0, 10" />
+
+            <Polygon Grid.Column="0"
+                     Points="5, 0, 10, 0, 10, 10"
+                     Fill="LightGray"
+                     Stretch="Fill"
+                     Margin="50, 10, 10, 10" />
+
+            <UniformGrid Grid.Column="1"
+                         Columns="1">
+                <priorities:UpperCard />
+                <priorities:UpperCard />
+                <priorities:UpperCard />
+                <priorities:UpperCard />
+                <priorities:UpperCard />
+            </UniformGrid>
+        </Grid>
+
+        <Canvas Grid.Row="3"
+                Background="LightGray" />
+
+        <UniformGrid Grid.Row="4"
+                     Rows="1">
+            <priorities:LowerCard x:Name="FirstLowerCard"/>
+            <priorities:LowerCard x:Name="SecondLowerCard" />
+            <priorities:LowerCard x:Name="ThirdLowerCard" />
+            <priorities:LowerCard x:Name="FourthLowerCard" />
+            <priorities:LowerCard x:Name="FifthLowerCard" />
+        </UniformGrid>
     </Grid>
 </Page>

@@ -114,6 +114,7 @@ public class StudentViewModel : ViewModel
 
     private void PrioritizeCommand_OnExecute(object? parameter)
     {
+        FrameContent = new Priorities(Source!, Email);
     }
 
     #endregion

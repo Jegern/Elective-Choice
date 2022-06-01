@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Elective_Choice.Views.Styles.ElectiveCalendar"
              mc:Ignorable="d"
-             x:Name="Root">
+             x:Name="Root"
+             SnapsToDevicePixels="True">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -25,12 +26,12 @@
                    FontWeight="Bold"
                    VerticalAlignment="Center"
                    Margin="20, 0" />
-        <Canvas Grid.Row="1"
-                Background="LightGray" />
 
         <ListBox Grid.Row="2" Grid.RowSpan="5"
                  ItemsSource="{Binding Electives, ElementName=Root}"
+                 Background="Transparent"
                  BorderThickness="0"
+                 Margin="-1, -1, -1, 0"
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -97,13 +98,13 @@
                           PlusCommand="{Binding PlusCommand, ElementName=Root}"
                           Day="{Binding Text, ElementName=Day}"
                           Margin="3" />
-
+        
+        <Canvas Grid.Row="1"
+                Background="LightGray" />
         <Canvas Grid.Row="3"
                 Background="LightGray" />
-
         <Canvas Grid.Row="5"
                 Background="LightGray" />
-
         <Canvas Grid.Row="7"
                 Background="LightGray" />
     </Grid>
