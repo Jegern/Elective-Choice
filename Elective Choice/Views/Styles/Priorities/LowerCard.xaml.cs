@@ -35,7 +35,7 @@ public partial class LowerCard
         nameof(IsEnabled),
         typeof(bool),
         typeof(LowerCard),
-        new PropertyMetadata(true));
+        new PropertyMetadata(false));
 
     public new bool IsEnabled
     {

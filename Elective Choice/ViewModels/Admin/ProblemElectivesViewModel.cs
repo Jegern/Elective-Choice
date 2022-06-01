@@ -30,6 +30,8 @@ public class ProblemElectivesViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public ProblemElectivesViewModel()
     {
     }
@@ -43,6 +45,8 @@ public class ProblemElectivesViewModel : ViewModel
             OpenElectiveCommand_OnExecuted,
             OpenElectiveCommand_CanExecute);
     }
+
+    #endregion
 
     #region Commands
 

@@ -63,10 +63,10 @@ public class StatisticsViewModel : ViewModel
 
     private static string TooltipLabelFormatter(ChartPoint<int, RoundedRectangleGeometry, LabelGeometry> point)
     {
-        var chart = (CartesianChart) point.Context.Chart;
+        var chart = (CartesianChart)point.Context.Chart;
         var totalSelected = 0d;
         for (var i = 0; i < Series.Count - 1; i++)
-            totalSelected += ((int[]) chart.Series.ElementAt(i).Values!).Sum();
+            totalSelected += ((int[])chart.Series.ElementAt(i).Values!).Sum();
         return $"{Math.Round(100 * point.PrimaryValue / totalSelected, 2)}%";
     }
 
@@ -74,7 +74,7 @@ public class StatisticsViewModel : ViewModel
     {
         new Axis
         {
-            Labels = new[] {"1 приоритет", "2 приоритет", "3 приоритет", "4 приоритет", "5 приоритет"},
+            Labels = new[] { "1 приоритет", "2 приоритет", "3 приоритет", "4 приоритет", "5 приоритет" },
             LabelsRotation = 15
         }
     };
@@ -89,6 +89,8 @@ public class StatisticsViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public StatisticsViewModel()
     {
     }
@@ -96,27 +98,41 @@ public class StatisticsViewModel : ViewModel
     public StatisticsViewModel(EventSource source) : base(source)
     {
         source.StatisticsLoaded += Statistics_OnLoaded;
-        // WeakEventManager<EventSource, StatisticsEventArgs>.AddHandler(
-        //     source, 
-        //     nameof(EventSource.StatisticsLoaded), 
-        //     Statistics_OnLoaded);
 
         GoBackCommand = new Command(
             GoBackCommand_OnExecuted,
             GoBackCommand_CanExecute);
     }
 
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.StatisticsLoaded -= Statistics_OnLoaded;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
     #region Event Subscription
 
     private void Statistics_OnLoaded(object? sender, StatisticsEventArgs e)
     {
-        // TODO: Исправить множественную подписку на событие
         HeaderText = e.Name;
 
         if (e.Year is null || e.Spring is null)
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name));
         else
-            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name, (int) e.Year, (bool) e.Spring));
+            FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name, (int)e.Year, (bool)e.Spring));
     }
 
     private static void FillSeriesWith(IReadOnlyList<int[]> values)
@@ -124,11 +140,11 @@ public class StatisticsViewModel : ViewModel
         for (var i = 0; i < Series.Count; i++)
             Series[i].Values = values[i];
         for (var i = 0; i < 5; i++)
-            ((int[]) Series.ElementAt(^1).Values!)[i] = values[0][i] +
-                                                        values[1][i] +
-                                                        values[2][i] +
-                                                        values[3][i] +
-                                                        values[4][i];
+            ((int[])Series.ElementAt(^1).Values!)[i] = values[0][i] +
+                                                       values[1][i] +
+                                                       values[2][i] +
+                                                       values[3][i] +
+                                                       values[4][i];
     }
 
     #endregion
@@ -142,6 +158,7 @@ public class StatisticsViewModel : ViewModel
     private void GoBackCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseStatisticsClosing(this, new StatisticsEventArgs(HeaderText));
+        Dispose();
     }
 
     #endregion

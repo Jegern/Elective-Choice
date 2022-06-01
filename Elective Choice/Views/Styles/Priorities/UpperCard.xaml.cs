@@ -36,7 +36,7 @@ public partial class UpperCard
         nameof(IsEnabled),
         typeof(bool),
         typeof(UpperCard),
-        new PropertyMetadata(true));
+        new PropertyMetadata(false));
 
     public new bool IsEnabled
     {

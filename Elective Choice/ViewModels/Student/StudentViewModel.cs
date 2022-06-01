@@ -19,7 +19,7 @@ public class StudentViewModel : ViewModel
     public Page? FrameContent
     {
         get => _frameContent;
-        set => Set(ref _frameContent, value);
+        private set => Set(ref _frameContent, value);
     }
 
     public string FullName
@@ -29,6 +29,8 @@ public class StudentViewModel : ViewModel
     }
 
     #endregion
+
+    #region Constructor
 
     public StudentViewModel()
     {
@@ -41,7 +43,7 @@ public class StudentViewModel : ViewModel
         source.DayClosing += Day_OnClosing;
 
         FrameContent = new ElectiveCalendar(source, Email);
-        
+
         LogoutCommand = new Command(
             LogoutCommand_OnExecute,
             LogoutCommand_CanExecute);
@@ -55,6 +57,27 @@ public class StudentViewModel : ViewModel
             ResultCommand_OnExecute,
             ResultCommand_CanExecute);
     }
+
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.LoginCompleted -= Login_OnCompleted;
+                Source.DayLoading -= Day_OnLoading;
+                Source.DayClosing -= Day_OnClosing;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
 
     #region Event Subscription
 
@@ -77,7 +100,7 @@ public class StudentViewModel : ViewModel
     }
 
     #endregion
-    
+
     #region Commands
 
     #region LogoutCommand
@@ -89,6 +112,7 @@ public class StudentViewModel : ViewModel
     private void LogoutCommand_OnExecute(object? parameter)
     {
         Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
+        Dispose();
     }
 
     #endregion
@@ -114,6 +138,8 @@ public class StudentViewModel : ViewModel
 
     private void PrioritizeCommand_OnExecute(object? parameter)
     {
+        if (FrameContent is ElectiveCalendar calendar)
+            ((ElectiveCalendarViewModel)calendar.DataContext).Dispose();
         FrameContent = new Priorities(Source!, Email);
     }
 
@@ -127,6 +153,8 @@ public class StudentViewModel : ViewModel
 
     private void ResultCommand_OnExecute(object? parameter)
     {
+        if (FrameContent is ElectiveCalendar calendar)
+            ((ElectiveCalendarViewModel)calendar.DataContext).Dispose();
     }
 
     #endregion

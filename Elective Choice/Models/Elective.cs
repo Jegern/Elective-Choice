@@ -9,27 +9,27 @@ public class Elective
     public string Annotation { get; set; }
     
     public string Link { get; set; }
-    
-    public int Counts { get; set; }
-    
+
     public string Problem { get; set; }
     
     public int Day { get; set; }
+    
+    public int Priority { get; set; }
 
     public Elective(string name,
         int capacity,
         string annotation = "",
         string link = "",
-        int counts = 0,
         string problem = "",
-        int day = 0)
+        int day = 0,
+        int priority = 0)
     {
         Name = name;
         Capacity = capacity;
         Annotation = annotation;
         Link = link;
-        Counts = counts;
         Problem = problem;
         Day = day;
+        Priority = priority;
     }
 }

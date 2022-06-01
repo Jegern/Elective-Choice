@@ -19,7 +19,7 @@ public class ElectiveCalendarViewModel : ViewModel
     private ObservableCollection<Elective> _thurdayElectives = new();
     private ObservableCollection<Elective> _fridayElectives = new();
 
-    private string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public int ElectiveCounter { get; private set; }
 
     public ObservableCollection<Elective> TuesdayElectives
@@ -47,6 +47,8 @@ public class ElectiveCalendarViewModel : ViewModel
     }
 
     #endregion
+
+    #region Constructor
 
     public ElectiveCalendarViewModel()
     {
@@ -77,7 +79,7 @@ public class ElectiveCalendarViewModel : ViewModel
         ThurdayElectives.CollectionChanged += DayElectives_OnChanged;
         FridayElectives.CollectionChanged += DayElectives_OnChanged;
 
-        Login_OnCompleted(null, new LoginEventArgs(email, false));
+        Email = email;
 
         PlusCommand = new Command(
             PlusCommand_OnExecuted,
@@ -87,28 +89,35 @@ public class ElectiveCalendarViewModel : ViewModel
             CrossCommand_CanExecute);
     }
 
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.LoginCompleted -= Login_OnCompleted;
+                Source.DayElectiveChosen -= DayElective_OnChosen;
+                TuesdayElectives.CollectionChanged -= DayElectives_OnChanged;
+                WednesdayElectives.CollectionChanged -= DayElectives_OnChanged;
+                ThurdayElectives.CollectionChanged -= DayElectives_OnChanged;
+                FridayElectives.CollectionChanged -= DayElectives_OnChanged;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
     #region Event Subscription
 
     private void Login_OnCompleted(object? sender, LoginEventArgs e)
     {
         Email = e.Email;
-        var id = e.Email.Substring(4, 10);
-
-        var dayElectives = DatabaseAccess.GetStudentElectivesForDay(2, id);
-        foreach (var elective in dayElectives)
-            TuesdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(3, id);
-        foreach (var elective in dayElectives)
-            WednesdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(4, id);
-        foreach (var elective in dayElectives)
-            ThurdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(5, id);
-        foreach (var elective in dayElectives)
-            FridayElectives.Add(elective);
     }
 
     private void DayElective_OnChosen(object? sender, DayEventArgs e)
@@ -129,7 +138,7 @@ public class ElectiveCalendarViewModel : ViewModel
                 break;
         }
 
-        DatabaseAccess.AddStudentElective(Email.Substring(4, 10), e.Electives[^1].Name, ElectiveCounter);
+        DatabaseAccess.AddStudentElective(Email.Substring(4, 10), e.Electives[^1].Name, 0);
     }
 
     private void DayElectives_OnChanged(object? sender, NotifyCollectionChangedEventArgs e)

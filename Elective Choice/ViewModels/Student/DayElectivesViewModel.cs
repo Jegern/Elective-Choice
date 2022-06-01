@@ -33,13 +33,15 @@ public class DayElectivesViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public DayElectivesViewModel()
     {
     }
 
     public DayElectivesViewModel(EventSource source) : base(source)
     {
-        source.DayLoaded += DayOnLoaded;
+        source.DayLoaded += Day_OnLoaded;
 
         ChooseElectiveCommand = new Command(
             ChooseElectiveCommand_OnExecuted,
@@ -49,9 +51,28 @@ public class DayElectivesViewModel : ViewModel
             GoBackCommand_CanExecute);
     }
 
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.DayLoaded -= Day_OnLoaded;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
     #region Event Subscription
 
-    private void DayOnLoaded(object? sender, DayEventArgs e)
+    private void Day_OnLoaded(object? sender, DayEventArgs e)
     {
         Day = e.Day;
         Electives = e.Electives;
@@ -96,6 +117,7 @@ public class DayElectivesViewModel : ViewModel
     private void GoBackCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseDayClosing(this, new DayEventArgs(Day, Electives!));
+        Dispose();
     }
 
     #endregion

@@ -28,6 +28,8 @@ public class PrioritiesViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public PrioritiesViewModel()
     {
     }
@@ -35,6 +37,7 @@ public class PrioritiesViewModel : ViewModel
     public PrioritiesViewModel(EventSource source, string email) : base(source)
     {
         Email = email;
-        // var electives = DatabaseAccess.GetStudentElectives(email.Substring(4, 10));
     }
+
+    #endregion
 }

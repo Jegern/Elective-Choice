@@ -9,7 +9,13 @@ namespace Elective_Choice.ViewModels.Admin;
 
 public class SemestersViewModel : ViewModel
 {
+    #region Fields
+
     public List<Semester>? Semesters { get; }
+
+    #endregion
+
+    #region Constructor
 
     public SemestersViewModel()
     {
@@ -23,6 +29,8 @@ public class SemestersViewModel : ViewModel
             OpenSemesterCommand_OnExecuted,
             OpenSemesterCommand_CanExecute);
     }
+
+    #endregion
 
     #region OpenElectiveCommand
 

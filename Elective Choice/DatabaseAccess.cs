@@ -182,7 +182,6 @@ public static class DatabaseAccess
             electives.Add(new Elective(
                 reader.GetString(0),
                 reader.GetInt32(1),
-                counts: reader.GetInt32(2),
                 problem: "Incomplete"));
 
         SqlConnection.Close();
@@ -211,7 +210,6 @@ public static class DatabaseAccess
             electives.Add(new Elective(
                 reader.GetString(0),
                 reader.GetInt32(1),
-                counts: reader.GetInt32(2),
                 problem: "Overflowed"));
 
         SqlConnection.Close();
@@ -317,7 +315,7 @@ public static class DatabaseAccess
 
         var electives = new List<Elective>();
         var reader = new NpgsqlCommand(
-            $@"SELECT name, capacity, day_of_week
+            $@"SELECT name, capacity, day_of_week, priority
                       FROM selected_electives
                           JOIN electives ON selected_electives.elective_id = electives.id
                           JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
@@ -328,7 +326,8 @@ public static class DatabaseAccess
             electives.Add(new Elective(
                 reader.GetString(0),
                 reader.GetInt32(1),
-                day: reader.GetInt32(2)));
+                day: reader.GetInt32(2),
+                priority: reader.GetInt32(3)));
 
         SqlConnection.Close();
 

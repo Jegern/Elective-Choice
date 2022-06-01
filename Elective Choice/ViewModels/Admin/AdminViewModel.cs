@@ -31,6 +31,8 @@ public class AdminViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public AdminViewModel()
     {
     }
@@ -58,6 +60,29 @@ public class AdminViewModel : ViewModel
             AlgorithmCommand_OnExecute,
             AlgorithmCommand_CanExecute);
     }
+
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.LoginCompleted -= Login_OnCompleted;
+                Source.StatisticsLoading -= Statistics_OnLoading;
+                Source.StatisticsClosing -= Statistics_OnClosing;
+                Source.SemesterLoading -= Semester_OnLoading;
+                Source.SemesterClosing -= Semester_OnClosing;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
 
     #region Event Subscription
 
@@ -104,6 +129,7 @@ public class AdminViewModel : ViewModel
     private void LogoutCommand_OnExecute(object? parameter)
     {
         Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
+        Dispose();
     }
 
     #endregion

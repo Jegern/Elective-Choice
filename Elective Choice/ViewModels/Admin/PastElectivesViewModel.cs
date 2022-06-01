@@ -31,6 +31,8 @@ public class PastElectivesViewModel : ViewModel
 
     #endregion
 
+    #region Constructor
+
     public PastElectivesViewModel()
     {
     }
@@ -47,11 +49,29 @@ public class PastElectivesViewModel : ViewModel
             GoBackCommand_CanExecute);
     }
 
+    private bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing && Source is not null)
+            {
+                Source.SemesterLoaded -= Semester_OnLoaded;
+            }
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
     #region Event Subscription
 
     private void Semester_OnLoaded(object? sender, SemesterEventArgs e)
     {
-        // TODO: Исправить множественную подписку на событие
         HeaderText = $"{(e.Spring ? "Осень" : "Весна")}, {e.Year}-й";
         Year = e.Year;
         Spring = e.Spring;
@@ -85,6 +105,7 @@ public class PastElectivesViewModel : ViewModel
     private void GoBackCommand_OnExecuted(object? parameter)
     {
         Source?.RaiseSemesterClosing(this, new SemesterEventArgs(Year, Spring));
+        Dispose();
     }
 
     #endregion
