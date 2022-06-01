@@ -12,7 +12,7 @@ public class PrioritiesViewModel : ViewModel
     private ObservableCollection<Elective> _placedElectives = new();
     private ObservableCollection<Elective>? _unplacedElectives;
 
-    private string Email { get; } = string.Empty;
+    public string Email { get; } = string.Empty;
 
     public ObservableCollection<Elective> PlacedElectives
     {

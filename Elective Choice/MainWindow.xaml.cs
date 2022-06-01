@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
+using Elective_Choice.Views.Styles.Priorities;
 
 namespace Elective_Choice
 {

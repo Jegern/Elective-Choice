@@ -62,6 +62,7 @@
                      Margin="50, 10, 10, 10" />
 
             <UniformGrid Grid.Column="1"
+                         x:Name="UpperGrid"
                          Columns="1">
                 <priorities:UpperCard />
                 <priorities:UpperCard />
@@ -75,12 +76,13 @@
                 Background="LightGray" />
 
         <UniformGrid Grid.Row="4"
+                     x:Name="LowerGrid"
                      Rows="1">
-            <priorities:LowerCard x:Name="FirstLowerCard"/>
-            <priorities:LowerCard x:Name="SecondLowerCard" />
-            <priorities:LowerCard x:Name="ThirdLowerCard" />
-            <priorities:LowerCard x:Name="FourthLowerCard" />
-            <priorities:LowerCard x:Name="FifthLowerCard" />
+            <priorities:LowerCard />
+            <priorities:LowerCard />
+            <priorities:LowerCard />
+            <priorities:LowerCard />
+            <priorities:LowerCard />
         </UniformGrid>
     </Grid>
 </Page>

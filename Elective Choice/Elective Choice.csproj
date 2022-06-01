@@ -35,10 +35,10 @@
       <Resource Include="Views\Icons\Result.png" />
       <None Remove="Views\Icons\Cross.png" />
       <Resource Include="Views\Icons\Cross.png" />
-      <None Remove="Views\Icons\Menu (Violet).png" />
-      <Resource Include="Views\Icons\Menu (Violet).png" />
       <None Remove="Views\Icons\Menu (White).png" />
       <Resource Include="Views\Icons\Menu (White).png" />
+      <None Remove="Views\Icons\Menu (Violet).png" />
+      <Resource Include="Views\Icons\Menu (Violet).png" />
     </ItemGroup>
 
     <ItemGroup>

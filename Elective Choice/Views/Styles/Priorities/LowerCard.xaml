@@ -16,7 +16,6 @@
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="LightGray" />
                     <Setter Property="BorderBrush" Value="Gray" />
-                    <Setter Property="IsHitTestVisible" Value="False" />
                     <Setter Property="ContentVisibility" Value="Hidden" />
                 </Trigger>
             </Style.Triggers>
@@ -26,15 +25,11 @@
     <Border Background="{Binding Background, ElementName=Root}"
             BorderThickness="1"
             BorderBrush="{Binding BorderBrush, ElementName=Root}"
-            CornerRadius="5"
-            Tag="{Binding Text, ElementName=Root}"
-            AllowDrop="True"
-            DragOver="Border_OnDragOver"
-            Drop="Border_OnDrop">
+            CornerRadius="5">
         <Grid Margin="5"
               Visibility="{Binding ContentVisibility, ElementName=Root}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="35" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
@@ -43,7 +38,6 @@
                    Cursor="SizeAll"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Tag="{Binding Text, ElementName=Root}"
                    MouseMove="Image_OnMouseMove">
             </Image>
             <TextBlock Grid.Column="1"
