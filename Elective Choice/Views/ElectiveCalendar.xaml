@@ -22,14 +22,15 @@
                        Text="Выбор элективов"
                        IconVisibility="Collapsed" />
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              SnapsToDevicePixels="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="0.5" />
+                <ColumnDefinition Width="1" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="0.5" />
+                <ColumnDefinition Width="1" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="0.5" />
+                <ColumnDefinition Width="1" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 

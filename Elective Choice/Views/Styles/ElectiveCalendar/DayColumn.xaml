@@ -40,10 +40,10 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border Background="#C2A1F2"
+                                <Border Background="{StaticResource ElectiveBackground}"
                                         Height="{Binding ActualHeight, ElementName=Plus}"
                                         BorderThickness="1"
-                                        BorderBrush="#9C7FCA"
+                                        BorderBrush="{StaticResource ElectiveBorder}"
                                         CornerRadius="5"
                                         Margin="3, 3, 3, 13">
                                     <Grid Margin="10">

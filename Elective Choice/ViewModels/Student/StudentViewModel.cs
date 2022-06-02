@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
@@ -125,6 +126,13 @@ public class StudentViewModel : ViewModel
 
     private void CalendarCommand_OnExecute(object? parameter)
     {
+        switch (FrameContent)
+        {
+            case Priorities:
+                Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
+                break;
+        }
+        
         FrameContent = new ElectiveCalendar(Source!, Email);
     }
 
@@ -138,8 +146,13 @@ public class StudentViewModel : ViewModel
 
     private void PrioritizeCommand_OnExecute(object? parameter)
     {
-        if (FrameContent is ElectiveCalendar calendar)
-            ((ElectiveCalendarViewModel)calendar.DataContext).Dispose();
+        switch (FrameContent)
+        {
+            case ElectiveCalendar:
+                Source?.RaiseCalendarClosing(this, EventArgs.Empty);
+                break;
+        }
+
         FrameContent = new Priorities(Source!, Email);
     }
 
@@ -153,8 +166,15 @@ public class StudentViewModel : ViewModel
 
     private void ResultCommand_OnExecute(object? parameter)
     {
-        if (FrameContent is ElectiveCalendar calendar)
-            ((ElectiveCalendarViewModel)calendar.DataContext).Dispose();
+        switch (FrameContent)
+        {
+            case ElectiveCalendar:
+                Source?.RaiseCalendarClosing(this, EventArgs.Empty);
+                break;
+            case Priorities:
+                Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
+                break;
+        }
     }
 
     #endregion

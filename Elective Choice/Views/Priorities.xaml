@@ -12,6 +12,14 @@
         <vms:PrioritiesViewModel />
     </Page.DataContext>
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/LoginForm/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -61,28 +69,38 @@
                      Stretch="Fill"
                      Margin="50, 10, 10, 10" />
 
-            <UniformGrid Grid.Column="1"
-                         x:Name="UpperGrid"
-                         Columns="1">
-                <priorities:UpperCard />
-                <priorities:UpperCard />
-                <priorities:UpperCard />
-                <priorities:UpperCard />
-                <priorities:UpperCard />
-            </UniformGrid>
+            <ContentControl Grid.Column="1"
+                            Content="{Binding UpperCardGrid}"
+                            SnapsToDevicePixels="True"/>
         </Grid>
 
         <Canvas Grid.Row="3"
                 Background="LightGray" />
 
-        <UniformGrid Grid.Row="4"
-                     x:Name="LowerGrid"
-                     Rows="1">
-            <priorities:LowerCard />
-            <priorities:LowerCard />
-            <priorities:LowerCard />
-            <priorities:LowerCard />
-            <priorities:LowerCard />
-        </UniformGrid>
+        <Grid Grid.Row="4"
+              SnapsToDevicePixels="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Canvas Grid.Column="1"
+                    Background="Gray" />
+            <Canvas Grid.Column="3"
+                    Background="Gray" />
+            <Canvas Grid.Column="5"
+                    Background="Gray" />
+            <Canvas Grid.Column="7"
+                    Background="Gray" />
+        </Grid>
+        <ContentControl Grid.Row="4"
+                        Content="{Binding LowerCardGrid}"
+                        SnapsToDevicePixels="True"/>
     </Grid>
 </Page>

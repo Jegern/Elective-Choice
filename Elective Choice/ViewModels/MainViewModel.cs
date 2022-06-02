@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.CodeDom;
+using System.ComponentModel;
+using System.Windows.Controls;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Views;
@@ -24,7 +27,7 @@ public class MainViewModel : ViewModel
     public MainViewModel()
     {
         Source.LoginSucceed += Login_OnSucceed;
-        Source.LogoutSucceed +=  Logout_OnSucceed;
+        Source.LogoutSucceed += Logout_OnSucceed;
     }
 
     #region Event Subcription
@@ -34,10 +37,17 @@ public class MainViewModel : ViewModel
         FrameContent = e.Rights ? new Views.Admin(Source) : new Views.Student(Source);
         Source.RaiseLoginCompleted(sender, e);
     }
-    
+
     private void Logout_OnSucceed(object? sender, LoginEventArgs e)
     {
         FrameContent = new Login(Source);
+    }
+
+    public void MainWindow_OnClosing(object? sender, CancelEventArgs e)
+    {
+        if (FrameContent is not Views.Student) return;
+        Source.RaiseCalendarClosing(this, EventArgs.Empty);
+        Source.RaisePrioritiesClosing(this, EventArgs.Empty);
     }
 
     #endregion

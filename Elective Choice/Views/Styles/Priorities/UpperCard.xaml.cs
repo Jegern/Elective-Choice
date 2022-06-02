@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
@@ -16,7 +18,7 @@ public partial class UpperCard
 
     public new string Background
     {
-        get => (string)GetValue(BackgroundProperty);
+        get => (string) GetValue(BackgroundProperty);
         set => SetValue(BackgroundProperty, value);
     }
 
@@ -28,7 +30,7 @@ public partial class UpperCard
 
     public new string BorderBrush
     {
-        get => (string)GetValue(BorderBrushProperty);
+        get => (string) GetValue(BorderBrushProperty);
         set => SetValue(BorderBrushProperty, value);
     }
 
@@ -40,7 +42,7 @@ public partial class UpperCard
 
     public new bool IsEnabled
     {
-        get => (bool)GetValue(IsEnabledProperty);
+        get => (bool) GetValue(IsEnabledProperty);
         set => SetValue(IsEnabledProperty, value);
     }
 
@@ -52,32 +54,56 @@ public partial class UpperCard
 
     public Visibility ContentVisibility
     {
-        get => (Visibility)GetValue(ContentVisibilityProperty);
+        get => (Visibility) GetValue(ContentVisibilityProperty);
         set => SetValue(ContentVisibilityProperty, value);
     }
 
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        nameof(Text),
+    public static readonly DependencyProperty DisplayNameProperty = DependencyProperty.Register(
+        nameof(DisplayName),
         typeof(string),
         typeof(UpperCard),
         new PropertyMetadata(string.Empty));
 
-    public string Text
+    public string DisplayName
     {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
+        get => (string) GetValue(DisplayNameProperty);
+        set => SetValue(DisplayNameProperty, value);
     }
 
-    public static readonly DependencyProperty ElectiveNameProperty = DependencyProperty.Register(
-        nameof(ElectiveName),
+    public static readonly DependencyProperty RealNameProperty = DependencyProperty.Register(
+        nameof(RealName),
         typeof(string),
         typeof(UpperCard),
         new PropertyMetadata(string.Empty));
 
-    public string ElectiveName
+    public string RealName
     {
-        get => (string)GetValue(ElectiveNameProperty);
-        set => SetValue(ElectiveNameProperty, value);
+        get => (string) GetValue(RealNameProperty);
+        set => SetValue(RealNameProperty, value);
+    }
+
+    public static readonly DependencyProperty DisplayDayProperty = DependencyProperty.Register(
+        nameof(DisplayDay),
+        typeof(string),
+        typeof(UpperCard),
+        new PropertyMetadata(string.Empty));
+
+    public string DisplayDay
+    {
+        get => (string) GetValue(DisplayDayProperty);
+        set => SetValue(DisplayDayProperty, value);
+    }
+
+    public static readonly DependencyProperty RealDayProperty = DependencyProperty.Register(
+        nameof(RealDay),
+        typeof(string),
+        typeof(UpperCard),
+        new PropertyMetadata(string.Empty));
+
+    public string RealDay
+    {
+        get => (string) GetValue(RealDayProperty);
+        set => SetValue(RealDayProperty, value);
     }
 
     #endregion
@@ -86,6 +112,19 @@ public partial class UpperCard
     {
         InitializeComponent();
     }
+
+    private static Dictionary<string, string> DaysOfWeek { get; } = new()
+    {
+        {"Пн", "Понедельник"},
+        {"Вт", "Вторник"},
+        {"Ср", "Среда"},
+        {"Чт", "Четверг"},
+        {"Пт", "Пятница"},
+        {"Сб", "Суббота"},
+        {"Вс", "Воскресенье"}
+    };
+
+    #region Events
 
     private void Image_OnMouseMove(object sender, MouseEventArgs e)
     {
@@ -105,44 +144,60 @@ public partial class UpperCard
         switch (data)
         {
             case LowerCard source:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.Text = source.ElectiveName;
-                    target.IsEnabled = true;
-                }
-                else
-                {
-                    var grid = (UniformGrid)target.Parent;
-                    var nameBuffer = source.ElectiveName;
-                    for (var i = grid.Children.IndexOf(target); i < grid.Children.Count; i++)
-                    {
-                        var card = (UpperCard)grid.Children[i];
-                        card.Text = nameBuffer;
-                        nameBuffer = card.ElectiveName;
-                        card.IsEnabled = true;
-                        if (nameBuffer == string.Empty) break;
-                    }
-                }
-
+                FromLowerCard_OnDragEnter(source, target);
                 break;
-            }
             case UpperCard source:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.Text = source.ElectiveName;
-                    target.IsEnabled = true;
-                }
-                else
-                {
-                    target.Text = source.ElectiveName;
-                    source.Text = target.ElectiveName;
-                    source.IsEnabled = true;
-                }
-
+                FromUpperCard_OnDragEnter(source, target);
                 break;
+        }
+    }
+
+    private static void FromLowerCard_OnDragEnter(LowerCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.DisplayName = source.RealName;
+            target.DisplayDay = DaysOfWeek[source.RealDay];
+            target.IsEnabled = true;
+        }
+        else
+        {
+            var grid = (UniformGrid) target.Parent;
+            var nameBuffer = source.RealName;
+            var dayBuffer = DaysOfWeek[source.RealDay];
+            for (var i = grid.Children.IndexOf(target); i < grid.Children.Count; i++)
+            {
+                var card = (UpperCard) grid.Children[i];
+                card.DisplayName = nameBuffer;
+                card.DisplayDay = dayBuffer;
+                nameBuffer = card.RealName;
+                dayBuffer = card.RealDay;
+                card.IsEnabled = true;
+                if (nameBuffer == string.Empty) break;
             }
+
+            if (nameBuffer == string.Empty) return;
+            source.DisplayName = nameBuffer;
+            source.DisplayDay = DaysOfWeek.First(x=> x.Value == dayBuffer).Key;
+            source.IsEnabled = true;
+        }
+    }
+
+    private static void FromUpperCard_OnDragEnter(UpperCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.DisplayName = source.RealName;
+            target.DisplayDay = source.RealName;
+            target.IsEnabled = true;
+        }
+        else
+        {
+            target.DisplayName = source.RealName;
+            source.DisplayName = target.RealName;
+            target.DisplayDay = source.RealDay;
+            source.DisplayDay = target.RealDay;
+            source.IsEnabled = true;
         }
     }
 
@@ -152,43 +207,58 @@ public partial class UpperCard
         var target = Root;
         switch (data)
         {
-            case LowerCard:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.Text = target.ElectiveName;
-                    target.IsEnabled = false;
-                }
-                else
-                {
-                    var grid = (UniformGrid)target.Parent;
-                    for (var i = grid.Children.IndexOf(target); i < grid.Children.Count; i++)
-                    {
-                        var card = (UpperCard)grid.Children[i];
-                        card.Text = card.ElectiveName;
-                        if (card.ElectiveName != string.Empty) continue;
-                        card.IsEnabled = false;
-                        break;
-                    }
-                }
-
+            case LowerCard source:
+                FromLowerCard_OnDragLeave(source, target);
                 break;
-            }
             case UpperCard source:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.Text = target.ElectiveName;
-                    target.IsEnabled = false;
-                }
-                else
-                {
-                    target.Text = target.ElectiveName;
-                    source.IsEnabled = false;
-                }
+                FromUpperCard_OnDragLeave(source, target);
+                break;
+        }
+    }
 
+    private static void FromLowerCard_OnDragLeave(LowerCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.DisplayName = target.RealName;
+            target.DisplayDay = target.RealDay;
+            target.IsEnabled = false;
+        }
+        else
+        {
+            var grid = (UniformGrid) target.Parent;
+            for (var i = grid.Children.IndexOf(target); i < grid.Children.Count; i++)
+            {
+                var card = (UpperCard) grid.Children[i];
+                card.DisplayName = card.RealName;
+                card.DisplayDay = card.RealDay;
+                if (card.RealName != string.Empty) continue;
+                card.IsEnabled = false;
                 break;
             }
+
+            if (source.DisplayName == source.RealName) return;
+            source.DisplayName = source.RealName;
+            source.DisplayDay = source.RealDay;
+            source.IsEnabled = false;
+        }
+    }
+
+    private static void FromUpperCard_OnDragLeave(UpperCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.DisplayName = target.RealName;
+            target.DisplayDay = target.RealDay;
+            target.IsEnabled = false;
+        }
+        else
+        {
+            target.DisplayName = target.RealName;
+            target.DisplayDay = target.RealDay;
+            source.DisplayName = source.RealName;
+            source.DisplayDay = source.RealDay;
+            source.IsEnabled = false;
         }
     }
 
@@ -199,42 +269,70 @@ public partial class UpperCard
         switch (data)
         {
             case LowerCard source:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.ElectiveName = source.ElectiveName;
-                    source.Text = string.Empty;
-                    source.ElectiveName = string.Empty;
-                }
-                else
-                {
-                    var grid = (UniformGrid)target.Parent;
-                    for (var i = grid.Children.IndexOf(target); i < grid.Children.Count; i++)
-                    {
-                        var card = (UpperCard)grid.Children[i];
-                        card.ElectiveName = card.Text;
-                        if (!card.IsEnabled) break;
-                    }
-                }
-
+                FromLowerCard_OnDrop(source, target);
                 break;
-            }
             case UpperCard source:
-            {
-                if (target.ElectiveName == string.Empty)
-                {
-                    target.ElectiveName = source.ElectiveName;
-                    source.Text = string.Empty;
-                    source.ElectiveName = string.Empty;
-                }
-                else
-                {
-                    (source.ElectiveName, target.ElectiveName) = (target.ElectiveName, source.ElectiveName);
-                    source.Text = source.ElectiveName;
-                }
-
+                FromUpperCard_OnDrop(source, target);
                 break;
+        }
+    }
+
+    private static void FromLowerCard_OnDrop(LowerCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.RealName = source.RealName;
+            target.RealDay = DaysOfWeek[source.RealDay];
+            source.RealName = source.DisplayName = string.Empty;
+            source.RealDay = source.DisplayDay = string.Empty;
+        }
+        else
+        {
+            var grid = (UniformGrid) target.Parent;
+            var index = grid.Children.IndexOf(target);
+            if (index < 4)
+            {
+                for (var i = index; i < grid.Children.Count; i++)
+                {
+                    var card = (UpperCard) grid.Children[i];
+                    card.RealName = card.DisplayName;
+                    card.RealDay = card.DisplayDay;
+                    if (!card.IsEnabled) break;
+                }
+                
+                if (source.DisplayName == source.RealName) return;
+                source.RealName = source.DisplayName;
+                source.RealDay = source.DisplayDay;
+            }
+            else
+            {
+                (source.RealName, target.RealName) = (target.RealName, source.RealName);
+                (source.RealDay, target.RealDay) =
+                    (DaysOfWeek.First(x => x.Value == target.RealDay).Key, DaysOfWeek[source.RealDay]);
+                source.DisplayName = source.RealName;
+                source.DisplayDay = source.RealDay;
+                source.IsEnabled = true;
             }
         }
     }
+
+    private static void FromUpperCard_OnDrop(UpperCard source, UpperCard target)
+    {
+        if (target.RealName == string.Empty)
+        {
+            target.RealName = source.RealName;
+            target.RealDay = source.RealDay;
+            source.RealName = source.DisplayName = string.Empty;
+            source.RealDay = source.DisplayDay = string.Empty;
+        }
+        else
+        {
+            (source.RealName, target.RealName) = (target.RealName, source.RealName);
+            (source.RealDay, target.RealDay) = (target.RealDay, source.RealDay);
+            source.DisplayName = source.RealName;
+            source.DisplayDay = source.RealDay;
+        }
+    }
+
+    #endregion
 }

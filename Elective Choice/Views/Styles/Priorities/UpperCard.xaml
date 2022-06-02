@@ -9,8 +9,8 @@
 
     <UserControl.Resources>
         <Style TargetType="{x:Type local:UpperCard}">
-            <Setter Property="Background" Value="#C2A1F2" />
-            <Setter Property="BorderBrush" Value="#9A84B3" />
+            <Setter Property="Background" Value="{StaticResource ElectiveBackground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ElectiveBorder}" />
             <Setter Property="Margin" Value="10" />
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
@@ -34,7 +34,9 @@
               Visibility="{Binding ContentVisibility, ElementName=Root}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
                    Source="../../Icons/Menu (Violet).png"
@@ -44,13 +46,24 @@
                    HorizontalAlignment="Center"
                    MouseMove="Image_OnMouseMove">
             </Image>
+            
             <TextBlock Grid.Column="1"
-                       Text="{Binding Text, ElementName=Root}"
+                       Text="{Binding DisplayName, ElementName=Root}"
                        FontSize="15"
                        FontWeight="SemiBold"
                        TextWrapping="Wrap"
                        VerticalAlignment="Center"
                        Margin="5" />
+            
+            <Canvas Grid.Column="2"
+                    Background="{StaticResource ElectiveBorder}"/>
+            
+            <TextBlock Grid.Column="3"
+                       Text="{Binding DisplayDay, ElementName=Root}"
+                       FontSize="15"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

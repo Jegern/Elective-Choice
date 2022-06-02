@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -19,7 +20,7 @@ public class ElectiveCalendarViewModel : ViewModel
     private ObservableCollection<Elective> _thurdayElectives = new();
     private ObservableCollection<Elective> _fridayElectives = new();
 
-    public string Email { get; set; } = string.Empty;
+    public string Email { get; private set; } = string.Empty;
     public int ElectiveCounter { get; private set; }
 
     public ObservableCollection<Elective> TuesdayElectives
@@ -58,6 +59,7 @@ public class ElectiveCalendarViewModel : ViewModel
     {
         source.LoginCompleted += Login_OnCompleted;
         source.DayElectiveChosen += DayElective_OnChosen;
+        source.CalendarClosing += Calendar_OnClosing;
         TuesdayElectives.CollectionChanged += DayElectives_OnChanged;
         WednesdayElectives.CollectionChanged += DayElectives_OnChanged;
         ThurdayElectives.CollectionChanged += DayElectives_OnChanged;
@@ -99,6 +101,7 @@ public class ElectiveCalendarViewModel : ViewModel
             {
                 Source.LoginCompleted -= Login_OnCompleted;
                 Source.DayElectiveChosen -= DayElective_OnChosen;
+                Source.CalendarClosing -= Calendar_OnClosing;
                 TuesdayElectives.CollectionChanged -= DayElectives_OnChanged;
                 WednesdayElectives.CollectionChanged -= DayElectives_OnChanged;
                 ThurdayElectives.CollectionChanged -= DayElectives_OnChanged;
@@ -139,6 +142,11 @@ public class ElectiveCalendarViewModel : ViewModel
         }
 
         DatabaseAccess.AddStudentElective(Email.Substring(4, 10), e.Electives[^1].Name, 0);
+    }
+    
+    private void Calendar_OnClosing(object? sender, EventArgs e)
+    {
+        Dispose();
     }
 
     private void DayElectives_OnChanged(object? sender, NotifyCollectionChangedEventArgs e)

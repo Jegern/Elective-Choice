@@ -55,28 +55,52 @@ public partial class LowerCard
         set => SetValue(ContentVisibilityProperty, value);
     }
 
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        nameof(Text),
+    public static readonly DependencyProperty DisplayNameProperty = DependencyProperty.Register(
+        nameof(DisplayName),
         typeof(string),
         typeof(LowerCard),
         new PropertyMetadata(string.Empty));
 
-    public string Text
+    public string DisplayName
     {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
+        get => (string)GetValue(DisplayNameProperty);
+        set => SetValue(DisplayNameProperty, value);
     }
 
-    public static readonly DependencyProperty ElectiveNameProperty = DependencyProperty.Register(
-        nameof(ElectiveName),
+    public static readonly DependencyProperty RealNameProperty = DependencyProperty.Register(
+        nameof(RealName),
         typeof(string),
         typeof(LowerCard),
         new PropertyMetadata(string.Empty));
 
-    public string ElectiveName
+    public string RealName
     {
-        get => (string)GetValue(ElectiveNameProperty);
-        set => SetValue(ElectiveNameProperty, value);
+        get => (string)GetValue(RealNameProperty);
+        set => SetValue(RealNameProperty, value);
+    }
+
+    public static readonly DependencyProperty DisplayDayProperty = DependencyProperty.Register(
+        nameof(DisplayDay),
+        typeof(string),
+        typeof(LowerCard),
+        new PropertyMetadata(string.Empty));
+
+    public string DisplayDay
+    {
+        get => (string) GetValue(DisplayDayProperty);
+        set => SetValue(DisplayDayProperty, value);
+    }
+
+    public static readonly DependencyProperty RealDayProperty = DependencyProperty.Register(
+        nameof(RealDay),
+        typeof(string),
+        typeof(LowerCard),
+        new PropertyMetadata(string.Empty));
+
+    public string RealDay
+    {
+        get => (string) GetValue(RealDayProperty);
+        set => SetValue(RealDayProperty, value);
     }
 
     #endregion
@@ -86,6 +110,8 @@ public partial class LowerCard
         InitializeComponent();
     }
 
+    #region Events
+
     private void Image_OnMouseMove(object sender, MouseEventArgs e)
     {
         if (e.LeftButton != MouseButtonState.Pressed) return;
@@ -94,4 +120,6 @@ public partial class LowerCard
         if (DragDrop.DoDragDrop(this, data, DragDropEffects.Move) == DragDropEffects.None)
             Root.IsEnabled = true;
     }
+
+    #endregion
 }
