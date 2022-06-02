@@ -2,20 +2,19 @@
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Elective_Choice.Infrastructure.EventSource;
-using Elective_Choice.ViewModels;
-using Elective_Choice.ViewModels.Admin;
+using Elective_Choice.ViewModels.Student;
 
-namespace Elective_Choice.Views;
+namespace Elective_Choice.Views.Student;
 
-public partial class Admin
+public partial class Student
 {
-    public Admin(EventSource store)
+    public Student(EventSource store)
     {
         InitializeComponent();
-        DataContext = new AdminViewModel(store);
+        DataContext = new StudentViewModel(store);
     }
 
-    private void AdminPage_OnLoaded(object sender, RoutedEventArgs e)
+    private void StudentPage_OnLoaded(object sender, RoutedEventArgs e)
     {
         var window = Application.Current.MainWindow;
         if (window is null) return;
@@ -28,7 +27,7 @@ public partial class Admin
     }
 
     private void Frame_OnNavigated(object sender, NavigationEventArgs e)
-    {
+    {       
         (sender as Frame)?.NavigationService.RemoveBackEntry();
     }
 }

@@ -40,7 +40,7 @@
                    Source="../../Icons/Menu (White).png"
                    Width="20" Height="20"
                    VerticalAlignment="Top"
-                   Margin="20, 20, 0, 0">
+                   Margin="10, 20, 0, 0">
                 <Image.InputBindings>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding MenuCommand}" />
@@ -57,7 +57,7 @@
                    Width="20" Height="20"
                    Cursor="Hand"
                    VerticalAlignment="Top"
-                   Margin="0, 20, 20, 0">
+                   Margin="0, 20, 10, 0">
                 <Image.InputBindings>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding LogoutCommand, ElementName=Root}" />

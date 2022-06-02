@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Windows.Controls;
+using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.Views;
+using Elective_Choice.Views.Student;
 
 namespace Elective_Choice.ViewModels.Student;
 

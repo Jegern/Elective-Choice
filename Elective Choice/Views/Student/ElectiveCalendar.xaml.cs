@@ -2,11 +2,12 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Student;
 
-namespace Elective_Choice.Views;
+namespace Elective_Choice.Views.Student;
 
 public partial class ElectiveCalendar
 {

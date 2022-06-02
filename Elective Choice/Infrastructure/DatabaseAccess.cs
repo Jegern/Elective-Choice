@@ -2,7 +2,7 @@
 using Elective_Choice.Models;
 using Npgsql;
 
-namespace Elective_Choice;
+namespace Elective_Choice.Infrastructure;
 
 public static class DatabaseAccess
 {

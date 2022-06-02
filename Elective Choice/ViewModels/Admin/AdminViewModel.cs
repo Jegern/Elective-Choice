@@ -1,9 +1,11 @@
 ﻿using System.Windows.Controls;
+using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.ViewModels.Base;
 using Elective_Choice.Views;
+using Elective_Choice.Views.Admin;
 
 namespace Elective_Choice.ViewModels.Admin;
 
@@ -168,6 +170,7 @@ public class AdminViewModel : ViewModel
 
     private void AlgorithmCommand_OnExecute(object? parameter)
     {
+        FrameContent = new AlgorithmSettings(Source!);
     }
 
     #endregion

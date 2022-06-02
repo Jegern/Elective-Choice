@@ -1,8 +1,7 @@
 ﻿using Elective_Choice.Infrastructure.EventSource;
-using Elective_Choice.ViewModels;
 using Elective_Choice.ViewModels.Admin;
 
-namespace Elective_Choice.Views;
+namespace Elective_Choice.Views.Admin;
 
 public partial class Statistics
 {

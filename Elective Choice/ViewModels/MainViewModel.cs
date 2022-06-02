@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Elective_Choice.Infrastructure.EventArgs;
@@ -19,7 +18,7 @@ public class MainViewModel : ViewModel
     public Page FrameContent
     {
         get => _frameContent;
-        set => Set(ref _frameContent, value);
+        private set => Set(ref _frameContent, value);
     }
 
     #endregion
@@ -34,7 +33,7 @@ public class MainViewModel : ViewModel
 
     private void Login_OnSucceed(object? sender, LoginEventArgs e)
     {
-        FrameContent = e.Rights ? new Views.Admin(Source) : new Views.Student(Source);
+        FrameContent = e.Rights ? new Views.Admin.Admin(Source) : new Views.Student.Student(Source);
         Source.RaiseLoginCompleted(sender, e);
     }
 
@@ -45,7 +44,7 @@ public class MainViewModel : ViewModel
 
     public void MainWindow_OnClosing(object? sender, CancelEventArgs e)
     {
-        if (FrameContent is not Views.Student) return;
+        if (FrameContent is not Views.Student.Student) return;
         Source.RaiseCalendarClosing(this, EventArgs.Empty);
         Source.RaisePrioritiesClosing(this, EventArgs.Empty);
     }

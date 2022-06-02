@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
+using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Base;

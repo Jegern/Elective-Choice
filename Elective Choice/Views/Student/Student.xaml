@@ -1,4 +1,4 @@
-﻿<Page x:Class="Elective_Choice.Views.Student"
+﻿<Page x:Class="Elective_Choice.Views.Student.Student"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,15 +19,15 @@
                         LogoutCommand="{Binding LogoutCommand}"
 
                         FirstText="Элективы"
-                        FirstSource="Icons/Calendar.png"
+                        FirstSource="../Icons/Calendar.png"
                         FirstCommand="{Binding CalendarCommand}"
 
                         SecondText="Приоритеты"
-                        SecondSource="Icons/Prioritize.png"
+                        SecondSource="../Icons/Prioritize.png"
                         SecondCommand="{Binding PrioritizeCommand}"
                         
                         ThirdText="Результат"
-                        ThirdSource="Icons/Result.png"
+                        ThirdSource="../Icons/Result.png"
                         ThirdCommand="{Binding ResultCommand}"/>
         <Frame Content="{Binding FrameContent}"
                Navigated="Frame_OnNavigated" />

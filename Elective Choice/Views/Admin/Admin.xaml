@@ -1,4 +1,4 @@
-﻿<Page x:Class="Elective_Choice.Views.Admin"
+﻿<Page x:Class="Elective_Choice.Views.Admin.Admin"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,8 +16,8 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/SideMenu/Button.xaml" />
-                <ResourceDictionary Source="Styles/SideMenu/TextBlock.xaml" />
+                <ResourceDictionary Source="../Styles/SideMenu/Button.xaml" />
+                <ResourceDictionary Source="../Styles/SideMenu/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -28,15 +28,15 @@
                         LogoutCommand="{Binding LogoutCommand}"
 
                         FirstText="Проблемные элективы"
-                        FirstSource="Icons/Edit.png"
+                        FirstSource="../Icons/Edit.png"
                         FirstCommand="{Binding EditCommand}"
 
                         SecondText="Статистика"
-                        SecondSource="Icons/Statistics.png"
+                        SecondSource="../Icons/Statistics.png"
                         SecondCommand="{Binding SemestersCommand}"
 
-                        ThirdText="Настройка алгоритма"
-                        ThirdSource="Icons/Graph.png"
+                        ThirdText="Настройки алгоритма"
+                        ThirdSource="../Icons/Graph.png"
                         ThirdCommand="{Binding AlgorithmCommand}" />
         <Frame Content="{Binding FrameContent}"
                Navigated="Frame_OnNavigated" />
