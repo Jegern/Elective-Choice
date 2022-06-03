@@ -114,6 +114,16 @@ public class StudentViewModel : ViewModel
 
     private void LogoutCommand_OnExecute(object? parameter)
     {
+        switch (FrameContent)
+        {
+            case ElectiveCalendar:
+                Source?.RaiseCalendarClosing(this, EventArgs.Empty);
+                break;
+            case Priorities:
+                Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
+                break;
+        }
+
         Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
         Dispose();
     }
@@ -134,7 +144,7 @@ public class StudentViewModel : ViewModel
                 Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
                 break;
         }
-        
+
         FrameContent = new ElectiveCalendar(Source!, Email);
     }
 

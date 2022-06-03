@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels.Admin"
       xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -14,14 +15,16 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/AlgorithmSettings/DatePicker.xaml" />
+                <ResourceDictionary Source="../Styles/AlgorithmSettings/DateTimePicker.xaml" />
                 <ResourceDictionary Source="../Styles/AlgorithmSettings/Button.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="LightGray">
+    <Grid Background="LightGray"
+          SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -34,38 +37,83 @@
                        Text="Настройки алгоритма"
                        IconVisibility="Collapsed" />
 
-        <StackPanel Grid.Row="1" Grid.Column="1"
-                    Background="White">
-            <StackPanel Margin="60">
+        <Border Grid.Row="1" Grid.Column="1"
+                Background="White">
+            <TextBlock
+                Text="Настройки сохраняются автоматически.&#x0a;Не пытайтесь ставить для закрытия более раннюю дату, чем для открытия выбора"
+                TextWrapping="Wrap"
+                Foreground="DimGray"
+                FontSize="17"
+                Margin="30" />
+        </Border>
+
+        <Grid Grid.Row="2" Grid.Column="1"
+              Background="White">
+            <StackPanel Margin="60, 0">
                 <TextBlock Text="Открытие выбора элективов"
                            FontSize="15"
+                           Foreground="DimGray"
                            VerticalAlignment="Bottom"
                            Margin="20, 10, 20, 5" />
-                <StackPanel Orientation="Horizontal">
-                    <DatePicker />
-                    <TextBox />
-                </StackPanel>
+                <Border CornerRadius="5"
+                        Background="#EBEBEB"
+                        BorderBrush="DimGray"
+                        BorderThickness="1"
+                        Width="250" Height="30"
+                        HorizontalAlignment="Left"
+                        Margin="10, 0">
+                    <xctk:DateTimePicker x:Name="StartChoices"
+                                         Value="{Binding StartChoices}"
+                                         ValueChanged="StartChoices_OnValueChanged" />
+                </Border>
+
                 <TextBlock Text="Закрытие выбора элективов"
                            FontSize="15"
+                           Foreground="DimGray"
                            VerticalAlignment="Bottom"
                            Margin="20, 10, 20, 5" />
-                <StackPanel Orientation="Horizontal">
-                    <DatePicker />
-                    <TextBox />
-                </StackPanel>
+                <Border CornerRadius="5"
+                        Background="#EBEBEB"
+                        BorderBrush="DimGray"
+                        BorderThickness="1"
+                        Width="250" Height="30"
+                        HorizontalAlignment="Left"
+                        Margin="10, 0">
+                    <xctk:DateTimePicker x:Name="EndChoices"
+                                         Value="{Binding EndChoices}"
+                                         ValueChanged="EndChoices_OnValueChanged" />
+                </Border>
+
                 <TextBlock Text="Запуск алгоритма распределения"
                            FontSize="15"
+                           Foreground="DimGray"
                            VerticalAlignment="Bottom"
-                           Margin="20, 20, 20, 5" />
-                <StackPanel Orientation="Horizontal">
-                    <DatePicker />
-                    <TextBox />
-                </StackPanel>
-                <Button Content="Запустить"
+                           Margin="20, 10, 20, 5" />
+                <Border CornerRadius="5"
+                        Background="#EBEBEB"
+                        BorderBrush="DimGray"
+                        BorderThickness="1"
+                        Width="250" Height="30"
                         HorizontalAlignment="Left"
-                        Margin="10, 40, 10, 0">
+                        Margin="10, 0">
+                    <xctk:DateTimePicker x:Name="StartAlgorithm"
+                                         Value="{Binding StartAlgorithm}"
+                                         ValueChanged="StartAlgorithm_OnValueChanged" />
+                </Border>
+
+                <TextBlock Text="Алгоритм распределения, используйте только в крайних случаях!"
+                           FontSize="15"
+                           Foreground="DimGray"
+                           VerticalAlignment="Bottom"
+                           Margin="20, 40, 20, 5" />
+                <Button Content="Запустить вручную"
+                        Command="{Binding StartAlgorithmCommand}"
+                        Style="{StaticResource StartButton}"
+                        Width="250" Height="40"
+                        HorizontalAlignment="Left"
+                        Margin="10, 0, 10, 0">
                 </Button>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>

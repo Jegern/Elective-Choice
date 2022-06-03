@@ -77,6 +77,7 @@ public class ElectiveCalendarViewModel : ViewModel
     public ElectiveCalendarViewModel(EventSource source, string email) : base(source)
     {
         source.DayElectiveChosen += DayElective_OnChosen;
+        source.CalendarClosing += Calendar_OnClosing;
         TuesdayElectives.CollectionChanged += DayElectives_OnChanged;
         WednesdayElectives.CollectionChanged += DayElectives_OnChanged;
         ThurdayElectives.CollectionChanged += DayElectives_OnChanged;

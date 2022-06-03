@@ -42,10 +42,11 @@
             </Image>
 
             <Grid Grid.Row="0" Grid.Column="1"
-                  VerticalAlignment="Center">
+                  VerticalAlignment="Center"
+                  Margin="0, 15, 0, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="45" />
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="15"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Text="{Binding DisplayName, ElementName=Root}"
@@ -53,14 +54,14 @@
                            FontWeight="SemiBold"
                            TextWrapping="Wrap"
                            TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Bottom"
+                           VerticalAlignment="Center"
                            Margin="5, 0" />
                 <TextBlock Grid.Row="1"
                            Text="{Binding DisplayDay, ElementName=Root}"
                            Foreground="DimGray"
                            FontSize="12"
                            FontWeight="SemiBold"
-                           VerticalAlignment="Top"
+                           VerticalAlignment="Center"
                            Margin="5, 0" />
             </Grid>
         </Grid>

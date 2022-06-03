@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Elective_Choice.Models;
 using Npgsql;
 
@@ -251,7 +252,7 @@ public static class DatabaseAccess
 
         return electives;
     }
-    
+
     public static List<Elective> GetStudentElectivesForDay(int day, string studentId)
     {
         SqlConnection.Open();
@@ -337,7 +338,7 @@ public static class DatabaseAccess
     public static void UpdateStudentElectivePriority(string studentId, string electiveName, int priority)
     {
         SqlConnection.Open();
-        
+
         var electiveId = new NpgsqlCommand(
             $@"SELECT id
                       FROM electives
@@ -347,6 +348,39 @@ public static class DatabaseAccess
             $@"UPDATE selected_electives
                       SET priority = {priority}
                       WHERE student_id = '{studentId}' AND elective_id = {electiveId}",
+            SqlConnection).ExecuteNonQuery();
+
+        SqlConnection.Close();
+    }
+
+    public static List<DateTime> GetAlgorithmSettings()
+    {
+        SqlConnection.Open();
+
+        var settings = new List<DateTime>();
+        var reader = new NpgsqlCommand(
+            @"SELECT *
+                     FROM settings", 
+            SqlConnection).ExecuteReader();
+        reader.Read();
+        settings.Add(reader.GetDateTime(0));
+        settings.Add(reader.GetDateTime(1));
+        settings.Add(reader.GetDateTime(2));
+
+        SqlConnection.Close();
+
+        return settings;
+    }
+
+    public static void UpdateAlgorithmSettings(DateTime? startChoices, DateTime? endChoices, DateTime? startAlgorithm)
+    {
+        SqlConnection.Open();
+
+        new NpgsqlCommand(
+            $@"UPDATE settings
+                      SET start_choices = '{startChoices!.Value.ToString("u")}',
+                          end_choices = '{endChoices!.Value.ToString("u")}',
+                          start_algorithm = '{startAlgorithm!.Value.ToString("u")}'",
             SqlConnection).ExecuteNonQuery();
         
         SqlConnection.Close();

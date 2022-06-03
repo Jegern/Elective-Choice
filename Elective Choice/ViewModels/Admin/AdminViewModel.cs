@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventArgs;
@@ -52,15 +53,15 @@ public class AdminViewModel : ViewModel
         LogoutCommand = new Command(
             LogoutCommand_OnExecute,
             LogoutCommand_CanExecute);
-        EditCommand = new Command(
-            EditCommand_OnExecute,
-            EditCommand_CanExecute);
+        ProblemElectivesCommand = new Command(
+            ProblemElectivesCommand_OnExecute,
+            ProblemElectivesCommand_CanExecute);
         SemestersCommand = new Command(
             SemestersCommand_OnExecute,
             SemestersCommand_CanExecute);
-        AlgorithmCommand = new Command(
-            AlgorithmCommand_OnExecute,
-            AlgorithmCommand_CanExecute);
+        AlgorithmSettingsCommand = new Command(
+            AlgorithmSettingsCommand_OnExecute,
+            AlgorithmSettingsCommand_CanExecute);
     }
 
     private bool _disposed;
@@ -130,20 +131,34 @@ public class AdminViewModel : ViewModel
 
     private void LogoutCommand_OnExecute(object? parameter)
     {
+        switch (FrameContent)
+        {
+            case AlgorithmSettings:
+                Source?.RaiseAlgorithmSettingClosing(this, EventArgs.Empty);
+                break;
+        }
+        
         Source?.RaiseLogoutSucceed(this, new LoginEventArgs(Email, false));
         Dispose();
     }
 
     #endregion
 
-    #region EditCommand
+    #region ProblemElectivesCommand
 
-    public Command? EditCommand { get; }
+    public Command? ProblemElectivesCommand { get; }
 
-    private bool EditCommand_CanExecute(object? parameter) => Email != string.Empty;
+    private bool ProblemElectivesCommand_CanExecute(object? parameter) => Email != string.Empty;
 
-    private void EditCommand_OnExecute(object? parameter)
+    private void ProblemElectivesCommand_OnExecute(object? parameter)
     {
+        switch (FrameContent)
+        {
+            case AlgorithmSettings:
+                Source?.RaiseAlgorithmSettingClosing(this, EventArgs.Empty);
+                break;
+        }
+
         FrameContent = new ProblemElectives(Source!);
     }
 
@@ -157,18 +172,25 @@ public class AdminViewModel : ViewModel
 
     private void SemestersCommand_OnExecute(object? parameter)
     {
+        switch (FrameContent)
+        {
+            case AlgorithmSettings:
+                Source?.RaiseAlgorithmSettingClosing(this, EventArgs.Empty);
+                break;
+        }
+
         FrameContent = new Semesters(Source!);
     }
 
     #endregion
 
-    #region AlgorithmCommand
+    #region AlgorithmSettingsCommand
 
-    public Command? AlgorithmCommand { get; }
+    public Command? AlgorithmSettingsCommand { get; }
 
-    private bool AlgorithmCommand_CanExecute(object? parameter) => Email != string.Empty;
+    private bool AlgorithmSettingsCommand_CanExecute(object? parameter) => Email != string.Empty;
 
-    private void AlgorithmCommand_OnExecute(object? parameter)
+    private void AlgorithmSettingsCommand_OnExecute(object? parameter)
     {
         FrameContent = new AlgorithmSettings(Source!);
     }

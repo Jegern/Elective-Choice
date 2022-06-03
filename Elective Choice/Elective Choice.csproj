@@ -27,8 +27,6 @@
       <Resource Include="Views\Icons\Plus.png" />
       <None Remove="Views\Icons\Lock.png" />
       <Resource Include="Views\Icons\Lock.png" />
-      <None Remove="Views\Icons\Calendar.png" />
-      <Resource Include="Views\Icons\Calendar.png" />
       <None Remove="Views\Icons\Prioritize.png" />
       <Resource Include="Views\Icons\Prioritize.png" />
       <None Remove="Views\Icons\Result.png" />
@@ -38,18 +36,17 @@
       <None Remove="Views\Icons\Menu (White).png" />
       <Resource Include="Views\Icons\Menu (White).png" />
       <None Remove="Views\Icons\Menu (Violet).png" />
-      <Resource Include="Views\Icons\Menu (Violet).png" />
       <None Remove="Views\Icons\Menu (Blue).png" />
       <Resource Include="Views\Icons\Menu (Blue).png" />
+      <None Remove="Views\Icons\Calendar (Black).png" />
+      <None Remove="Views\Icons\Calendar (White).png" />
+      <Resource Include="Views\Icons\Calendar (White).png" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
       <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.230" />
       <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Remove="Views\Styles\Menu\Button.xaml" />
     </ItemGroup>
 
 </Project>

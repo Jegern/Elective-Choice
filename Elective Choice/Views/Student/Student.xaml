@@ -19,7 +19,7 @@
                         LogoutCommand="{Binding LogoutCommand}"
 
                         FirstText="Элективы"
-                        FirstSource="../Icons/Calendar.png"
+                        FirstSource="../Icons/Calendar (White).png"
                         FirstCommand="{Binding CalendarCommand}"
 
                         SecondText="Приоритеты"

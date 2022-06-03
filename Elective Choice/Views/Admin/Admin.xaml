@@ -29,7 +29,7 @@
 
                         FirstText="Проблемные элективы"
                         FirstSource="../Icons/Edit.png"
-                        FirstCommand="{Binding EditCommand}"
+                        FirstCommand="{Binding ProblemElectivesCommand}"
 
                         SecondText="Статистика"
                         SecondSource="../Icons/Statistics.png"
@@ -37,7 +37,7 @@
 
                         ThirdText="Настройки алгоритма"
                         ThirdSource="../Icons/Graph.png"
-                        ThirdCommand="{Binding AlgorithmCommand}" />
+                        ThirdCommand="{Binding AlgorithmSettingsCommand}" />
         <Frame Content="{Binding FrameContent}"
                Navigated="Frame_OnNavigated" />
     </DockPanel>

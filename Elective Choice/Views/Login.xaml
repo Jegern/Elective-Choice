@@ -21,6 +21,11 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    
+    <Page.InputBindings>
+        <KeyBinding Key="Enter"
+                     Command="{Binding SignInCommand}" />
+    </Page.InputBindings>
 
     <Grid Background="{StaticResource PrimaryColor}">
         <Border CornerRadius="25"

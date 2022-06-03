@@ -20,6 +20,7 @@ public class EventSource
     public event EventHandler<SemesterEventArgs>? SemesterClosing;
     public event EventHandler<System.EventArgs>? CalendarClosing;
     public event EventHandler<System.EventArgs>? PrioritiesClosing;
+    public event EventHandler<System.EventArgs>? AlgorithmSettingClosing;
 
     public void RaiseLoginSucceed(object? sender, LoginEventArgs e) => LoginSucceed?.Invoke(sender, e);
 
@@ -48,5 +49,8 @@ public class EventSource
     public void RaiseSemesterClosing(object? sender, SemesterEventArgs e) => SemesterClosing?.Invoke(sender, e);
 
     public void RaiseCalendarClosing(object? sender, System.EventArgs e) => CalendarClosing?.Invoke(sender, e);
+    
     public void RaisePrioritiesClosing(object? sender, System.EventArgs e) => PrioritiesClosing?.Invoke(sender, e);
+
+    public void RaiseAlgorithmSettingClosing(object? sender, System.EventArgs e) => AlgorithmSettingClosing?.Invoke(sender, e);
 }
