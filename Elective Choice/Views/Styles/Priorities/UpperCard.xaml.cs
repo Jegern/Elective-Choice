@@ -106,6 +106,18 @@ public partial class UpperCard
         set => SetValue(RealDayProperty, value);
     }
 
+    public static readonly DependencyProperty ChangedProperty = DependencyProperty.Register(
+        nameof(Changed),
+        typeof(bool),
+        typeof(UpperCard),
+        new PropertyMetadata(false));
+
+    public bool Changed
+    {
+        get => (bool) GetValue(ChangedProperty);
+        set => SetValue(ChangedProperty, value);
+    }
+
     #endregion
 
     public UpperCard()
@@ -170,15 +182,15 @@ public partial class UpperCard
                 var card = (UpperCard) grid.Children[i];
                 card.DisplayName = nameBuffer;
                 card.DisplayDay = dayBuffer;
+                card.IsEnabled = true;
                 nameBuffer = card.RealName;
                 dayBuffer = card.RealDay;
-                card.IsEnabled = true;
                 if (nameBuffer == string.Empty) break;
             }
 
             if (nameBuffer == string.Empty) return;
             source.DisplayName = nameBuffer;
-            source.DisplayDay = DaysOfWeek.First(x=> x.Value == dayBuffer).Key;
+            source.DisplayDay = DaysOfWeek.First(x => x.Value == dayBuffer).Key;
             source.IsEnabled = true;
         }
     }
@@ -283,8 +295,10 @@ public partial class UpperCard
         {
             target.RealName = source.RealName;
             target.RealDay = DaysOfWeek[source.RealDay];
+            target.Changed = true;
             source.RealName = source.DisplayName = string.Empty;
             source.RealDay = source.DisplayDay = string.Empty;
+            source.Changed = false;
         }
         else
         {
@@ -295,22 +309,32 @@ public partial class UpperCard
                 for (var i = index; i < grid.Children.Count; i++)
                 {
                     var card = (UpperCard) grid.Children[i];
-                    card.RealName = card.DisplayName;
-                    card.RealDay = card.DisplayDay;
-                    if (!card.IsEnabled) break;
+                    if (card.IsEnabled)
+                    {
+                        card.RealName = card.DisplayName;
+                        card.RealDay = card.DisplayDay;
+                        card.Changed = true;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                
+
                 if (source.DisplayName == source.RealName) return;
                 source.RealName = source.DisplayName;
                 source.RealDay = source.DisplayDay;
+                source.Changed = true;
             }
             else
             {
                 (source.RealName, target.RealName) = (target.RealName, source.RealName);
                 (source.RealDay, target.RealDay) =
                     (DaysOfWeek.First(x => x.Value == target.RealDay).Key, DaysOfWeek[source.RealDay]);
+                target.Changed = true;
                 source.DisplayName = source.RealName;
                 source.DisplayDay = source.RealDay;
+                source.Changed = true;
                 source.IsEnabled = true;
             }
         }
@@ -322,15 +346,19 @@ public partial class UpperCard
         {
             target.RealName = source.RealName;
             target.RealDay = source.RealDay;
+            target.Changed = true;
             source.RealName = source.DisplayName = string.Empty;
             source.RealDay = source.DisplayDay = string.Empty;
+            source.Changed = false;
         }
         else
         {
             (source.RealName, target.RealName) = (target.RealName, source.RealName);
             (source.RealDay, target.RealDay) = (target.RealDay, source.RealDay);
+            target.Changed = true;
             source.DisplayName = source.RealName;
             source.DisplayDay = source.RealDay;
+            source.Changed = true;
         }
     }
 

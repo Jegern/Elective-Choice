@@ -335,20 +335,20 @@ public static class DatabaseAccess
         return electives;
     }
 
-    public static void UpdateStudentElectivePriority(string studentId, string electiveName, int priority)
+    public static void UpdateStudentElectivePriority(string studentId, List<Elective> electives)
     {
         SqlConnection.Open();
 
-        var electiveId = new NpgsqlCommand(
-            $@"SELECT id
-                      FROM electives
-                      WHERE name = '{electiveName}'",
-            SqlConnection).ExecuteScalar();
-        new NpgsqlCommand(
-            $@"UPDATE selected_electives
-                      SET priority = {priority}
-                      WHERE student_id = '{studentId}' AND elective_id = {electiveId}",
-            SqlConnection).ExecuteNonQuery();
+        foreach (var elective in electives)
+        {
+            new NpgsqlCommand(
+                $@"UPDATE selected_electives
+                          SET priority = {elective.Priority}
+                          FROM electives
+                          WHERE selected_electives.elective_id = electives.id AND
+                              selected_electives.student_id = '{studentId}' AND electives.name = '{elective.Name}'",
+                SqlConnection).ExecuteNonQuery();
+        }
 
         SqlConnection.Close();
     }

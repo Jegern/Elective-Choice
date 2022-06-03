@@ -7,8 +7,6 @@
         <SolidColorBrush x:Key="PrimaryColor" Color="#238BC8" />
         <SolidColorBrush x:Key="SecondaryColor" Color="#F98941" />
         <SolidColorBrush x:Key="ButtonPressed" Color="#147DB9" />
-        <!-- <SolidColorBrush x:Key="ElectiveBackground" Color="#C2A1F2" /> -->
-        <!-- <SolidColorBrush x:Key="ElectiveBorder" Color="#9A84B3" /> -->
         <SolidColorBrush x:Key="ElectiveBackground" Color="#B2DBF6" />
         <SolidColorBrush x:Key="ElectiveBorder" Color="#A4BFCF" />
         <converters:IntToRadiusConverter x:Key="IntToRadius" />

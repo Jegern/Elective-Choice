@@ -106,15 +106,18 @@ public class PrioritiesViewModel : ViewModel
 
     private void Priorities_OnClosing(object? sender, EventArgs e)
     {
+        var electives = new List<Elective>();
         for (var i = 0; i < 5; i++)
         {
             var upperCard = (UpperCard) UpperCardGrid.Children[i];
-            if (upperCard.RealName != string.Empty)
-                DatabaseAccess.UpdateStudentElectivePriority(Email.Substring(4, 10), upperCard.RealName, i + 1);
+            if (upperCard.Changed)
+                electives.Add(new Elective(upperCard.RealName, 0, priority: i + 1));
             var lowerCard = (LowerCard) LowerCardGrid.Children[i];
-            if (lowerCard.RealName != string.Empty)
-                DatabaseAccess.UpdateStudentElectivePriority(Email.Substring(4, 10), lowerCard.RealName, 0);
+            if (lowerCard.Changed)
+                electives.Add(new Elective(lowerCard.RealName, 0, priority: 0));
         }
+
+        DatabaseAccess.UpdateStudentElectivePriority(Email.Substring(4, 10), electives);
     }
 
     #endregion

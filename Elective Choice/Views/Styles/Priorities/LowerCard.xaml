@@ -42,8 +42,7 @@
             </Image>
 
             <Grid Grid.Row="0" Grid.Column="1"
-                  VerticalAlignment="Center"
-                  Margin="0, 15, 0, 0">
+                  VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="45" />
                     <RowDefinition Height="15"/>

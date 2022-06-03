@@ -32,7 +32,6 @@
       <None Remove="Views\Icons\Result.png" />
       <Resource Include="Views\Icons\Result.png" />
       <None Remove="Views\Icons\Cross.png" />
-      <Resource Include="Views\Icons\Cross.png" />
       <None Remove="Views\Icons\Menu (White).png" />
       <Resource Include="Views\Icons\Menu (White).png" />
       <None Remove="Views\Icons\Menu (Violet).png" />
@@ -41,6 +40,8 @@
       <None Remove="Views\Icons\Calendar (Black).png" />
       <None Remove="Views\Icons\Calendar (White).png" />
       <Resource Include="Views\Icons\Calendar (White).png" />
+      <None Remove="Views\Icons\Cross (Blue).png" />
+      <Resource Include="Views\Icons\Cross (Blue).png" />
     </ItemGroup>
 
     <ItemGroup>

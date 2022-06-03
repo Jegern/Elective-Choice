@@ -103,6 +103,18 @@ public partial class LowerCard
         set => SetValue(RealDayProperty, value);
     }
 
+    public static readonly DependencyProperty ChangedProperty = DependencyProperty.Register(
+        nameof(Changed),
+        typeof(bool),
+        typeof(LowerCard),
+        new PropertyMetadata(false));
+
+    public bool Changed
+    {
+        get => (bool) GetValue(ChangedProperty);
+        set => SetValue(ChangedProperty, value);
+    }
+
     #endregion
 
     public LowerCard()

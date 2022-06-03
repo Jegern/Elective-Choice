@@ -64,10 +64,12 @@
                                                    FontWeight="Bold"
                                                    Margin="0, 0, 0, 3" />
                                         <Image Grid.Row="0" Grid.Column="1"
-                                               Source="../../Icons/Cross.png"
+                                               Source="../../Icons/Cross (Blue).png"
                                                Cursor="Hand"
                                                VerticalAlignment="Top"
-                                               HorizontalAlignment="Right">
+                                               HorizontalAlignment="Right"
+                                               SnapsToDevicePixels="False"
+                                               RenderOptions.BitmapScalingMode="HighQuality">
                                             <Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftClick"
                                                               Command="{Binding CrossCommand, ElementName=Root}"
