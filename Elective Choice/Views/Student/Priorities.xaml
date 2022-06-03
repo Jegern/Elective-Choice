@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels.Student"
       xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
-      xmlns:priorities="clr-namespace:Elective_Choice.Views.Styles.Priorities"
       mc:Ignorable="d">
 
     <Page.DataContext>

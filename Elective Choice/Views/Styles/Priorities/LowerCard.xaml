@@ -33,7 +33,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
-                   Source="../../Icons/Menu (Violet).png"
+                   Source="../../Icons/Menu (Blue).png"
                    Width="25" Height="25"
                    Cursor="SizeAll"
                    VerticalAlignment="Center"

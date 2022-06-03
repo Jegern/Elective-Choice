@@ -39,6 +39,8 @@
       <Resource Include="Views\Icons\Menu (White).png" />
       <None Remove="Views\Icons\Menu (Violet).png" />
       <Resource Include="Views\Icons\Menu (Violet).png" />
+      <None Remove="Views\Icons\Menu (Blue).png" />
+      <Resource Include="Views\Icons\Menu (Blue).png" />
     </ItemGroup>
 
     <ItemGroup>
