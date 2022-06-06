@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.Commands.Base;
 using Elective_Choice.Infrastructure.EventSource;
@@ -91,12 +94,19 @@ public class AlgorithmSettingsViewModel : ViewModel
 
     private void StartAlgorithmCommand_OnExecuted(object? parameter)
     {
-        // if (MessageBox.Show(
-        //         "Вы уверены, что хотите запустить алгоритм?",
-        //         "Предупреждение",
-        //         MessageBoxButton.YesNo,
-        //         MessageBoxImage.Warning) == MessageBoxResult.Yes) ;
-        // TODO: Здесь должен быть запуск алгоритма
+        if (MessageBox.Show(
+                "Вы уверены, что хотите запустить алгоритм?",
+                "Предупреждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning) == MessageBoxResult.Yes) 
+            StartConsoleApplication();
+    }
+
+    private void StartConsoleApplication()
+    {
+        var filePath = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName +
+                       "/Algorithm/QtConsoleApplication1.exe";
+        Process.Start(filePath);
     }
 
     #endregion
