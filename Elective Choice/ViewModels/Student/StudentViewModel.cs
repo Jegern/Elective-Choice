@@ -143,6 +143,9 @@ public class StudentViewModel : ViewModel
             case Priorities:
                 Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
                 break;
+            case Results:
+                Source?.RaiseResultsClosing(this, EventArgs.Empty);
+                break;
         }
 
         FrameContent = new ElectiveCalendar(Source!, Email);
@@ -162,6 +165,9 @@ public class StudentViewModel : ViewModel
         {
             case ElectiveCalendar:
                 Source?.RaiseCalendarClosing(this, EventArgs.Empty);
+                break;
+            case Results:
+                Source?.RaiseResultsClosing(this, EventArgs.Empty);
                 break;
         }
 
@@ -187,6 +193,8 @@ public class StudentViewModel : ViewModel
                 Source?.RaisePrioritiesClosing(this, EventArgs.Empty);
                 break;
         }
+        
+        FrameContent = new Results(Source!, Email);
     }
 
     #endregion
