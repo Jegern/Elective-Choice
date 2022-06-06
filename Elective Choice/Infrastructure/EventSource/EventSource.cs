@@ -21,6 +21,10 @@ public class EventSource
     public event EventHandler<System.EventArgs>? CalendarClosing;
     public event EventHandler<System.EventArgs>? PrioritiesClosing;
     public event EventHandler<System.EventArgs>? AlgorithmSettingClosing;
+    public event EventHandler<System.EventArgs>? ResultsClosing;
+    public event EventHandler<ResultsEventArgs>? ResultsLoaded;
+
+
 
     public void RaiseLoginSucceed(object? sender, LoginEventArgs e) => LoginSucceed?.Invoke(sender, e);
 
@@ -53,4 +57,6 @@ public class EventSource
     public void RaisePrioritiesClosing(object? sender, System.EventArgs e) => PrioritiesClosing?.Invoke(sender, e);
 
     public void RaiseAlgorithmSettingClosing(object? sender, System.EventArgs e) => AlgorithmSettingClosing?.Invoke(sender, e);
+    public void RaiseResultsClosing(object? sender, System.EventArgs e) => ResultsClosing?.Invoke(sender, e);
+    public void RaiseResultsLoaded(object? sender, ResultsEventArgs e) => ResultsLoaded?.Invoke(sender, e);
 }

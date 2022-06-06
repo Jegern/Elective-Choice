@@ -50,4 +50,14 @@
       <PackageReference Include="Npgsql" Version="7.0.0-preview.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Views\Styles\Results\TreeViewItem.cs" />
+      <Compile Remove="Views\Styles\Results\Border1.xaml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Remove="Views\Styles\Results\Border1.xaml" />
+      <Page Remove="Views\Styles\Results\Border.xaml" />
+    </ItemGroup>
+
 </Project>

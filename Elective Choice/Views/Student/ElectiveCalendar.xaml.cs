@@ -31,21 +31,17 @@ public partial class ElectiveCalendar
         var id = dataContext.Email.Substring(4, 10);
         if (dataContext.ElectiveCounter > 0) return;
 
-        var dayElectives = DatabaseAccess.GetStudentElectivesForDay(2, id);
-        foreach (var elective in dayElectives)
-            dataContext.TuesdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(3, id);
-        foreach (var elective in dayElectives)
-            dataContext.WednesdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(4, id);
-        foreach (var elective in dayElectives)
-            dataContext.ThurdayElectives.Add(elective);
-
-        dayElectives = DatabaseAccess.GetStudentElectivesForDay(5, id);
-        foreach (var elective in dayElectives)
-            dataContext.FridayElectives.Add(elective);
+        var electivesByDay = new[]
+        {
+            dataContext.TuesdayElectives,
+            dataContext.WednesdayElectives,
+            dataContext.ThurdayElectives,
+            dataContext.FridayElectives
+        };
+        
+        var electives = DatabaseAccess.GetStudentElectives(id);
+        foreach (var elective in electives)
+            electivesByDay[elective.Day - 2].Add(elective);
     }
 
     private void TuesdayElectives_OnChanged(object? sender, NotifyCollectionChangedEventArgs e)

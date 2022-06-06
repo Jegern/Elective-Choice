@@ -200,7 +200,7 @@ public partial class UpperCard
         if (target.RealName == string.Empty)
         {
             target.DisplayName = source.RealName;
-            target.DisplayDay = source.RealName;
+            target.DisplayDay = source.RealDay;
             target.IsEnabled = true;
         }
         else

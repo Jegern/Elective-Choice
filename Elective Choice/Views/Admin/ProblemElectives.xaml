@@ -37,8 +37,7 @@
             <TabItem Header="Не собранные">
                 <DataGrid ItemsSource="{Binding Incomplete}"
                           HorizontalScrollBarVisibility="Disabled"
-                          CellEditEnding="DataGrid_OnCellEditEnding"
-                          CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
+                          CellEditEnding="ProblemDataGrid_OnCellEditEnding">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -50,7 +49,7 @@
                         </DataGridTextColumn>
 
                         <DataGridTextColumn Header="Вместимость"
-                                            Binding="{Binding Capacity}"
+                                            Binding="{Binding Capacity, UpdateSourceTrigger=LostFocus}"
                                             CellStyle="{StaticResource RightCell}"
                                             EditingElementStyle="{StaticResource EditingElement}"
                                             Width="150"
@@ -71,8 +70,7 @@
             <TabItem Header="Переполненные">
                 <DataGrid ItemsSource="{Binding Overflowed}"
                           HorizontalScrollBarVisibility="Disabled"
-                          CellEditEnding="DataGrid_OnCellEditEnding"
-                          CurrentCellChanged="ProblemDataGrid_OnCurrentCellChanged">
+                          CellEditEnding="ProblemDataGrid_OnCellEditEnding">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -84,7 +82,7 @@
                         </DataGridTextColumn>
 
                         <DataGridTextColumn Header="Вместимость"
-                                            Binding="{Binding Capacity}"
+                                            Binding="{Binding Capacity, UpdateSourceTrigger=LostFocus}"
                                             CellStyle="{StaticResource RightCell}"
                                             EditingElementStyle="{StaticResource EditingElement}"
                                             Width="150"
@@ -105,8 +103,7 @@
             <TabItem Header="Решенные">
                 <DataGrid ItemsSource="{Binding Resolved}"
                           HorizontalScrollBarVisibility="Disabled"
-                          CellEditEnding="DataGrid_OnCellEditEnding"
-                          CurrentCellChanged="ResolvedDataGrid_OnCurrentCellChanged ">
+                          CellEditEnding="ResolvedDataGrid_OnCellEditEnding">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название электива"
                                             Binding="{Binding Name}"
@@ -118,7 +115,7 @@
                         </DataGridTextColumn>
 
                         <DataGridTextColumn Header="Вместимость"
-                                            Binding="{Binding Capacity}"
+                                            Binding="{Binding Capacity, UpdateSourceTrigger=LostFocus}"
                                             CellStyle="{StaticResource RightCell}"
                                             EditingElementStyle="{StaticResource EditingElement}"
                                             Width="150"

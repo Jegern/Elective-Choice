@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Elective_Choice.Models;
 using Npgsql;
 
@@ -77,7 +78,7 @@ public static class DatabaseAccess
                           GROUP BY elective_id) AS semester_electives ON electives.id = elective_id",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+            electives.Add(new Elective(reader.GetString(0), (uint) reader.GetInt32(1)));
 
         SqlConnection.Close();
 
@@ -122,8 +123,9 @@ public static class DatabaseAccess
                           FROM selected_electives
                               JOIN electives ON selected_electives.elective_id = electives.id
                               JOIN students ON selected_electives.student_id = students.id
-                          WHERE electives.name = '{name}'
-                              AND performance >= {performances[i]} AND performance < {performances[i + 1]}
+                          WHERE electives.name = '{name}' AND
+                                performance >= {performances[i].ToString(CultureInfo.InvariantCulture)} AND
+                                performance < {performances[i + 1].ToString(CultureInfo.InvariantCulture)}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
@@ -178,14 +180,13 @@ public static class DatabaseAccess
                                  SELECT id, name, capacity
                                  FROM electives
                                  WHERE exist) AS current_electives ON elective_id = id
-                             WHERE assigned = false
                              GROUP BY id, name, capacity) AS elective_counts
-                     WHERE counts < 0.8 * capacity OR counts < 15",
+                     WHERE counts < 0.5 * capacity OR counts < 15",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint) reader.GetInt32(1),
                 problem: "Incomplete"));
 
         SqlConnection.Close();
@@ -206,14 +207,13 @@ public static class DatabaseAccess
                                  SELECT id, name, capacity
                                  FROM electives
                                  WHERE exist) AS current_electives ON elective_id = id
-                             WHERE assigned = false
                              GROUP BY id, name, capacity) AS elective_counts
                      WHERE counts > 3 * capacity",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint) reader.GetInt32(1),
                 problem: "Overflowed"));
 
         SqlConnection.Close();
@@ -248,30 +248,7 @@ public static class DatabaseAccess
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
-                reader.GetString(2)));
-
-        SqlConnection.Close();
-
-        return electives;
-    }
-
-    public static List<Elective> GetStudentElectivesForDay(int day, string studentId)
-    {
-        SqlConnection.Open();
-
-        var electives = new List<Elective>();
-        var reader = new NpgsqlCommand(
-            $@"SELECT name, capacity, annotation
-                      FROM selected_electives
-                          JOIN electives ON selected_electives.elective_id = electives.id
-                          JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
-                      WHERE day_of_week = {day} AND student_id = '{studentId}'",
-            SqlConnection).ExecuteReader();
-        while (reader.Read())
-            electives.Add(new Elective(
-                reader.GetString(0),
-                reader.GetInt32(1),
+                (uint) reader.GetInt32(1),
                 reader.GetString(2)));
 
         SqlConnection.Close();
@@ -319,7 +296,7 @@ public static class DatabaseAccess
 
         var electives = new List<Elective>();
         var reader = new NpgsqlCommand(
-            $@"SELECT name, capacity, day_of_week, priority
+            $@"SELECT name, capacity, annotation, day_of_week, priority
                       FROM selected_electives
                           JOIN electives ON selected_electives.elective_id = electives.id
                           JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
@@ -329,9 +306,10 @@ public static class DatabaseAccess
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
-                day: reader.GetInt32(2),
-                priority: reader.GetInt32(3)));
+                (uint) reader.GetInt32(1),
+                reader.GetString(2),
+                day: reader.GetInt32(3),
+                priority: reader.GetInt32(4)));
 
         SqlConnection.Close();
 
@@ -363,7 +341,7 @@ public static class DatabaseAccess
         var settings = new List<DateTime>();
         var reader = new NpgsqlCommand(
             @"SELECT *
-                     FROM settings", 
+                     FROM settings",
             SqlConnection).ExecuteReader();
         reader.Read();
         settings.Add(reader.GetDateTime(0));
@@ -385,7 +363,44 @@ public static class DatabaseAccess
                           end_choices = '{endChoices!.Value.ToString("u")}',
                           start_algorithm = '{startAlgorithm!.Value.ToString("u")}'",
             SqlConnection).ExecuteNonQuery();
-        
+
         SqlConnection.Close();
+    }
+
+    public static List<Elective[]> GetStudentResultElectives(string studentId)
+    {
+        SqlConnection.Open();
+        var electives = new List<Elective[]>();
+
+        var electivesList = new Elective[2];
+        var reader = new NpgsqlCommand(
+            $@"SELECT name, priority, year, spring
+                      FROM past_semesters
+                          JOIN electives ON past_semesters.elective_id = electives.id
+                      WHERE student_id = '{studentId}' AND assigned
+                      ORDER BY year",
+            SqlConnection).ExecuteReader();
+
+        while (reader.Read())
+        {   
+            var year = reader.GetInt32(2);
+            var spring = reader.GetBoolean(3);
+            for (int i = 0; i < 2; i++)
+            {
+                if (year != reader.GetInt32(2) || spring != reader.GetBoolean(3))
+                    break;
+
+                electivesList[i] = new Elective(reader.GetString(0),
+                    0, priority: reader.GetInt32(1),
+                    spring: reader.GetBoolean(3),
+                    year: reader.GetInt32(2));
+            }
+
+            electives.Add(electivesList);
+        }
+
+        SqlConnection.Close();
+
+        return electives;
     }
 }
