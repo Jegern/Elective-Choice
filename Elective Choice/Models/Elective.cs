@@ -4,7 +4,7 @@ public class Elective
 {
     public string Name { get; set; }
 
-    public int Capacity { get; set; }
+    public uint Capacity { get; set; }
 
     public string Annotation { get; set; }
     
@@ -17,7 +17,7 @@ public class Elective
     public int Priority { get; set; }
 
     public Elective(string name,
-        int capacity,
+        uint capacity,
         string annotation = "",
         string link = "",
         string problem = "",

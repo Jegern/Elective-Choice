@@ -77,7 +77,7 @@ public static class DatabaseAccess
                           GROUP BY elective_id) AS semester_electives ON electives.id = elective_id",
             SqlConnection).ExecuteReader();
         while (reader.Read())
-            electives.Add(new Elective(reader.GetString(0), reader.GetInt32(1)));
+            electives.Add(new Elective(reader.GetString(0), (uint)reader.GetInt32(1)));
 
         SqlConnection.Close();
 
@@ -110,8 +110,8 @@ public static class DatabaseAccess
     {
         SqlConnection.Open();
 
-        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
-        var performances = new[] {3.0, 4.0, 4.75, 5.0};
+        var values = new[] { new int[5], new int[5], new int[5], new int[5], new int[5] };
+        var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
         for (var i = 0; i < performances.Length - 1; i++)
         {
             var reader = new NpgsqlCommand(
@@ -138,8 +138,8 @@ public static class DatabaseAccess
     {
         SqlConnection.Open();
 
-        var values = new[] {new int[5], new int[5], new int[5], new int[5], new int[5]};
-        var performances = new[] {3.0, 4.0, 4.75, 5.0};
+        var values = new[] { new int[5], new int[5], new int[5], new int[5], new int[5] };
+        var performances = new[] { 3.0, 4.0, 4.75, 5.0 };
         for (var i = 0; i < performances.Length - 1; i++)
         {
             var reader = new NpgsqlCommand(
@@ -175,14 +175,13 @@ public static class DatabaseAccess
                                  SELECT id, name, capacity
                                  FROM electives
                                  WHERE exist) AS current_electives ON elective_id = id
-                             WHERE assigned = false
                              GROUP BY id, name, capacity) AS elective_counts
-                     WHERE counts < 0.8 * capacity OR counts < 15",
+                     WHERE counts < 0.5 * capacity OR counts < 15",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint)reader.GetInt32(1),
                 problem: "Incomplete"));
 
         SqlConnection.Close();
@@ -203,14 +202,13 @@ public static class DatabaseAccess
                                  SELECT id, name, capacity
                                  FROM electives
                                  WHERE exist) AS current_electives ON elective_id = id
-                             WHERE assigned = false
                              GROUP BY id, name, capacity) AS elective_counts
                      WHERE counts > 3 * capacity",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint)reader.GetInt32(1),
                 problem: "Overflowed"));
 
         SqlConnection.Close();
@@ -245,7 +243,7 @@ public static class DatabaseAccess
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint)reader.GetInt32(1),
                 reader.GetString(2)));
 
         SqlConnection.Close();
@@ -268,7 +266,7 @@ public static class DatabaseAccess
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint)reader.GetInt32(1),
                 reader.GetString(2)));
 
         SqlConnection.Close();
@@ -326,7 +324,7 @@ public static class DatabaseAccess
         while (reader.Read())
             electives.Add(new Elective(
                 reader.GetString(0),
-                reader.GetInt32(1),
+                (uint)reader.GetInt32(1),
                 day: reader.GetInt32(2),
                 priority: reader.GetInt32(3)));
 
@@ -360,7 +358,7 @@ public static class DatabaseAccess
         var settings = new List<DateTime>();
         var reader = new NpgsqlCommand(
             @"SELECT *
-                     FROM settings", 
+                     FROM settings",
             SqlConnection).ExecuteReader();
         reader.Read();
         settings.Add(reader.GetDateTime(0));
@@ -382,7 +380,7 @@ public static class DatabaseAccess
                           end_choices = '{endChoices!.Value.ToString("u")}',
                           start_algorithm = '{startAlgorithm!.Value.ToString("u")}'",
             SqlConnection).ExecuteNonQuery();
-        
+
         SqlConnection.Close();
     }
 }

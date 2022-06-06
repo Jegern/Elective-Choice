@@ -1,5 +1,5 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Admin;
@@ -8,7 +8,7 @@ namespace Elective_Choice.Views.Admin;
 
 public partial class ProblemElectives
 {
-    private Elective? EditedElective { get; set; }
+    private bool _isManualEditCommit;
 
     public ProblemElectives(EventSource source)
     {
@@ -16,35 +16,53 @@ public partial class ProblemElectives
         DataContext = new ProblemElectivesViewModel(source);
     }
 
-    private void DataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
+    private void ProblemDataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        EditedElective = e.Row.Item as Elective;
+        if (!_isManualEditCommit)
+        {
+            _isManualEditCommit = true;
+            ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
+            _isManualEditCommit = false;
+
+            SendProblemElectiveToResolved(sender, e);
+        }
     }
 
-    private void ProblemDataGrid_OnCurrentCellChanged(object? sender, EventArgs e)
+    private void SendProblemElectiveToResolved(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        if (EditedElective is null) return;
+        if (e.Row.Item is not Elective elective || sender is not DataGrid dataGrid) return;
+        if (Validation.GetHasError(dataGrid.ItemContainerGenerator.ContainerFromItem(elective))) return;
 
-        switch (EditedElective.Problem)
+        switch (elective.Problem)
         {
             case "Incomplete":
-                ((ProblemElectivesViewModel)DataContext).Incomplete?.Remove(EditedElective);
+                ((ProblemElectivesViewModel)DataContext).Incomplete?.Remove(elective);
                 break;
             case "Overflowed":
-                ((ProblemElectivesViewModel)DataContext).Overflowed?.Remove(EditedElective);
+                ((ProblemElectivesViewModel)DataContext).Overflowed?.Remove(elective);
                 break;
         }
 
-        ((ProblemElectivesViewModel)DataContext).Resolved?.Add(EditedElective);
-        // DatabaseAccess.UpdateElectiveCapacity(EditedElective);
-        EditedElective = null;
+        ((ProblemElectivesViewModel)DataContext).Resolved?.Add(elective);       
+        // DatabaseAccess.UpdateElectiveCapacity(elective);
     }
 
-    private void ResolvedDataGrid_OnCurrentCellChanged(object? sender, EventArgs e)
+    private void ResolvedDataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        // TODO: Исправить проблему, при которой событие не запускается, если электив находится последним в списке 
-        if (EditedElective is null) return;
-        // DatabaseAccess.UpdateElectiveCapacity(EditedElective);
-        EditedElective = null;
+        if (!_isManualEditCommit)
+        {
+            _isManualEditCommit = true;
+            ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
+            _isManualEditCommit = false;
+
+            ChangeResolvedElectiveCapacity(sender, e);
+        }
+    }
+
+    private static void ChangeResolvedElectiveCapacity(object? sender, DataGridCellEditEndingEventArgs e)
+    {
+        if (e.Row.Item is not Elective elective || sender is not DataGrid dataGrid) return;
+        if (Validation.GetHasError(dataGrid.ItemContainerGenerator.ContainerFromItem(elective))) return;
+        // DatabaseAccess.UpdateElectiveCapacity(elective);
     }
 }
