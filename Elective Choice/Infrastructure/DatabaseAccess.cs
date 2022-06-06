@@ -251,29 +251,6 @@ public static class DatabaseAccess
         return electives;
     }
 
-    public static List<Elective> GetStudentElectivesForDay(int day, string studentId)
-    {
-        SqlConnection.Open();
-
-        var electives = new List<Elective>();
-        var reader = new NpgsqlCommand(
-            $@"SELECT name, capacity, annotation
-                      FROM selected_electives
-                          JOIN electives ON selected_electives.elective_id = electives.id
-                          JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
-                      WHERE day_of_week = {day} AND student_id = '{studentId}'",
-            SqlConnection).ExecuteReader();
-        while (reader.Read())
-            electives.Add(new Elective(
-                reader.GetString(0),
-                (uint)reader.GetInt32(1),
-                reader.GetString(2)));
-
-        SqlConnection.Close();
-
-        return electives;
-    }
-
     public static void AddStudentElective(string studentId, string electiveName, int priority)
     {
         SqlConnection.Open();
@@ -314,7 +291,7 @@ public static class DatabaseAccess
 
         var electives = new List<Elective>();
         var reader = new NpgsqlCommand(
-            $@"SELECT name, capacity, day_of_week, priority
+            $@"SELECT name, capacity, annotation, day_of_week, priority
                       FROM selected_electives
                           JOIN electives ON selected_electives.elective_id = electives.id
                           JOIN elective_days ON selected_electives.elective_id = elective_days.elective_id
@@ -325,8 +302,9 @@ public static class DatabaseAccess
             electives.Add(new Elective(
                 reader.GetString(0),
                 (uint)reader.GetInt32(1),
-                day: reader.GetInt32(2),
-                priority: reader.GetInt32(3)));
+                reader.GetString(2),
+                day: reader.GetInt32(3),
+                priority: reader.GetInt32(4)));
 
         SqlConnection.Close();
 

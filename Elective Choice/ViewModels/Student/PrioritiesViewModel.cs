@@ -118,6 +118,8 @@ public class PrioritiesViewModel : ViewModel
         }
 
         DatabaseAccess.UpdateStudentElectivePriority(Email.Substring(4, 10), electives);
+        
+        Dispose();
     }
 
     #endregion
