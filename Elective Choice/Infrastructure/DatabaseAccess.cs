@@ -91,9 +91,12 @@ public static class DatabaseAccess
         var semesters = new List<Semester>();
         var reader = new NpgsqlCommand(
             @"SELECT year, spring, COUNT(elective_id)
-                     FROM past_semesters
-                     GROUP BY year, spring
-                     ORDER BY year DESC",
+                     FROM (
+                         SELECT year, spring, elective_id
+                         FROM past_semesters
+                         GROUP BY year, spring, elective_id
+                         ORDER BY year DESC) AS past_semesters
+                     GROUP BY year, spring",
             SqlConnection).ExecuteReader();
         while (reader.Read())
             semesters.Add(new Semester(
