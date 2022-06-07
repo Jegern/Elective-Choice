@@ -152,8 +152,9 @@ public static class DatabaseAccess
                           FROM past_semesters
                               JOIN electives ON past_semesters.elective_id = electives.id
                               JOIN students ON past_semesters.student_id = students.id
-                          WHERE electives.name = '{name}' AND year = {year} AND spring = {spring}
-                              AND performance >= {performances[i]} AND performance < {performances[i + 1]}
+                          WHERE electives.name = '{name}' AND year = {year} AND spring = {spring} AND
+                              performance >= {performances[i].ToString(CultureInfo.InvariantCulture)} AND
+                              performance < {performances[i + 1].ToString(CultureInfo.InvariantCulture)}
                           GROUP BY priority",
                 SqlConnection).ExecuteReader();
             while (reader.Read())
@@ -409,6 +410,7 @@ public static class DatabaseAccess
                     spring: spring));
             }
         }
+        electives.Add(semesterElectives);
 
         SqlConnection.Close();
 
