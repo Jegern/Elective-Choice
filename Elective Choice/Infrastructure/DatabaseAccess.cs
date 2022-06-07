@@ -367,12 +367,11 @@ public static class DatabaseAccess
         SqlConnection.Close();
     }
 
-    public static List<Elective[]> GetStudentResultElectives(string studentId)
+    public static List<List<Elective>> GetStudentResultElectives(string studentId)
     {
         SqlConnection.Open();
-        var electives = new List<Elective[]>();
+        var electives = new List<List<Elective>>();
 
-        var electivesList = new Elective[2];
         var reader = new NpgsqlCommand(
             $@"SELECT name, priority, year, spring
                       FROM past_semesters
@@ -381,22 +380,34 @@ public static class DatabaseAccess
                       ORDER BY year",
             SqlConnection).ExecuteReader();
 
+        var year = 0;
+        var spring = false;
+        var semesterElectives = new List<Elective>();
         while (reader.Read())
-        {   
-            var year = reader.GetInt32(2);
-            var spring = reader.GetBoolean(3);
-            for (int i = 0; i < 2; i++)
+        {
+            if (reader.GetInt32(2) != year || reader.GetBoolean(3) != spring)
             {
-                if (year != reader.GetInt32(2) || spring != reader.GetBoolean(3))
-                    break;
-
-                electivesList[i] = new Elective(reader.GetString(0),
-                    0, priority: reader.GetInt32(1),
-                    spring: reader.GetBoolean(3),
-                    year: reader.GetInt32(2));
+                if (semesterElectives.Count > 0)
+                    electives.Add(semesterElectives);
+                year = reader.GetInt32(2);
+                spring = reader.GetBoolean(3);
+                semesterElectives = new List<Elective>
+                {
+                    new(reader.GetString(0),
+                        priority: reader.GetInt32(1),
+                        year: year,
+                        spring: spring)
+                };
             }
-
-            electives.Add(electivesList);
+            else
+            {
+                year = reader.GetInt32(2);
+                spring = reader.GetBoolean(3);
+                semesterElectives.Add(new Elective(reader.GetString(0),
+                    priority: reader.GetInt32(1),
+                    year: year,
+                    spring: spring));
+            }
         }
 
         SqlConnection.Close();

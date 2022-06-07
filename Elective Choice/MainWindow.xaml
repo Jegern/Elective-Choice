@@ -6,7 +6,8 @@
         xmlns:vms="clr-namespace:Elective_Choice.ViewModels"
         mc:Ignorable="d"
 
-        Width="500" Height="600"
+        MinWidth="960" MinHeight="720"
+        Width="1280" Height="720"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>

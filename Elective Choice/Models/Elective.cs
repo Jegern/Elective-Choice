@@ -21,7 +21,7 @@ public class Elective
     public bool Spring { get; set; }
 
     public Elective(string name,
-        uint capacity,
+        uint capacity = 0,
         string annotation = "",
         string link = "",
         string problem = "",
