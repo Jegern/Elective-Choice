@@ -17,6 +17,7 @@ namespace Elective_Choice.ViewModels.Student;
 public class ResultsViewModel: ViewModel
 {
     public string Email { get; private set; } = string.Empty;
+    public List<List<Elective>> Electives { get; private set; } = new List<List<Elective>>();
 
     public string _firstElectiveName = string.Empty;
     public string _secondElectiveName = string.Empty;
@@ -52,13 +53,13 @@ public class ResultsViewModel: ViewModel
     {
         source.ResultsLoaded += Results_OnLoaded;
         Email = email;
+        Electives = DatabaseAccess.GetStudentResultElectives(Email.Substring(4, 10));
+        var bib = 0;
     }
 
     private void Results_OnLoaded(object? sender, ResultsEventArgs e)
     {
         Email = e.Email;
-        
-        
     }
 
     private void Login_OnCompleted(object? sender, LoginEventArgs e)

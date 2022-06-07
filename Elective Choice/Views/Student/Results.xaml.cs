@@ -16,19 +16,12 @@ public partial class Results : Page
     public Results(EventSource source, string email)
     {
         InitializeComponent();
-        DataContext = email == string.Empty
-            ? new ElectiveCalendarViewModel(source)
-            : new ElectiveCalendarViewModel(source, email);
+        DataContext = new ResultsViewModel(source, email);
         // TreeViewItem parentItem = new TreeViewItem();  
         // parentItem.Header = "Semester 4, Feb-Jun 2021";
         // parentItem.FontSize = 20;
         // SemesterResults.Items.Add(parentItem);
 
     }
-
-    private void Results_OnLoaded(object sender, RoutedEventArgs e)
-    {
-        var dataContext = (ElectiveCalendarViewModel)DataContext;
-        var id = dataContext.Email.Substring(4, 10);
-    }
+    
 }

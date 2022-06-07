@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:Elective_Choice.Views.Student"
       xmlns:vms="clr-namespace:Elective_Choice.ViewModels.Student"
       xmlns:header="clr-namespace:Elective_Choice.Views.Styles.Header"
-      mc:Ignorable="d"
-      Loaded="Results_OnLoaded">
+      mc:Ignorable="d">
 
     
     <Page.DataContext>
