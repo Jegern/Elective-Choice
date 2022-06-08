@@ -22,7 +22,7 @@ public class EventSource
     public event EventHandler<System.EventArgs>? PrioritiesClosing;
     public event EventHandler<System.EventArgs>? AlgorithmSettingClosing;
     public event EventHandler<System.EventArgs>? ResultsClosing;
-    public event EventHandler<ResultsEventArgs>? ResultsLoaded;
+
 
 
 
@@ -58,5 +58,5 @@ public class EventSource
 
     public void RaiseAlgorithmSettingClosing(object? sender, System.EventArgs e) => AlgorithmSettingClosing?.Invoke(sender, e);
     public void RaiseResultsClosing(object? sender, System.EventArgs e) => ResultsClosing?.Invoke(sender, e);
-    public void RaiseResultsLoaded(object? sender, ResultsEventArgs e) => ResultsLoaded?.Invoke(sender, e);
+
 }

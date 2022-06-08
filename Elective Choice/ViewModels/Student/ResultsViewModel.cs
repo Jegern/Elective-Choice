@@ -1,49 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Controls;
 using Elective_Choice.Infrastructure;
-using Elective_Choice.Infrastructure.Commands.Base;
-using Elective_Choice.Infrastructure.EventArgs;
 using Elective_Choice.Infrastructure.EventSource;
 using Elective_Choice.Models;
 using Elective_Choice.ViewModels.Base;
-using Elective_Choice.Views.Student;
+using Elective_Choice.Views.Styles.Results;
 
 
 namespace Elective_Choice.ViewModels.Student;
 
 public class ResultsViewModel: ViewModel
 {
-    public string Email { get; private set; } = string.Empty;
-    public List<List<Elective>> Electives { get; private set; } = new List<List<Elective>>();
+    private string Email { get; set; } = string.Empty;
+    private List<List<Elective>> Electives { get; set; } = new List<List<Elective>>();
+    
 
-    public string _firstElectiveName = string.Empty;
-    public string _secondElectiveName = string.Empty;
-    public string _firstElectivePrioirity = string.Empty;
-    public string _secondElectivePrioirity = string.Empty;
 
-    public string FirstElectiveName
+    private ObservableCollection<TreeViewItem> _treeItems = new ();
+
+
+    public ObservableCollection<TreeViewItem> TreeItems
     {
-        get => _firstElectiveName;
-        set => Set(ref _firstElectiveName, value);
+        get => _treeItems;
+        set => Set(ref _treeItems, value);
     }
-    public string SecondElectiveName
-    {
-        get => _secondElectiveName;
-        set => Set(ref _secondElectiveName, value);
-    }
-    public string FirstElectivePrioirity
-    {
-        get => _firstElectivePrioirity;
-        set => Set(ref _firstElectivePrioirity, value);
-    }
-    public string SecondElectivePrioirity
-    {
-        get => _secondElectivePrioirity;
-        set => Set(ref _secondElectivePrioirity, value);
-    }
+
     public ResultsViewModel()
     {
     }
@@ -51,19 +34,48 @@ public class ResultsViewModel: ViewModel
 
     public ResultsViewModel(EventSource source, string email) : base(source)
     {
-        source.ResultsLoaded += Results_OnLoaded;
         Email = email;
         Electives = DatabaseAccess.GetStudentResultElectives(Email.Substring(4, 10));
-        var bib = 0;
-    }
+        for (int i = 0; i < Electives.Count(); i++)
+        {
+            bool spring = Electives[i][0].Spring;
+            var semester = Electives[i][0].Year.ToString();
+            if (spring)
+            {
+                semester += " Feb-June";
+            }
+            else
+            {
+                semester += " September-December";
+            }
 
-    private void Results_OnLoaded(object? sender, ResultsEventArgs e)
-    {
-        Email = e.Email;
-    }
+            var semesterName = new TreeViewItem
+            {
+                Header = semester
+            };
+            TreeItems.Add(semesterName);
+            var electiveOne = new TreeItem
+            {
+                FirstElectiveName =
+                {
+                    Text = Electives[i][0].Name
+                },
+                SecondElectiveName =
+                {
+                    Text = Electives[i][1].Name
+                },
+                FirstElectivePrioirity =
+                {
+                    Text = Electives[i][0].Priority.ToString()
+                },
+                SecondElectivePrioirity =
+                {
+                    Text = Electives[i][1].Priority.ToString()
+                }
+            };
+            semesterName.Items.Add(electiveOne);
+        }
+            
 
-    private void Login_OnCompleted(object? sender, LoginEventArgs e)
-    {
-        Email = e.Email;
     }
 }

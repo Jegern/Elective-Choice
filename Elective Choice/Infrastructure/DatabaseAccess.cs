@@ -409,7 +409,7 @@ public static class DatabaseAccess
                     spring: spring));
             }
         }
-
+        electives.Add(semesterElectives);
         SqlConnection.Close();
 
         return electives;

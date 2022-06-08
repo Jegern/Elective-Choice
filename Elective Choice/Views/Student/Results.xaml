@@ -24,7 +24,7 @@
                        Text="Результаты"
                        IconVisibility="Collapsed" />
         <TextBlock Grid.Row="1" Text="Ваши элективы по всем семестрам" FontSize="25" TextAlignment="Center" />
-        <TreeView Grid.Row="2" x:Name="SemesterResults" Margin="30" >
+        <TreeView Grid.Row="2" x:Name="SemesterResults" Margin="30" ItemsSource="{Binding TreeItems}" >
 
         </TreeView>
     </Grid>
