@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="auto" d:DesignWidth="auto">
 
-    <Grid Margin="10">
+    <Grid Margin="10" >
         <Grid.RowDefinitions>   
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"  />
@@ -16,22 +16,22 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.Column="1" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="2, 0,0,0" >
+        <Border Grid.Row="0" Grid.Column="1" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="0, 2,0,0" >
             <Grid Margin="10">
                 <TextBlock x:Name="FirstElectiveName" Text="" FontSize="20" ></TextBlock>
             </Grid>
         </Border>
-        <Border Grid.Row="1" Grid.Column="1" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray"  CornerRadius="0,0,0,2" >
+        <Border Grid.Row="1" Grid.Column="1" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray"  CornerRadius="0,0,2,0" >
             <Grid Margin="10">
                 <TextBlock x:Name="SecondElectiveName" Text="" FontSize="20"></TextBlock>
             </Grid>
         </Border>
-        <Border Grid.Row="0" Grid.Column="0" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="0,2,0,0" >
+        <Border Grid.Row="0" Grid.Column="0" Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="2,0,0,0" >
             <Grid Margin="10">
                 <TextBlock x:Name="FirstElectivePrioirity" Text="" FontSize="20"></TextBlock>
             </Grid>
         </Border>
-        <Border Grid.Row="1" Grid.Column="0"  Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="0,0,2,0" >
+        <Border Grid.Row="1" Grid.Column="0"  Background="Gainsboro" BorderThickness="1" BorderBrush="Gray" CornerRadius="0,0,0,2" >
             <Grid Margin="10">
                 <TextBlock x:Name="SecondElectivePrioirity" Text="" FontSize="20"></TextBlock>
             </Grid>
