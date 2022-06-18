@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Elective_Choice.Infrastructure;
 using Elective_Choice.Infrastructure.EventSource;
@@ -42,16 +43,18 @@ public class ResultsViewModel: ViewModel
             var semester = Electives[i][0].Year.ToString();
             if (spring)
             {
-                semester += " Feb-June";
+                semester += " Feb-June   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
             }
             else
             {
-                semester += " September-December";
+                semester += " September-December   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
             }
 
             var semesterName = new TreeViewItem
             {
-                Header = semester
+                Header = semester,
+                Margin = new Thickness(100,0,0,0),
+                FontSize = 18
             };
             TreeItems.Add(semesterName);
             var electiveOne = new TreeItem
@@ -66,11 +69,11 @@ public class ResultsViewModel: ViewModel
                 },
                 FirstElectivePrioirity =
                 {
-                    Text = Electives[i][0].Priority.ToString()
+                    Text = Electives[i][0].Priority.ToString() + " приоритет"
                 },
                 SecondElectivePrioirity =
                 {
-                    Text = Electives[i][1].Priority.ToString()
+                    Text = Electives[i][1].Priority.ToString() + " приоритет"
                 }
             };
             semesterName.Items.Add(electiveOne);

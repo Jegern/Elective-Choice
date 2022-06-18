@@ -31,11 +31,10 @@
                    Margin="20,10,20,-10" />
         <TreeView Grid.Row="2" 
                   x:Name="SemesterResults"
-                  Margin="10, 40, 10, 10"
+                  Margin="75, 40, 75, 10"
                   ItemsSource="{Binding TreeItems}"
-                  HorizontalContentAlignment="Center"
-                  FontSize="20">
-
+                  BorderBrush="Black"
+                  BorderThickness="0">
         </TreeView>
     </Grid>
 </Page>
