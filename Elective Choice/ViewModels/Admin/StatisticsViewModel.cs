@@ -21,11 +21,18 @@ public class StatisticsViewModel : ViewModel
     #region Fields
 
     private string _headerText = string.Empty;
+    private int _recommendCapacity;
 
     public string HeaderText
     {
         get => _headerText;
         set => Set(ref _headerText, value);
+    }
+
+    public int RecommendCapacity
+    {
+        get => _recommendCapacity;
+        private set => Set(ref _recommendCapacity, value);
     }
 
     public static List<ISeries> Series { get; set; } = new()
@@ -131,9 +138,14 @@ public class StatisticsViewModel : ViewModel
         HeaderText = e.Name;
 
         if (e.Year is null || e.Spring is null)
+        {
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name));
+            RecommendCapacity = DatabaseAccess.GetRecommendCapacity(e.Name);
+        }
         else
+        {
             FillSeriesWith(DatabaseAccess.GetElectiveStatistics(e.Name, (int)e.Year, (bool)e.Spring));
+        }
     }
 
     private static void FillSeriesWith(IReadOnlyList<int[]> values)

@@ -18,15 +18,32 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <header:Header Grid.Row="0"
-                     Text="{Binding HeaderText}"
-                     IconVisibility="Visible"
-                     GoBackCommand="{Binding GoBackCommand}"/> 
-        
-        <lvc:CartesianChart Grid.Row="1"
-                            Series="{Binding Series}"
-                            XAxes="{Binding XAxes}"
-                            YAxes="{Binding YAxes}"
-                            LegendPosition="Top"
-                            LegendOrientation="Horizontal" />
+                       Text="{Binding HeaderText}"
+                       IconVisibility="Visible"
+                       GoBackCommand="{Binding GoBackCommand}" />
+
+        <Grid Grid.Row="1">
+            <lvc:CartesianChart Series="{Binding Series}"
+                                XAxes="{Binding XAxes}"
+                                YAxes="{Binding YAxes}"
+                                LegendPosition="Top"
+                                LegendOrientation="Horizontal" />
+            <Border BorderBrush="Gray"
+                    BorderThickness="2"
+                    CornerRadius="10"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Margin="10, 30">
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock Text="Рекомендуемая вместимость: "
+                               Foreground="DimGray"
+                               FontSize="18" />
+                    <TextBlock Text="{Binding RecommendCapacity}"
+                               Foreground="DimGray"
+                               FontSize="18" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

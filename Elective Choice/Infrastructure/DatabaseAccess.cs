@@ -167,6 +167,27 @@ public static class DatabaseAccess
         return values;
     }
 
+    public static int GetRecommendCapacity(string name)
+    {
+        SqlConnection.Open();
+
+        var reader = new NpgsqlCommand(
+            $@"SELECT count(id) AS counts, capacity
+               FROM selected_electives 
+                   JOIN electives ON selected_electives.elective_id = electives.id
+               WHERE exist AND name = '{name}'
+               GROUP BY capacity",
+            SqlConnection).ExecuteReader();
+
+        reader.Read();
+        var counts = reader.GetInt32(0);
+        var capacity = reader.GetInt32(1);
+        
+        SqlConnection.Close();
+
+        return counts < capacity ? capacity / 2 < 15 ? capacity : capacity / 2 : Math.Min(counts / 3, 2 * capacity);
+    }
+
     public static List<Elective> GetIncompleteElectives()
     {
         SqlConnection.Open();

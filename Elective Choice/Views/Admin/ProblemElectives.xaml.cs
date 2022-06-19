@@ -18,14 +18,12 @@ public partial class ProblemElectives
 
     private void ProblemDataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        if (!_isManualEditCommit)
-        {
-            _isManualEditCommit = true;
-            ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
-            _isManualEditCommit = false;
+        if (_isManualEditCommit) return;
+        _isManualEditCommit = true;
+        ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
+        _isManualEditCommit = false;
 
-            SendProblemElectiveToResolved(sender, e);
-        }
+        SendProblemElectiveToResolved(sender, e);
     }
 
     private void SendProblemElectiveToResolved(object? sender, DataGridCellEditEndingEventArgs e)
@@ -49,14 +47,12 @@ public partial class ProblemElectives
 
     private void ResolvedDataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     {
-        if (!_isManualEditCommit)
-        {
-            _isManualEditCommit = true;
-            ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
-            _isManualEditCommit = false;
+        if (_isManualEditCommit) return;
+        _isManualEditCommit = true;
+        ((DataGrid)sender!).CommitEdit(DataGridEditingUnit.Row, true);
+        _isManualEditCommit = false;
 
-            ChangeResolvedElectiveCapacity(sender, e);
-        }
+        ChangeResolvedElectiveCapacity(sender, e);
     }
 
     private static void ChangeResolvedElectiveCapacity(object? sender, DataGridCellEditEndingEventArgs e)
