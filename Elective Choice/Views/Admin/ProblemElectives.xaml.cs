@@ -44,7 +44,7 @@ public partial class ProblemElectives
         }
 
         ((ProblemElectivesViewModel)DataContext).Resolved?.Add(elective);       
-        // DatabaseAccess.UpdateElectiveCapacity(elective);
+        DatabaseAccess.UpdateElectiveCapacity(elective);
     }
 
     private void ResolvedDataGrid_OnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
@@ -63,6 +63,6 @@ public partial class ProblemElectives
     {
         if (e.Row.Item is not Elective elective || sender is not DataGrid dataGrid) return;
         if (Validation.GetHasError(dataGrid.ItemContainerGenerator.ContainerFromItem(elective))) return;
-        // DatabaseAccess.UpdateElectiveCapacity(elective);
+        DatabaseAccess.UpdateElectiveCapacity(elective);
     }
 }
