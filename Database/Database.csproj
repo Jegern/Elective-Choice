@@ -16,9 +16,11 @@
 
     <ItemGroup>
       <None Remove="Student Dataset\X_train.csv" />
-      <EmbeddedResource Include="Students\X_train.csv" />
       <None Remove="Student Dataset\y_train.csv" />
-      <EmbeddedResource Include="Students\y_train.csv" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Students" />
     </ItemGroup>
 
 </Project>
